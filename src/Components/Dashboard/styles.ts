@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 80%;
+  width: 100%;
+  background-color: red;
+  border-radius: 16px;
+
+  height: 88vh;
+  padding: 20px;
+  margin: 2vh 20px 2vh 20px;
 `;

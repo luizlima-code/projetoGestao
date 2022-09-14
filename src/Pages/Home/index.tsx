@@ -3,16 +3,16 @@ import Dashboard from '../../Components/Dashboard';
 import Navbar from '../../Components/Navbar';
 import Sidebar from '../../Components/Sidebar';
 
-import { Container } from './styles';
+import { Container, MainContent } from './styles';
 
 const Home: React.FC = () => {
     return (
         <Container>
             <Navbar />
-            <div>
+            <MainContent>
                 <Sidebar />
                 <Dashboard />
-            </div>
+            </MainContent>
         </Container>
     );
 }
