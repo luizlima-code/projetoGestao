@@ -1,0 +1,15 @@
+.MuiTypography-body1 {
+  font-size: 18px !important;
+  font-family: Poppins;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
