@@ -1,30 +1,36 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 
-const baseApiURL = window.env.API_URL;
+const baseApiURL = 'https://gestao-projetos.herokuapp.com';
 
 const apiDefault = axios.create({
-    baseURL: `${baseApiURL}/planner`,
+    baseURL: `${baseApiURL}`,
 });
 
 apiDefault.interceptors.request.use(
-    async config => {
-        const token = localStorage.getItem('@Token');
+    async (config: any) => {
+        const tokenStorage: any = localStorage.getItem(JSON.stringify('@Token'));
+        const token = tokenStorage.token;
 
-        // if (!config.headers.Authorization && token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        //     return config;
-        // }
+        useEffect(() => {
+            console.log(token);
+        }, [token])
 
-        // return Promise.reject({
-        //     response: {
-        //         status: 401,
-        //         data: {
-        //             error: 'unauthorized',
-        //             error_description:
-        //                 'Full authentication is required to access this resource',
-        //         },
-        //     },
-        // });
+        if (!config.headers?.Authorization && token) {
+            config.headers.Authorization = `Bearer ${token}`;
+            return config;
+        }
+
+        return Promise.reject({
+            response: {
+                status: 401,
+                data: {
+                    error: 'unauthorized',
+                    error_description:
+                        'Full authentication is required to access this resource',
+                },
+            },
+        });
     },
     err => {
         return Promise.reject(err);

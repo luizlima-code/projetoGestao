@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Field } from 'formik';
 
 export const Container = styled.div`
   background-color: #1C31F0;
@@ -33,7 +34,7 @@ export const MainContent = styled.div`
 `;
 
 // TODO: Colocar responsividade nos inputs
-export const Input = styled.input`
+export const Input = styled(Field)`
    width: 80%;
    margin-bottom: 18px;
    padding-left: 10px;

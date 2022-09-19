@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  background-color: red;
+  background-color: #dedede;
   border-radius: 16px;
 
   height: 88vh;
