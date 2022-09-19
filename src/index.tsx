@@ -2,24 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import store from "./store";
+import { Provider } from "react-redux";
 import './index.css';
-
-interface WindowEnv {
-  API_URL: string;
-}
-declare global {
-  interface Window {
-    env: WindowEnv;
-  }
-}
+import { AuthProvider } from './contexts/auth';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  <Provider store={store}>
+    <AuthProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
+  </Provider>
 );
