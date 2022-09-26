@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
+  @media only screen and (max-width: 959px) {
+    width: 100% !important;
+  }
+  
+  width: calc(100% - 280px);
+  
   height: 88vh;
 
   margin: 2vh 10px 2vh 10px;

@@ -16,10 +16,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import SearchIcon from '@mui/icons-material/Search';
-import { Container } from './styles';
+import { Container, IconButtonResponsive } from './styles';
 import ModalOptions from '../ModalOptions';
 import { Link } from 'react-router-dom';
-import { Hidden, IconButton } from '@mui/material';
+import { Hidden } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 
 export default function Sidebar() {
@@ -47,6 +47,8 @@ export default function Sidebar() {
       setTimeout(() => {
         setMobileOpen(false);
       }, 3000);
+    } else {
+      setMobileOpen(false);
     }
   }, [isMobile]);
 
@@ -153,15 +155,15 @@ export default function Sidebar() {
           {contentSideBar}
         </Drawer>
       </Hidden>
-      <Hidden smDown implementation="css">
+      <Hidden mdDown implementation="css">
         <Drawer variant="permanent" anchor="left">
           {contentSideBar}
         </Drawer>
       </Hidden>
       {isMobile && (
-        <IconButton onClick={() => setMobileOpen(!mobileOpen)}>
+        <IconButtonResponsive onClick={() => setMobileOpen(!mobileOpen)}>
           <Menu />
-        </IconButton>
+        </IconButtonResponsive>
       )}
       <ModalOptions
         title={title}

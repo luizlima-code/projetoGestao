@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background-color: #caf0f8;
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   color: black;
@@ -10,8 +11,7 @@ export const Container = styled.div`
 
 export const MainContent = styled.div`
   display: flex;
-  flex-shrink: 0;
-  width: calc(100% - 260px);
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
 `;
