@@ -10,8 +10,25 @@ export const Container = styled.div`
 
 export const MainContent = styled.div`
   display: flex;
-  flex-shrink: 0;
-  width: calc(100% - 260px);
+  width: 100vw;
   flex-direction: row;
+  justify-content: space-evenly;
+`;
+
+export const ContentSearch = styled.div`
+  width: 100%;
+  height: 88vh;
+
+  margin: 2vh 10px 2vh 10px;
+
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

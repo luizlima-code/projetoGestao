@@ -2,29 +2,17 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 88vh;
-
-  margin: 2vh 10px 2vh 10px;
-
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-export const DivGrid = styled.div`
-  background-color: white;
   border-radius: 16px;
+  height: 100%;
 
-  overflow-y: auto;
+  margin-top: 2vh;
 
   *::-webkit-scrollbar {
     width: 14px;
   }
 
   *::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: transparent;
   }
 
   *::-webkit-scrollbar-thumb {
