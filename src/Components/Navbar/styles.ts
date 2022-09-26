@@ -1,3 +1,4 @@
+import { AppBar } from '@mui/material';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -20,4 +21,18 @@ export const MainContent = styled.div`
 export const Title = styled.div`
   color: black;
   font-size: 36px;
+`;
+
+export const StyledAppBarMobile = styled(AppBar)`
+  && {
+    width: calc(100% - 30px);
+    padding-left: 10px;
+  }
+`;
+
+export const StyledAppBar = styled(AppBar)`
+  && {
+    width: calc(100% - 260px);
+    margin-left: 260px;
+  }
 `;

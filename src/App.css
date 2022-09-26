@@ -3,6 +3,10 @@
   font-family: Poppins;
 }
 
+.MuiDrawer-paperAnchorDockedLeft {
+  border: none !important;
+}
+
 
 @keyframes App-logo-spin {
   from {
