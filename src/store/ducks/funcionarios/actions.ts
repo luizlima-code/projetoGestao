@@ -11,10 +11,10 @@ interface ActionType {
 }
 
 export const getFuncionariosRequest = (): ActionType =>
-  action(FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST)
+  action(FuncionariosTypes.GETFUNCIONARIOSREQUEST)
 
 export const getFuncionariosSuccess = (res: Funcionarios[]): PayloadForms =>
-  action(FuncionariosTypes.GETBYIDFUNCIONARIOSSUCCESS, res)
+  action(FuncionariosTypes.GETFUNCIONARIOSSUCCESS, res)
 
 export const getByIdFuncionariosRequest = (id: string): ActionType =>
   action(FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST, id)

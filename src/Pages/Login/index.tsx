@@ -1,6 +1,8 @@
 import { display } from '@mui/system';
 import { Form, Formik } from 'formik';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Dashboard from '../../Components/Dashboard';
 import apiLoginDefault from '../../Services/apiLogin';
 
 import {
@@ -24,12 +26,14 @@ interface LoginSuccessTypes {
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   async function loginUser(credentials: LoginTypes) {
     let body = { email: credentials.email, senha: credentials.senha };
     let res = await apiLoginDefault.post('planner/auth/login', body);
 
-    let data = res.data;
-    localStorage.setItem('@Token', JSON.stringify(data));
+    let data = res.data.token;
+    localStorage.setItem('@Token', data);
   }
 
   const initial_values = {
@@ -40,8 +44,8 @@ const Login: React.FC = () => {
   const handleLogin = async (values: LoginTypes, setSubmitting: Function) => {
     const response = await loginUser(values);
     setSubmitting();
-    console.log(response);
-  };
+    navigate("/");
+  }
 
   return (
     <Container>
