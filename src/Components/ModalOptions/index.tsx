@@ -60,6 +60,7 @@ const ModalOptions = ({
             variant="contained"
             sx={{ mt: 2 }}
             size="medium"
+            style={{ backgroundColor: '#0077b6' }}
             endIcon={<SaveAltIcon />}
           >
             Salvar
@@ -163,15 +164,15 @@ const ModalOptions = ({
           </Grid>
         </Grid>
         <Grid container spacing={1.2}>
-          <Grid item md={6} xs={12}>
+          <Grid item md={12} xs={12}>
             <InputStyle name="funcNome" id="funcNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <InputStyle name="funcCpf" id="funcCpf" label="Cpf" fullWidth />
           </Grid>
         </Grid>
         <Grid container spacing={1.2} pt={2}>
-          <Grid item md={6} xs={12}>
+          <Grid item md={4} xs={12}>
+            <InputStyle name="funcCpf" id="funcCpf" label="Cpf" fullWidth />
+          </Grid>
+          <Grid item md={4} xs={12}>
             <InputStyle
               name="funcEmail"
               id="funcEmail"
@@ -179,7 +180,7 @@ const ModalOptions = ({
               fullWidth
             />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item md={4} xs={12}>
             <InputStyle
               name="funcTelefone"
               id="funcTelefone"
