@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import jwt_decode from "jwt-decode";
 
 const baseApiURL = 'https://gestao-projetos.herokuapp.com';
 
@@ -9,12 +9,17 @@ const apiDefault = axios.create({
 
 apiDefault.interceptors.request.use(
     async (config: any) => {
-        const tokenStorage: any = localStorage.getItem(JSON.stringify('@Token'));
-        const token = tokenStorage.token;
+        const token: any = localStorage.getItem('@Token');
+        let decodedToken: any = jwt_decode(token);
+        console.log("Decoded Token", decodedToken);
+        let currentDate = new Date();
 
-        useEffect(() => {
-            console.log(token);
-        }, [token])
+        // JWT exp is in seconds
+        if (decodedToken.exp * 1000 < currentDate.getTime()) {
+            console.log("Token expired.");
+        } else {
+            console.log("Valid token");
+        }
 
         if (!config.headers?.Authorization && token) {
             config.headers.Authorization = `Bearer ${token}`;

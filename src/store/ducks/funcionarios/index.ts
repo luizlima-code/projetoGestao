@@ -3,7 +3,7 @@ import { FuncionariosTypes, Funcionarios, FuncionariosState } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
-  funcionarios: <Funcionarios[]>{},
+  funcionarios: [],
   funcionarioById: {
     nome: '',
     email: '',
@@ -23,7 +23,7 @@ const reducer: Reducer<FuncionariosState> = (state = INITIAL_STATE, action: any)
       return {
         ...state,
         isLoading: false,
-        funcionarios: action.payload.data
+        funcionarios: action.payload
       };
     case FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST:
       return {

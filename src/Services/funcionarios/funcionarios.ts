@@ -1,13 +1,15 @@
 import { Funcionarios } from '../../store/ducks/funcionarios/types';
 import apiDefault from '../api';
+import apiLogin from '../apiLogin';
 
 export const FuncionarioService = {
-  // getFuncionarios: (): Promise<Funcionarios[]> =>
-  //   apiDefault.get(`/planner/funcionario`, {
+  // getFuncionarios: (): Promise<Funcionarios[]> => (
+  //   console.log('nenhum erro'),
+  //   apiLogin.get(`/planner/funcionario`, {
   //     headers: {
-  //       Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWNhc3JjdW5oYTAxQGdtYWlsLmNvbSIsImV4cCI6MTY2MzQzNjU5M30.YiQKQzKXyzHPvMQGhXqHeMEa8TWzIUn_O3oTHOQr-pl6ZGlo-hWUX5WO4KhQGsrAvDtwLerjm5PFZZHXq7LpJQ`
+  //       Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWNhc3JjdW5oYTAxQGdtYWlsLmNvbSIsImV4cCI6MTY2MzgxNTYyMn0.B6XQgzen_kN8qWWEg7pwsFyKfDhzabGZb5Vds41EQoQmjbk8uijPRqi0J4sAFpwwOaTuldt_6FnRxynFIv0PHQ`
   //     }
-  //   }),
+  //   })),
   getFuncionarios: (): Promise<Funcionarios[]> =>
     apiDefault.get(`/planner/funcionario`),
   postFuncionarios: (form: Funcionarios): Promise<Funcionarios> =>

@@ -1,13 +1,14 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers } from 'redux';
 
 import appStatus from './appStatus';
-import funcionariosState from './funcionarios';
+import funcionarios from './funcionarios';
 
 
-const createRootReducer = (): Reducer =>
-  combineReducers({
-    appStatus,
-    funcionariosState,
-  });
+const rootReducer = combineReducers({
+  appStatus,
+  funcionarios,
+});
 
-export default createRootReducer;
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default rootReducer;

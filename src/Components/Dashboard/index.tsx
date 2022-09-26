@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Container, DivGrid } from './styles';
 import {
@@ -14,8 +14,11 @@ import {
 } from 'chart.js';
 import { Line, Doughnut } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import TableDashboard from '../Table';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
+import { RootState } from '../../store/ducks/rootReducer';
 
 ChartJS.register(
   ArcElement,
@@ -75,6 +78,23 @@ export const data2 = {
 };
 
 const Dashboard: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const { funcionarios, funcionarioById, isLoading } = useSelector(
+    (state: RootState) => state.funcionarios
+  );
+
+  useEffect(() => {
+    dispatch(getFuncionariosRequest());
+    console.log('ola');
+  }, [getFuncionariosRequest]);
+
+  const handleTesteGet = () => {
+    console.log('funcionarios: ', funcionarios);
+    console.log('funcionarios by id: ', funcionarioById);
+    console.log('isloading: ', isLoading);
+  }
+
   return (
     <Container>
       <Grid
@@ -126,6 +146,7 @@ const Dashboard: React.FC = () => {
           </DivGrid>
         </Grid>
       </Grid>
+      <Button onClick={handleTesteGet}> ME CLICK</Button>
     </Container>
   );
 };
