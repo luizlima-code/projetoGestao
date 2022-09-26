@@ -6,7 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
 function createData(
   name: string,
@@ -32,29 +31,50 @@ const rows = [
 interface OwnProps {
   height: number;
   titulo: string;
+  headers: Array<string>;
+  // data: Array<any>;
 }
 
 type Props = OwnProps;
 
 const TableDashboard = (props: Props): React.ReactElement => {
-  const { height, titulo } = props;
+  const { height, titulo, headers } = props;
 
   return (
     <TableContainer
-      component={Paper}
       sx={{
-        overflowY: 'scroll',
+        overflowY: 'hidden',
         overflowX: 'hidden',
         height: height,
+        borderRadius: 4,
+
+        ':hover': { overflowY: 'auto' },
       }}
     >
       <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
-            <TableCell>{titulo}</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell
+              sx={{
+                backgroundColor: '#00b4d8',
+                color: 'white',
+                fontSize: 16,
+              }}
+            >
+              {titulo}
+            </TableCell>
+            {headers.map((row) => (
+              <TableCell
+                align="center"
+                sx={{
+                  backgroundColor: '#00b4d8',
+                  color: 'white',
+                  fontSize: 16,
+                }}
+              >
+                {row}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,12 +85,19 @@ const TableDashboard = (props: Props): React.ReactElement => {
                 '&:last-child td, &:last-child th': { border: 0 },
               }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              {Object.values(row).map((object) => (
+                <TableCell
+                  align="center"
+                  sx={{
+                    ':first-child': {
+                      textAlign: 'initial',
+                    },
+                    fontSize: 16,
+                  }}
+                >
+                  {object}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

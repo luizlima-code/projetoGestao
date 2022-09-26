@@ -11,8 +11,9 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  BarElement,
 } from 'chart.js';
-import { Line, Doughnut } from 'react-chartjs-2';
+import { Doughnut, Bar } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { Grid } from '@mui/material';
 import TableDashboard from '../Table';
@@ -23,6 +24,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -30,7 +32,6 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
-  maintainAspectRatio: false,
   aspectRatio: 3,
   plugins: {
     legend: {
@@ -45,30 +46,24 @@ export const data = {
   datasets: [
     {
       label: 'Rosa',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(255, 206, 86)',
     },
     {
       label: 'Azul 2',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: '#0077b6',
     },
   ],
 };
 
 export const data2 = {
-  labels: ['Red', 'Blue', 'Yellow'],
+  labels: ['Blue', 'Yellow'],
   datasets: [
     {
       label: '# of Votes',
-      data: [12, 19, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132)',
-        'rgba(54, 162, 235)',
-        'rgba(255, 206, 86)',
-      ],
+      data: [28, 19],
+      backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
       borderWidth: 6,
     },
   ],
@@ -89,7 +84,11 @@ const Dashboard: React.FC = () => {
       >
         <Grid item md={5} xs={12}>
           <DivGrid>
-            <TableDashboard height={382} titulo="Grafico 01" />
+            <TableDashboard
+              height={430}
+              titulo="Grafico 01"
+              headers={['header1', 'header2', 'header3']}
+            />
           </DivGrid>
         </Grid>
         <Grid
@@ -103,13 +102,17 @@ const Dashboard: React.FC = () => {
           }}
         >
           <Grid item>
-            <DivGrid>
-              <Line options={options} data={data} />
+            <DivGrid style={{ padding: 8 }}>
+              <Bar options={options} data={data} />
             </DivGrid>
           </Grid>
           <Grid item mt={2}>
             <DivGrid>
-              <TableDashboard height={200} titulo="Grafico 02" />
+              <TableDashboard
+                height={200}
+                titulo="Grafico 02"
+                headers={['header4', 'header5', 'header6']}
+              />
             </DivGrid>
           </Grid>
         </Grid>
@@ -122,7 +125,11 @@ const Dashboard: React.FC = () => {
         </Grid>
         <Grid item md={8} xs={12}>
           <DivGrid>
-            <TableDashboard height={318} titulo="Grafico 03" />
+            <TableDashboard
+              height={318}
+              titulo="Grafico 03"
+              headers={['header7', 'header8', 'header9']}
+            />
           </DivGrid>
         </Grid>
       </Grid>
