@@ -18,7 +18,10 @@ import { faker } from '@faker-js/faker';
 import { Button, Grid } from '@mui/material';
 import TableDashboard from '../Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
+import {
+  getFuncionariosRequest,
+  getByIdFuncionariosRequest,
+} from '../../store/ducks/funcionarios/actions';
 import { RootState } from '../../store/ducks/rootReducer';
 
 ChartJS.register(
@@ -81,10 +84,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     dispatch(getFuncionariosRequest());
-    console.log('ola');
+    // console.log('ola');
   }, [getFuncionariosRequest]);
 
-  const handleTesteGet = () => {
+  useEffect(() => {
+    dispatch(getByIdFuncionariosRequest('14'));
+    // console.log('ola by id');
+  }, [getByIdFuncionariosRequest]);
+
+  const handleTesteGet = async () => {
     console.log('funcionarios: ', funcionarios);
     console.log('funcionarios by id: ', funcionarioById);
     console.log('isloading: ', isLoading);

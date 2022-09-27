@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseApiURL = 'https://gestao-projetos.herokuapp.com';
+const baseApiURL = 'https://gestao-andamento.herokuapp.com';
 
 const apiLoginDefault = axios.create({
   baseURL: `${baseApiURL}`,
