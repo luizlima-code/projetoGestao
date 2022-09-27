@@ -8,7 +8,6 @@ export const BoxStyle = styled(Box)`
   transform: translate(-50%, -50%);
   background-color: #eee;
   border-radius: 16px;
-  /* border: 2px solid #000; */
   box-shadow: 24px;
   padding: 20px;
 
@@ -16,6 +15,10 @@ export const BoxStyle = styled(Box)`
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  @media only screen and (max-width: 959px) {
+    width: 90%;
   }
 `;
 

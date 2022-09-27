@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
     console.log('funcionarios: ', funcionarios);
     console.log('funcionarios by id: ', funcionarioById);
     console.log('isloading: ', isLoading);
-  }
+  };
 
   return (
     <Container>
@@ -105,7 +105,7 @@ const Dashboard: React.FC = () => {
         <Grid item md={5} xs={12}>
           <DivGrid>
             <TableDashboard
-              height={430}
+              height="65vh"
               titulo="Grafico 01"
               headers={['header1', 'header2', 'header3']}
             />
@@ -129,7 +129,7 @@ const Dashboard: React.FC = () => {
           <Grid item mt={2}>
             <DivGrid>
               <TableDashboard
-                height={200}
+                height="30vh"
                 titulo="Grafico 02"
                 headers={['header4', 'header5', 'header6']}
               />
@@ -138,15 +138,15 @@ const Dashboard: React.FC = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item md={4} xs={12}>
+        <Grid item md={3.5} xs={12}>
           <DivGrid>
             <Doughnut data={data2} />
           </DivGrid>
         </Grid>
-        <Grid item md={8} xs={12}>
+        <Grid item md={8.5} xs={12}>
           <DivGrid>
             <TableDashboard
-              height={318}
+              height="48vh"
               titulo="Grafico 03"
               headers={['header7', 'header8', 'header9']}
             />

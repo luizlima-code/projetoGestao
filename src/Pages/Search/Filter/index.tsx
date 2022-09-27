@@ -248,7 +248,6 @@ const FilterData: React.FC = () => {
           </Buttons>
         </Grid>
       </Grid>
-      {/* {modulo === 'Cliente' ? FilterCliente : null} */}
       {renderModal()}
       <Buttons>
         <Button

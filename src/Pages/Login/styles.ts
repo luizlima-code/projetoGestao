@@ -17,6 +17,11 @@ export const ContainerContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 959px) {
+    width: 100% !important;
+    height: 70%;
+  }
 `;
 
 export const MainContent = styled.div`
@@ -33,12 +38,17 @@ export const MainContent = styled.div`
   border-radius: 16px;
 
   padding: 10px;
+
+  @media only screen and (max-width: 959px) {
+    width: 95% !important;
+    height: 80%;
+  }
 `;
 
 // TODO: Colocar responsividade nos inputs
 export const Input = styled(Field)`
-  width: 80%;
-  margin-bottom: 18px;
+  width: 90%;
+  margin: 0 18px 18px 18px;
   padding-left: 10px;
   border-radius: 16px;
   height: 50px;
@@ -54,6 +64,12 @@ export const ButtonLogin = styled.button`
   transition: all 0.4s;
   font-weight: 600;
 
+  margin: 0 32%;
+
+  @media only screen and (max-width: 959px) {
+    margin: 0 30%;
+  }
+
   :hover {
     background-color: black;
     color: white;
@@ -63,4 +79,8 @@ export const ButtonLogin = styled.button`
 
 export const LogoImg = styled.img`
   width: 90%;
+
+  @media only screen and (max-width: 959px) {
+    width: 60%;
+  }
 `;

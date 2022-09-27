@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { BoxStyle, Buttons, InputStyle } from './styles';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton, useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
@@ -13,6 +13,61 @@ const ModalOptions = ({
   setOpenModal,
   title,
 }: any): React.ReactElement => {
+  const isMobile = useMediaQuery('(max-width:959px)');
+
+  const headerModal = (
+    <Grid
+      container
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Grid item>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {title}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+          Cadastrar {title}
+        </Typography>
+      </Grid>
+      {isMobile ? null : (
+        <Grid item>
+          <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
+      )}
+    </Grid>
+  );
+
+  const botoesModal = (
+    <Buttons>
+      {isMobile ? (
+        <Button
+          variant="contained"
+          sx={{ mt: 2, mr: 2 }}
+          size="medium"
+          style={{ backgroundColor: '#dedede', color: 'black' }}
+          onClick={() => setOpenModal(false)}
+        >
+          Cancelar
+        </Button>
+      ) : null}
+
+      <Button
+        variant="contained"
+        sx={{ mt: 2 }}
+        size="medium"
+        style={{ backgroundColor: '#0077b6' }}
+        endIcon={<SaveAltIcon />}
+      >
+        Salvar
+      </Button>
+    </Buttons>
+  );
+
   const clienteModal = (
     <Modal
       open={openModal}
@@ -21,28 +76,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={4} xs={12}>
             <InputStyle name="cliNome" id="cliNome" label="Nome" fullWidth />
@@ -53,19 +87,8 @@ const ModalOptions = ({
           <Grid item md={4} xs={12}>
             <InputStyle name="cliEmail" id="cliEmail" label="Email" fullWidth />
           </Grid>
-        </Grid>
-
-        <Buttons>
-          <Button
-            variant="contained"
-            sx={{ mt: 2 }}
-            size="medium"
-            style={{ backgroundColor: '#0077b6' }}
-            endIcon={<SaveAltIcon />}
-          >
-            Salvar
-          </Button>
-        </Buttons>
+        </Grid>{' '}
+        {botoesModal}
       </BoxStyle>
     </Modal>
   );
@@ -78,28 +101,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={6} xs={12}>
             <InputStyle
@@ -118,17 +120,7 @@ const ModalOptions = ({
             />
           </Grid>
         </Grid>
-
-        <Buttons>
-          <Button
-            variant="contained"
-            sx={{ mt: 2 }}
-            size="medium"
-            endIcon={<SaveAltIcon />}
-          >
-            Salvar
-          </Button>
-        </Buttons>
+        {botoesModal}
       </BoxStyle>
     </Modal>
   );
@@ -141,28 +133,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={12} xs={12}>
             <InputStyle name="funcNome" id="funcNome" label="Nome" fullWidth />
@@ -189,17 +160,7 @@ const ModalOptions = ({
             />
           </Grid>
         </Grid>
-
-        <Buttons>
-          <Button
-            variant="contained"
-            sx={{ mt: 2 }}
-            size="medium"
-            endIcon={<SaveAltIcon />}
-          >
-            Salvar
-          </Button>
-        </Buttons>
+        {botoesModal}
       </BoxStyle>
     </Modal>
   );
@@ -211,28 +172,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={4} xs={12}>
             <InputStyle name="itemNome" id="itemNome" label="Nome" fullWidth />
@@ -254,17 +194,7 @@ const ModalOptions = ({
             />
           </Grid>
         </Grid>
-
-        <Buttons>
-          <Button
-            variant="contained"
-            sx={{ mt: 2 }}
-            size="medium"
-            endIcon={<SaveAltIcon />}
-          >
-            Salvar
-          </Button>
-        </Buttons>
+        {botoesModal}
       </BoxStyle>
     </Modal>
   );
@@ -277,29 +207,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-
+        {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={6} xs={12}>
             <InputStyle name="projNome" id="projNome" label="Nome" fullWidth />
@@ -351,17 +259,7 @@ const ModalOptions = ({
             />
           </Grid>
         </Grid>
-
-        <Buttons>
-          <Button
-            variant="contained"
-            sx={{ mt: 2 }}
-            size="medium"
-            endIcon={<SaveAltIcon />}
-          >
-            Salvar
-          </Button>
-        </Buttons>
+        {botoesModal}
       </BoxStyle>
     </Modal>
   );

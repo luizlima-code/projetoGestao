@@ -1,32 +1,46 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+
   background-color: #caf0f8;
-  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
-  color: black;
+  justify-content: space-between;
 `;
 
 export const MainContent = styled.div`
-  display: flex;
   width: 100vw;
+  height: 100vh;
+
+  display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 export const ContentSearch = styled.div`
-  width: 100%;
-  height: 88vh;
+  @media only screen and (max-width: 959px) {
+    width: 100% !important;
+    height: 100vh;
 
-  margin: 2vh 10px 2vh 10px;
+    margin: 8vh 10px 0 10px;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  width: calc(100% - 280px);
+  max-height: 87vh;
+
+  margin: 13vh 10px 0 10px;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   ::-webkit-scrollbar {
     display: none;
