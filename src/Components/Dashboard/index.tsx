@@ -18,7 +18,7 @@ import { faker } from '@faker-js/faker';
 import { Button, Grid } from '@mui/material';
 import TableDashboard from '../Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
+import { getFuncionariosRequest, getByIdFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
 import { RootState } from '../../store/ducks/rootReducer';
 
 ChartJS.register(
@@ -33,44 +33,44 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  aspectRatio: 3,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-  },
-};
+// export const options = {
+//   responsive: true,
+//   aspectRatio: 3,
+//   plugins: {
+//     legend: {
+//       position: 'top' as const,
+//     },
+//   },
+// };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Rosa',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 206, 86)',
-    },
-    {
-      label: 'Azul 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: '#0077b6',
-    },
-  ],
-};
+// const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+// export const data = {
+//   labels,
+//   datasets: [
+//     {
+//       label: 'Rosa',
+//       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+//       backgroundColor: 'rgba(255, 206, 86)',
+//     },
+//     {
+//       label: 'Azul 2',
+//       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+//       backgroundColor: '#0077b6',
+//     },
+//   ],
+// };
 
-export const data2 = {
-  labels: ['Blue', 'Yellow'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [28, 19],
-      backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
-      borderWidth: 6,
-    },
-  ],
-};
+// export const data2 = {
+//   labels: ['Blue', 'Yellow'],
+//   datasets: [
+//     {
+//       label: '# of Votes',
+//       data: [28, 19],
+//       backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
+//       borderWidth: 6,
+//     },
+//   ],
+// };
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -81,10 +81,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     dispatch(getFuncionariosRequest());
-    console.log('ola');
+    // console.log('ola');
   }, [getFuncionariosRequest]);
 
-  const handleTesteGet = () => {
+  useEffect(() => {
+    dispatch(getByIdFuncionariosRequest('14'));
+    // console.log('ola by id');
+  }, [getByIdFuncionariosRequest]);
+
+  const handleTesteGet = async () => {
     console.log('funcionarios: ', funcionarios);
     console.log('funcionarios by id: ', funcionarioById);
     console.log('isloading: ', isLoading);
@@ -102,7 +107,7 @@ const Dashboard: React.FC = () => {
         mb={2}
         spacing={2}
       >
-        <Grid item md={5} xs={12}>
+        {/* <Grid item md={5} xs={12}>
           <DivGrid>
             <TableDashboard
               height={430}
@@ -142,11 +147,11 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <Doughnut data={data2} />
           </DivGrid>
-        </Grid>
+        </Grid> */}
         <Grid item md={8} xs={12}>
           <DivGrid>
             <TableDashboard
-              height={318}
+              height={32}
               titulo="Grafico 03"
               headers={['header7', 'header8', 'header9']}
             />

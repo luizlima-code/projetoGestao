@@ -16,17 +16,17 @@ export const getFuncionariosRequest = (): ActionType =>
 export const getFuncionariosSuccess = (res: Funcionarios[]): PayloadForms =>
   action(FuncionariosTypes.GETFUNCIONARIOSSUCCESS, res)
 
-export const getByIdFuncionariosRequest = (id: string): ActionType =>
-  action(FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST, id)
+export const getByIdFuncionariosRequest = (request: any): ActionType =>
+  action(FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST, request)
 
 export const getByIdFuncionariosSuccess = (res: Funcionarios): ActionType =>
   action(FuncionariosTypes.GETBYIDFUNCIONARIOSSUCCESS, res)
 
-export const postFuncionariosRequest = (req: any): ActionType =>
+export const postFuncionariosRequest = (req: Funcionarios) =>
   action(FuncionariosTypes.POSTFUNCIONARIOSREQUEST, req)
 
-export const postFuncionariosSuccess = (res: Funcionarios): ActionType =>
-  action(FuncionariosTypes.POSTFUNCIONARIOSSUCCESS, res)
+export const postFuncionariosSuccess = () =>
+  action(FuncionariosTypes.POSTFUNCIONARIOSSUCCESS)
 
 export const putFuncionariosRequest = (req: Funcionarios): PayloadForms =>
   action(FuncionariosTypes.PUTFUNCIONARIOSREQUEST, req)

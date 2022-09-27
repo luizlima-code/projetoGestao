@@ -3,11 +3,11 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { FuncionarioService } from '../../../Services/funcionarios/funcionarios';
 import { showAlert } from '../appStatus/actions';
 import { AlertTypes } from '../appStatus/types';
-import { getByIdFuncionariosSuccess, getFuncionariosSuccess } from './actions';
+import { getByIdFuncionariosSuccess, getFuncionariosSuccess, postFuncionariosSuccess } from './actions';
 import { FuncionariosTypes, Funcionarios } from './types';
 
 interface FuncionariosType {
-  type: string;
+  type: FuncionariosTypes;
   data: Funcionarios;
 }
 
@@ -17,8 +17,8 @@ interface FuncionariosData {
 }
 
 interface PayloadFuncionarioSpecific {
-  type: number;
-  data: Funcionarios;
+  type: string;
+  payload: Funcionarios;
 }
 
 export function* getFuncionarios(): Generator<CallEffect<Funcionarios[]> | PutEffect<AnyAction>, void, FuncionariosData> {
@@ -27,29 +27,40 @@ export function* getFuncionarios(): Generator<CallEffect<Funcionarios[]> | PutEf
 
     yield put(getFuncionariosSuccess(response.data.content));
   } catch (error) {
-    console.error('novo: ', error);
+    console.error(error);
     yield put(showAlert('Erro ao pesquisar funcionarios', AlertTypes.ERROR));
   }
 }
 
-export function* getFuncionariosById({ type }: FuncionariosType): Generator<CallEffect<Funcionarios> | PutEffect<AnyAction>, void, FuncionariosType> {
+export function* getFuncionariosById({ payload }: PayloadFuncionarioSpecific): Generator<
+  CallEffect<Funcionarios> | PutEffect<AnyAction>,
+  void,
+  FuncionariosType
+> {
   try {
-    const response = yield call(FuncionarioService.getByIdFuncionarios, type);
+    const response = yield call(FuncionarioService.getByIdFuncionarios, payload);
 
     yield put(getByIdFuncionariosSuccess(response.data));
   } catch (error) {
-    console.error('novo: ', error);
+    console.error(error);
     yield put(showAlert('Erro ao pesquisar funcionario', AlertTypes.ERROR));
   }
 }
 
-export function* postFuncionarios({ type }: FuncionariosType): Generator<CallEffect<Funcionarios> | PutEffect<AnyAction>, void, FuncionariosType> {
+export function* postFuncionarios({ payload }: PayloadFuncionarioSpecific): Generator<
+  CallEffect<Funcionarios> | PutEffect<AnyAction>,
+  void,
+  Funcionarios
+> {
   try {
-    const response = yield call(FuncionarioService.getByIdFuncionarios, type);
+    const response = yield call(FuncionarioService.postFuncionarios, payload);
 
-    yield put(getByIdFuncionariosSuccess(response.data));
+    yield put(postFuncionariosSuccess());
+    console.log(response);
+    yield put(showAlert('Funcionário cadastrado com sucesso', AlertTypes.SUCCESS));
   } catch (error) {
-    console.error('novo: ', error);
-    yield put(showAlert('Erro ao pesquisar funcionario', AlertTypes.ERROR));
+    console.error(error);
+    console.log('error: ', payload);
+    yield put(showAlert('Erro ao cadastrar funcionario', AlertTypes.ERROR));
   }
 }
