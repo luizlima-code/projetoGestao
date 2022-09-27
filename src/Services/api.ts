@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 
-const baseApiURL = 'https://gestao-projetos.herokuapp.com';
+const baseApiURL = 'https://gestao-andamento.herokuapp.com';
 
 const apiDefault = axios.create({
     baseURL: `${baseApiURL}`,
@@ -11,14 +11,13 @@ apiDefault.interceptors.request.use(
     async (config: any) => {
         const token: any = localStorage.getItem('@Token');
         let decodedToken: any = jwt_decode(token);
-        console.log("Decoded Token", decodedToken);
         let currentDate = new Date();
 
         // JWT exp is in seconds
         if (decodedToken.exp * 1000 < currentDate.getTime()) {
-            console.log("Token expired.");
+            // console.log("Token expired.");
         } else {
-            console.log("Valid token");
+            // console.log("Valid token");
         }
 
         if (!config.headers?.Authorization && token) {

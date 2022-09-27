@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 0 */  // --> OFF
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,6 +7,8 @@ import store from "./store";
 import { Provider } from "react-redux";
 import './index.css';
 import { AuthProvider } from './contexts/auth';
+import { Switch, Route } from 'react-router-dom2';
+import { ConnectedRouter } from 'connected-react-router';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,9 +17,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ConnectedRouter history={history}>
+        {/* <BrowserRouter> */}
+        <Switch>
+          <Route component={App} />
+        </Switch>
+        {/* </BrowserRouter> */}
+      </ConnectedRouter>
     </AuthProvider>
   </Provider>
 );

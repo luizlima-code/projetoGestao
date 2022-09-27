@@ -34,7 +34,7 @@ const reducer: Reducer<FuncionariosState> = (state = INITIAL_STATE, action: any)
       return {
         ...state,
         isLoading: false,
-        funcionarioById: action.payload.data
+        funcionarioById: action.payload
       };
     case FuncionariosTypes.POSTFUNCIONARIOSREQUEST:
       return {
@@ -44,8 +44,7 @@ const reducer: Reducer<FuncionariosState> = (state = INITIAL_STATE, action: any)
     case FuncionariosTypes.POSTFUNCIONARIOSSUCCESS:
       return {
         ...state,
-        isLoading: false,
-        funcionarios: action.payload.data
+        isLoading: false
       };
     case FuncionariosTypes.PUTFUNCIONARIOSREQUEST:
       return {
@@ -56,7 +55,7 @@ const reducer: Reducer<FuncionariosState> = (state = INITIAL_STATE, action: any)
       return {
         ...state,
         isLoading: false,
-        funcionarios: action.payload.data
+        funcionarios: action.payload
       };
     default:
       return state;
