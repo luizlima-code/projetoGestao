@@ -17,13 +17,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <AuthProvider>
-      <ConnectedRouter history={history}>
-        {/* <BrowserRouter> */}
-        <Switch>
-          <Route component={App} />
-        </Switch>
-        {/* </BrowserRouter> */}
-      </ConnectedRouter>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </AuthProvider>
   </Provider>
 );

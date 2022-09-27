@@ -65,7 +65,6 @@ const TableDashboard = (props: Props): React.ReactElement => {
             </TableCell>
             {headers.map((row) => (
               <TableCell
-                key={row}
                 align="center"
                 sx={{
                   backgroundColor: '#00b4d8',
