@@ -14,11 +14,11 @@ import FieldsForms from '../FieldsForms';
 import { TextField } from 'formik-material-ui';
 
 interface FuncTypes {
-  nome: string,
-  cpf: string,
-  email: string,
-  telefone: string,
-  senha: string,
+  nome: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+  senha: string;
 }
 
 const ModalOptions = ({
@@ -33,7 +33,7 @@ const ModalOptions = ({
 
   useEffect(() => {
     setName(title);
-    setNumber(number + 1)
+    setNumber(number + 1);
     console.log('chamada do modal: ', number);
   }, [title]);
 
@@ -49,50 +49,36 @@ const ModalOptions = ({
     dispatch(postFuncionariosRequest(values));
     setSubmitting();
     setOpenModal(false);
-  }
+  };
 
-  // aqui começa os elementos (Vou refatorar depois)
-  const clienteModal = (
-    <Modal
-      open={openModal}
-      onClose={() => setOpenModal(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+  const isMobile = useMediaQuery('(max-width:959px)');
+
+  const headerModal = (
+    <Grid
+      container
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}
     >
-      <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
+      <Grid item>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {title}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+          Cadastrar {title}
+        </Typography>
+      </Grid>
+      {isMobile ? null : (
+        <Grid item>
+          <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
+            <CloseIcon />
+          </IconButton>
         </Grid>
-        <Grid container spacing={1.2}>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="cliNome" id="cliNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="cliCpf" id="cliCpf" label="CPF" fullWidth />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="cliEmail" id="cliEmail" label="Email" fullWidth />
-          </Grid>
-        </Grid>
+      )}
+    </Grid>
+  );
 
   const botoesModal = (
     <Buttons>
@@ -120,7 +106,8 @@ const ModalOptions = ({
     </Buttons>
   );
 
-  const etapasModal = (
+  // aqui começa os elementos (Vou refatorar depois)
+  const clienteModal = (
     <Modal
       open={openModal}
       onClose={() => setOpenModal(false)}
@@ -131,17 +118,20 @@ const ModalOptions = ({
         {headerModal}
         <Grid container spacing={1.2}>
           <Grid item md={4} xs={12}>
-            <InputStyle name="cliNome" id="cliNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
+            <FieldsForms name="cliNome" id="cliNome" label="Nome" fullWidth />
           </Grid>
           <Grid item md={4} xs={12}>
-            <InputStyle name="cliEmail" id="cliEmail" label="Email" fullWidth />
+            <FieldsForms name="cliCpf" id="cliCpf" label="CPF" fullWidth />
           </Grid>
-        </Grid>{' '}
+          <Grid item md={4} xs={12}>
+            <FieldsForms
+              name="cliEmail"
+              id="cliEmail"
+              label="Email"
+              fullWidth
+            />
+          </Grid>
+        </Grid>
         {botoesModal}
       </BoxStyle>
     </Modal>
@@ -188,28 +178,7 @@ const ModalOptions = ({
       aria-describedby="modal-modal-description"
     >
       <BoxStyle>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Grid item>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-              Cadastrar {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="close" onClick={() => setOpenModal(false)}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        {headerModal}
         <Formik
           enableReinitialize={false}
           initialValues={initial_values_func}
@@ -245,7 +214,8 @@ const ModalOptions = ({
                   component={TextField}
                   id="cpf"
                   label="Cpf"
-                  fullWidth />
+                  fullWidth
+                />
               </Grid>
               <Grid item md={4} xs={12}>
                 <FieldsForms
@@ -266,23 +236,13 @@ const ModalOptions = ({
                 />
               </Grid>
             </Grid>
-
-            <Buttons>
-              <Button
-                variant="contained"
-                sx={{ mt: 2 }}
-                size="medium"
-                type="submit"
-                endIcon={<SaveAltIcon />}
-              >
-                Salvar
-              </Button>
-            </Buttons>
+            {botoesModal}
           </Form>
         </Formik>
       </BoxStyle>
     </Modal>
   );
+
   const itemModal = (
     <Modal
       open={openModal}
