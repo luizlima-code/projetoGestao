@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 8vh;
+  height: 10vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #90e0ef;
 `;
 
 export const MainContent = styled.div`
@@ -21,11 +22,18 @@ export const MainContent = styled.div`
 export const Title = styled.div`
   color: black;
   font-size: 36px;
+
+  @media only screen and (max-width: 959px) {
+    font-size: 24px;
+  }
 `;
 
 export const StyledAppBarMobile = styled(AppBar)`
   && {
     width: calc(100% - 30px);
+    max-height: 6vh;
+
+    box-shadow: none;
     padding-left: 10px;
   }
 `;

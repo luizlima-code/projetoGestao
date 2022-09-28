@@ -3,13 +3,19 @@ import styled from 'styled-components';
 export const Container = styled.div`
   @media only screen and (max-width: 959px) {
     width: 100% !important;
-  }
-  
-  width: calc(100% - 280px);
-  
-  height: 88vh;
+    height: 94vh;
 
-  margin: 2vh 10px 2vh 10px;
+    margin: 8vh 10px 2vh 10px;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  width: calc(100% - 280px);
+
+  height: 85vh;
+
+  margin: 13vh 10px 2vh 10px;
 
   overflow-y: scroll;
 

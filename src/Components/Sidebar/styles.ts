@@ -5,7 +5,7 @@ export const Container = styled.div`
   width: 260px;
   height: 100vh;
   max-width: 260px;
-  background-color: #90e0ef;
+  background-color: #00b4d8;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,15 +18,15 @@ export const Container = styled.div`
 export const IconButtonResponsive = styled(IconButton)`
   && {
     position: fixed;
-    height: 64px;
+    height: 10vh;
     z-index: 1200;
     border-radius: 0;
-    background-color: #eee;
-    @media only screen and (max-width: 600px) {
-      height: 56px;
+    background-color: #90e0ef;
+    @media only screen and (max-width: 959px) {
+      height: 6vh;
     }
     :hover {
-      background-color: #eee;
+      background-color: #90e0ef;
     }
   }
 `;
