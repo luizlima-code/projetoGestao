@@ -29,7 +29,7 @@ const rows = [
 ];
 
 interface OwnProps {
-  height: number;
+  height?: any;
   titulo: string;
   headers: Array<string>;
   // data: Array<any>;
@@ -59,6 +59,7 @@ const TableDashboard = (props: Props): React.ReactElement => {
                 backgroundColor: '#00b4d8',
                 color: 'white',
                 fontSize: 16,
+                border: 'none',
               }}
             >
               {titulo}
@@ -70,6 +71,7 @@ const TableDashboard = (props: Props): React.ReactElement => {
                   backgroundColor: '#00b4d8',
                   color: 'white',
                   fontSize: 16,
+                  border: 'none',
                 }}
               >
                 {row}
