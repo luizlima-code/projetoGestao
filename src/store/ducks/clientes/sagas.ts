@@ -1,8 +1,7 @@
+import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ClientesService } from '../../../Services/clientes/clientes';
-import { showAlert } from '../appStatus/actions';
-import { AlertTypes } from '../appStatus/types';
 import {
   getByIdClientesSuccess,
   getClientesSuccess,
@@ -36,7 +35,7 @@ export function* getClientes(): Generator<
     yield put(getClientesSuccess(response.data.content));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar clientes', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar clientes');
   }
 }
 
@@ -53,7 +52,7 @@ export function* getClientesById({
     yield put(getByIdClientesSuccess(response.data));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar cliente', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar cliente');
   }
 }
 
@@ -65,14 +64,12 @@ export function* postClientes({
   Clientes
 > {
   try {
-    const response = yield call(ClientesService.postClientes, payload);
+    yield call(ClientesService.postClientes, payload);
 
     yield put(postClientesSuccess());
-    console.log(response);
-    yield put(showAlert('Cliente cadastrado com sucesso', AlertTypes.SUCCESS));
+    toast.success('Cliente cadastrado com sucesso!');
   } catch (error) {
     console.error(error);
-    console.log('error: ', payload);
-    yield put(showAlert('Erro ao cadastrar cliente', AlertTypes.ERROR));
+    toast.error('Erro ao cadastrar cliente');
   }
 }

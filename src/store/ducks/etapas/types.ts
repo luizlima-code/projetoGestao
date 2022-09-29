@@ -1,3 +1,5 @@
+import { PageableResponse } from "../../../config/types";
+
 export enum EtapasTypes {
   GETETAPASREQUEST = '@etapas/GET_ETAPAS_REQUEST',
   GETETAPASSUCCESS = '@etapas/GET_ETAPAS_SUCCESS',
@@ -14,6 +16,8 @@ export interface Etapas {
   nome: string;
   descricao: string;
 }
+
+export type EtapasResponse = PageableResponse<Etapas>;
 
 export interface EtapasState {
   readonly isLoading: boolean;

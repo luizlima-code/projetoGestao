@@ -1,3 +1,5 @@
+import { PageableResponse } from "../../../config/types";
+
 export enum FuncionariosTypes {
   GETFUNCIONARIOSREQUEST = '@funcionarios/GET_FUNCIONARIOS_REQUEST',
   GETFUNCIONARIOSSUCCESS = '@funcionarios/GET_FUNCIONARIOS_SUCCESS',
@@ -17,6 +19,8 @@ export interface Funcionarios {
   telefone: string;
   senha?: string;
 }
+
+export type FuncionariosResponse = PageableResponse<Funcionarios>;
 
 export interface FuncionariosState {
   readonly isLoading: boolean;

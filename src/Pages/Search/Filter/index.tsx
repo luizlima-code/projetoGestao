@@ -13,8 +13,15 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
-const FilterData: React.FC = () => {
-  const [modulo, setModulo] = React.useState('');
+interface IFilters {
+  handleFilter: (filter: any) => void;
+  setTipoFiltro: (data: any) => void;
+}
+
+const FilterData = ({
+  handleFilter, setTipoFiltro
+}: IFilters): React.ReactElement => {
+  const [modulo, setModulo] = React.useState('Cliente');
 
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
@@ -189,18 +196,33 @@ const FilterData: React.FC = () => {
     </Grid>
   );
 
+  const handleFilterBuscar = () => {
+    handleFilter(modulo);
+    console.log(modulo);
+  }
+
   const renderModal = () => {
     switch (modulo) {
       case 'Cliente':
-        return FilterCliente as ReactJSXElement;
+        return (
+          setTipoFiltro('Cliente'),
+          FilterCliente as ReactJSXElement);
       case 'Etapa':
-        return FilterEtapas as ReactJSXElement;
+        return (
+          setTipoFiltro('Etapa'),
+          FilterEtapas as ReactJSXElement);
       case 'Funcionario':
-        return FilterFuncionario as ReactJSXElement;
+        return (
+          setTipoFiltro('Funcionario'),
+          FilterFuncionario as ReactJSXElement);
       case 'Item':
-        return FilterItem as ReactJSXElement;
+        return (
+          setTipoFiltro('Item'),
+          FilterItem as ReactJSXElement);
       case 'Projeto':
-        return FilterProjeto as ReactJSXElement;
+        return (
+          setTipoFiltro('Projeto'),
+          FilterProjeto as ReactJSXElement);
       default:
         return null;
     }
@@ -263,6 +285,7 @@ const FilterData: React.FC = () => {
           variant="contained"
           sx={{ mt: 2 }}
           size="small"
+          onClick={handleFilterBuscar}
           style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
           endIcon={<SearchIcon />}
         >

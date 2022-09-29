@@ -1,14 +1,24 @@
 import { Reducer } from 'redux';
 import { ProjetosTypes, Projetos, ProjetosState } from './types';
 
+const Clientes = {
+  nome: '',
+  email: '',
+  cpf: '',
+  telefone: '',
+}
+
 const INITIAL_STATE = {
   isLoading: false,
   projetos: [],
   projetosById: {
+    cliente: Clientes,
+    dataEntrega: new Date().toISOString(),
+    dataPrevisao: new Date().toISOString(),
+    dataVenda: new Date().toISOString(),
+    dataInicial: new Date().toISOString(),
+    descricao: '',
     nome: '',
-    email: '',
-    cpf: '',
-    telefone: '',
   },
   itemProjeto: [],
   projetosAtrasados: [],

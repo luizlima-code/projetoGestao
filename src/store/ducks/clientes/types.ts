@@ -1,3 +1,5 @@
+import { PageableResponse } from "../../../config/types";
+
 export enum ClientesTypes {
   GETCLIENTESREQUEST = '@clientes/GET_CLIENTES_REQUEST',
   GETCLIENTESSUCCESS = '@clientes/GET_CLIENTES_SUCCESS',
@@ -16,6 +18,8 @@ export interface Clientes {
   cpf: string;
   telefone: string;
 }
+
+export type ClientesResponse = PageableResponse<Clientes>;
 
 export interface ClientesState {
   readonly isLoading: boolean;
