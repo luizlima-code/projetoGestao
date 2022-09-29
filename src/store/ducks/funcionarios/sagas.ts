@@ -2,8 +2,6 @@ import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { FuncionarioService } from '../../../Services/funcionarios/funcionarios';
-import { showAlert } from '../appStatus/actions';
-import { AlertTypes } from '../appStatus/types';
 import { getByIdFuncionariosSuccess, getFuncionariosSuccess, postFuncionariosSuccess } from './actions';
 import { FuncionariosTypes, Funcionarios } from './types';
 
@@ -44,7 +42,7 @@ export function* getFuncionariosById({ payload }: PayloadFuncionarioSpecific): G
     yield put(getByIdFuncionariosSuccess(response.data));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar funcionario', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar funcionario');
   }
 }
 
@@ -54,14 +52,12 @@ export function* postFuncionarios({ payload }: PayloadFuncionarioSpecific): Gene
   Funcionarios
 > {
   try {
-    const response = yield call(FuncionarioService.postFuncionarios, payload);
+    yield call(FuncionarioService.postFuncionarios, payload);
 
     yield put(postFuncionariosSuccess());
     toast.success('Funcionario cadastrado com sucesso!');
-    yield put(showAlert('Funcionário cadastrado com sucesso', AlertTypes.SUCCESS));
   } catch (error) {
     console.error(error);
-    console.log('error: ', payload);
-    yield put(showAlert('Erro ao cadastrar funcionario', AlertTypes.ERROR));
+    toast.error('Erro ao cadastrar funcionario');
   }
 }

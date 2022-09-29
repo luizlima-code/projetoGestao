@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
+import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Modal from '@mui/material/Modal';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { BoxStyle, Buttons } from './styles';
@@ -12,13 +14,32 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { postFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
 import FieldsForms from '../FieldsForms';
 import { TextField } from 'formik-material-ui';
+import { postClientesRequest } from '../../store/ducks/clientes/actions';
+import { postEtapasRequest } from '../../store/ducks/etapas/actions';
+import { Clientes } from '../../store/ducks/clientes/types';
+import { postProjetosRequest } from '../../store/ducks/projeto/actions';
 
 interface FuncTypes {
   nome: string;
   cpf: string;
   email: string;
   telefone: string;
-  senha: string;
+  senha?: string;
+}
+
+interface EtapaTypes {
+  descricao: string;
+  nome: string;
+}
+
+interface ProjetoTypes {
+  cliente: Clientes;
+  nome: string;
+  dataVenda: string;
+  dataPrevisao: string;
+  dataInicial: string;
+  dataEntrega: string;
+  descricao: string;
 }
 
 const ModalOptions = ({
@@ -28,13 +49,10 @@ const ModalOptions = ({
 }: any): React.ReactElement => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-  // number = só pra ver funcionando o useEffect, se toda vez que atualizar o modal vai funcionar
-  const [number, setNumber] = useState(1);
 
   useEffect(() => {
     setName(title);
-    setNumber(number + 1);
-    console.log('chamada do modal: ', number);
+    console.log(new Date().toISOString());
   }, [title]);
 
   const initial_values_func = {
@@ -45,8 +63,47 @@ const ModalOptions = ({
     senha: '',
   };
 
+  const initial_values_etapa = {
+    nome: '',
+    descricao: '',
+  };
+
+  const initial_values_projeto = {
+    nome: '',
+    cliente: {
+      nome: '',
+      email: '',
+      cpf: '',
+      telefone: '',
+      id: '4',
+    },
+    dataVenda: new Date().toISOString(),
+    dataInicial: new Date().toISOString(),
+    dataPrevisao: new Date().toISOString(),
+    dataEntrega: new Date().toISOString(),
+    descricao: '',
+  };
+
   const handlePostFunc = (values: FuncTypes, setSubmitting: any) => {
     dispatch(postFuncionariosRequest(values));
+    setSubmitting();
+    setOpenModal(false);
+  };
+
+  const handlePostCliente = (values: FuncTypes, setSubmitting: any) => {
+    dispatch(postClientesRequest(values));
+    setSubmitting();
+    setOpenModal(false);
+  };
+
+  const handlePostEtapa = (values: EtapaTypes, setSubmitting: any) => {
+    dispatch(postEtapasRequest(values));
+    setSubmitting();
+    setOpenModal(false);
+  };
+
+  const handlePostProjeto = (values: ProjetoTypes, setSubmitting: any) => {
+    dispatch(postProjetosRequest(values));
     setSubmitting();
     setOpenModal(false);
   };
@@ -98,6 +155,7 @@ const ModalOptions = ({
         variant="contained"
         sx={{ mt: 2 }}
         size="medium"
+        type="submit"
         style={{ backgroundColor: '#0077b6' }}
         endIcon={<SaveAltIcon />}
       >
@@ -116,23 +174,39 @@ const ModalOptions = ({
     >
       <BoxStyle>
         {headerModal}
-        <Grid container spacing={1.2}>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="cliNome" id="cliNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="cliCpf" id="cliCpf" label="CPF" fullWidth />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="cliEmail"
-              id="cliEmail"
-              label="Email"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        {botoesModal}
+        <Formik
+          enableReinitialize={false}
+          initialValues={initial_values_func}
+          onSubmit={(values: FuncTypes, { setSubmitting }) => {
+            handlePostCliente(values, setSubmitting);
+          }}
+        >
+          <Form>
+            <Grid container spacing={1.2}>
+              <Grid item md={12} xs={12}>
+                <FieldsForms component={TextField} name="nome" id="nome" label="Nome" fullWidth />
+              </Grid>
+            </Grid>
+            <Grid container spacing={1.2}>
+              <Grid item md={4} xs={12}>
+                <FieldsForms component={TextField} name="telefone" id="telefone" label="Telefone" fullWidth />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <FieldsForms component={TextField} name="cpf" id="cpf" label="CPF" fullWidth />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <FieldsForms
+                  component={TextField}
+                  name="email"
+                  id="email"
+                  label="Email"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            {botoesModal}
+          </Form>
+        </Formik>
       </BoxStyle>
     </Modal>
   );
@@ -146,30 +220,41 @@ const ModalOptions = ({
     >
       <BoxStyle>
         {headerModal}
-        <Grid container spacing={1.2}>
-          <Grid item md={6} xs={12}>
-            <FieldsForms
-              name="etapaNome"
-              id="etapaNome"
-              label="Nome"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <FieldsForms
-              name="etapaDescricao"
-              id="etapaDescricao"
-              label="Descrição"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        {botoesModal}
+        <Formik
+          enableReinitialize={false}
+          initialValues={initial_values_etapa}
+          onSubmit={(values: EtapaTypes, { setSubmitting }) => {
+            handlePostEtapa(values, setSubmitting);
+          }}
+        >
+          <Form>
+            <Grid container spacing={1.2}>
+              <Grid item md={6} xs={12}>
+                <FieldsForms
+                  component={TextField}
+                  name="nome"
+                  id="nome"
+                  label="Nome"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <FieldsForms
+                  component={TextField}
+                  name="descricao"
+                  id="descricao"
+                  label="Descrição"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            {botoesModal}
+          </Form>
+        </Formik>
       </BoxStyle>
     </Modal>
   );
 
-  // usar de exemplo
   const funcionariosModal = (
     <Modal
       open={openModal}
@@ -252,28 +337,40 @@ const ModalOptions = ({
     >
       <BoxStyle>
         {headerModal}
-        <Grid container spacing={1.2}>
-          <Grid item md={4} xs={12}>
-            <FieldsForms name="itemNome" id="itemNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="itemCodigo"
-              id="itemCodigo"
-              label="Codigo"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="itemProjeto"
-              id="itemProjeto"
-              label="Projeto"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        {botoesModal}
+        <Formik
+          enableReinitialize={false}
+          initialValues={initial_values_func}
+          onSubmit={(values: FuncTypes, { setSubmitting }) => {
+            handlePostFunc(values, setSubmitting);
+          }}
+        >
+          <Form>
+            <Grid container spacing={1.2}>
+              <Grid item md={4} xs={12}>
+                <FieldsForms component={TextField} name="itemNome" id="itemNome" label="Nome" fullWidth />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <FieldsForms
+                  component={TextField}
+                  name="itemCodigo"
+                  id="itemCodigo"
+                  label="Codigo"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={4} xs={12}>
+                <FieldsForms
+                  component={TextField}
+                  name="itemProjeto"
+                  id="itemProjeto"
+                  label="Projeto"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            {botoesModal}
+          </Form>
+        </Formik>
       </BoxStyle>
     </Modal>
   );
@@ -287,58 +384,94 @@ const ModalOptions = ({
     >
       <BoxStyle>
         {headerModal}
-        <Grid container spacing={1.2}>
-          <Grid item md={6} xs={12}>
-            <FieldsForms name="projNome" id="projNome" label="Nome" fullWidth />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <FieldsForms
-              name="projCliente"
-              id="projCliente"
-              label="Cliente"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1.2} pt={2}>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="projDataVenda"
-              id="projDataVenda"
-              label="Data Venda"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="projDataPrevista"
-              id="projDataPrevista"
-              label="Data Prevista"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <FieldsForms
-              name="projDataEntrega"
-              id="projDataEntrega"
-              label="Data Entrega"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1.2} pt={2}>
-          <Grid item md={12} xs={12}>
-            <FieldsForms
-              id="outlined-multiline-static"
-              name="Descricao"
-              label="Descricao"
-              fullWidth
-              multiline
-              maxRows={4}
-            />
-          </Grid>
-        </Grid>
-        {botoesModal}
+        <Formik
+          enableReinitialize={false}
+          initialValues={initial_values_projeto}
+          onSubmit={(values: ProjetoTypes, { setSubmitting }) => {
+            handlePostProjeto(values, setSubmitting);
+          }}
+        >
+          {({ values, setFieldValue }) => (
+            <Form>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container spacing={1.2}>
+                  <Grid item md={4} xs={12}>
+                    <FieldsForms component={TextField} name="nome" id="nome" label="Nome" fullWidth />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <FieldsForms
+                      component={TextField}
+                      name="cliente"
+                      id="cliente"
+                      label="Cliente"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <KeyboardDatePicker
+                      format="dd/MM/yyyy"
+                      name="dataInicial"
+                      id="dataInicial"
+                      label="Data Inicial"
+                      value={new Date()}
+                      onChange={event => setFieldValue('dataInicial', event)}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={1.2} pt={2}>
+                  <Grid item md={4} xs={12}>
+                    <KeyboardDatePicker
+                      format="dd/MM/yyyy"
+                      name="dataVenda"
+                      id="dataVenda"
+                      label="Data Venda"
+                      value={new Date()}
+                      onChange={event => setFieldValue('dataVenda', event)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <KeyboardDatePicker
+                      format="dd/MM/yyyy"
+                      name="dataPrevisao"
+                      id="dataPrevisao"
+                      label="Data Prevista"
+                      value={new Date()}
+                      onChange={event => setFieldValue('dataPrevisao', event)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <KeyboardDatePicker
+                      format="dd/MM/yyyy"
+                      name="dataEntrega"
+                      id="dataEntrega"
+                      label="Data Entrega"
+                      value={new Date()}
+                      onChange={event => setFieldValue('dataEntrega', event)}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </MuiPickersUtilsProvider>
+              <Grid container spacing={1.2} pt={2}>
+                <Grid item md={12} xs={12}>
+                  <FieldsForms
+                    component={TextField}
+                    id="descricao"
+                    name="descricao"
+                    label="Descricao"
+                    fullWidth
+                    multiline
+                    maxRows={4}
+                  />
+                </Grid>
+              </Grid>
+              {botoesModal}
+            </Form>
+          )}
+        </Formik>
       </BoxStyle>
     </Modal>
   );

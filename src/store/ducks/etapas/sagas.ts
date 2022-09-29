@@ -1,8 +1,7 @@
+import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { EtapasService } from '../../../Services/etapas/etapas';
-import { showAlert } from '../appStatus/actions';
-import { AlertTypes } from '../appStatus/types';
 import {
   getByIdEtapasSuccess,
   getEtapasSuccess,
@@ -36,7 +35,7 @@ export function* getEtapas(): Generator<
     yield put(getEtapasSuccess(response.data.content));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar etapas', AlertTypes.ERROR));
+    toast.error('Erro ao buscar etapas');
   }
 }
 
@@ -53,7 +52,7 @@ export function* getEtapasById({
     yield put(getByIdEtapasSuccess(response.data));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar etapa', AlertTypes.ERROR));
+    toast.error('Erro ao buscar etapa');
   }
 }
 
@@ -65,14 +64,12 @@ export function* postEtapas({
   Etapas
 > {
   try {
-    const response = yield call(EtapasService.postEtapas, payload);
+    yield call(EtapasService.postEtapas, payload);
 
     yield put(postEtapasSuccess());
-    console.log(response);
-    yield put(showAlert('Etapa cadastrado com sucesso', AlertTypes.SUCCESS));
+    toast.success('Etapa cadastrada com sucesso!');
   } catch (error) {
     console.error(error);
-    console.log('error: ', payload);
-    yield put(showAlert('Erro ao cadastrar etapa', AlertTypes.ERROR));
+    toast.error('Erro ao cadastrar etapa');
   }
 }

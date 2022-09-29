@@ -1,8 +1,7 @@
+import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ProjetosService } from '../../../Services/projetos/projetos';
-import { showAlert } from '../appStatus/actions';
-import { AlertTypes } from '../appStatus/types';
 import {
   getByIdItemProjetosSuccess,
   getByIdProjetosSuccess,
@@ -58,7 +57,7 @@ export function* getProjetos(): Generator<
     yield put(getProjetosSuccess(response.data.content));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar projetos', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar projetos');
   }
 }
 
@@ -75,7 +74,7 @@ export function* getProjetosById({
     yield put(getByIdProjetosSuccess(response.data));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar projeto', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar projeto');
   }
 }
 
@@ -90,9 +89,7 @@ export function* getProjetosAtrasados(): Generator<
     yield put(getProjetosAtrasadosSuccess(response.data.content));
   } catch (error) {
     console.error(error);
-    yield put(
-      showAlert('Erro ao pesquisar projetos atrasados', AlertTypes.ERROR)
-    );
+    toast.error('Erro ao pesquisar projetos atrasados');
   }
 }
 
@@ -109,7 +106,7 @@ export function* getItemProjeto({
     yield put(getByIdItemProjetosSuccess(response.data));
   } catch (error) {
     console.error(error);
-    yield put(showAlert('Erro ao pesquisar item projeto', AlertTypes.ERROR));
+    toast.error('Erro ao pesquisar item projeto');
   }
 }
 
@@ -121,14 +118,13 @@ export function* postProjetos({
   Projetos
 > {
   try {
-    const response = yield call(ProjetosService.postProjetos, payload);
+    yield call(ProjetosService.postProjetos, payload);
 
     yield put(postProjetosSuccess());
-    console.log(response);
-    yield put(showAlert('Projeto cadastrado com sucesso', AlertTypes.SUCCESS));
+    toast.success('Projeto cadastrado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log('error: ', payload);
-    yield put(showAlert('Erro ao cadastrar projeto', AlertTypes.ERROR));
+    console.log(payload);
+    toast.error('Erro ao cadastrar projeto');
   }
 }

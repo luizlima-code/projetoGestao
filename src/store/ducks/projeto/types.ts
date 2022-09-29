@@ -1,3 +1,5 @@
+import { Clientes } from "../clientes/types";
+
 export enum ProjetosTypes {
   GETPROJETOSREQUEST = '@projetos/GET_PROJETOS_REQUEST',
   GETPROJETOSSUCCESS = '@projetos/GET_PROJETOS_SUCCESS',
@@ -16,32 +18,21 @@ export enum ProjetosTypes {
 }
 
 export interface Projetos {
+  cliente: Clientes;
+  dataEntrega: string;
+  dataPrevisao: string;
+  dataInicial: string;
+  dataVenda: string;
+  descricao: string;
   id?: string;
   nome: string;
-  email: string;
-  cpf: string;
-  telefone: string;
 }
 
 export interface ItemProjeto {
   codigo: string;
   id?: string;
   nome: string;
-  projeto: {
-    cliente: {
-      cpf: string;
-      email: string;
-      id?: string;
-      nome: string;
-      telefone: string;
-    };
-    dataEntrega: string;
-    dataPrevisao: string;
-    dataVenda: string;
-    descricao: string;
-    id?: string;
-    nome: string;
-  };
+  projeto: Projetos;
 }
 
 // ta incompleto no swagger
