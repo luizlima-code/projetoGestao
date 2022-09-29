@@ -1,3 +1,4 @@
+import { PageableResponse } from '../../../config/types';
 import { Clientes } from "../clientes/types";
 
 export enum ProjetosTypes {
@@ -39,6 +40,8 @@ export interface ItemProjeto {
 export interface ProjetosAtrasados {
   dataAtual: string;
 }
+
+export type ProjetoResponse = PageableResponse<Projetos>;
 
 export interface ProjetosState {
   readonly isLoading: boolean;

@@ -52,7 +52,6 @@ const ModalOptions = ({
 
   useEffect(() => {
     setName(title);
-    console.log(new Date().toISOString());
   }, [title]);
 
   const initial_values_func = {

@@ -8,14 +8,19 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableContainer, TablePagination, useMediaQuery } from '@mui/material';
+import { FuncionariosResponse } from '../../../store/ducks/funcionarios/types';
+import { ClientesResponse } from '../../../store/ducks/clientes/types';
+import { EtapasResponse } from '../../../store/ducks/etapas/types';
+import { ProjetoResponse } from '../../../store/ducks/projeto/types';
 
 function createData(
   name: string,
   calories: number,
   carbs: number,
-  protein: number
+  protein: number,
+  novo?: number
 ) {
-  return { name, calories, carbs, protein };
+  return { name, calories, carbs, protein, novo };
 }
 
 const rows = [
@@ -41,19 +46,45 @@ const rows = [
 ];
 
 interface OwnProps {
-  titulo: string;
+  handleFilter: (filter: any) => void;
+  tipoFiltro: string;
   headers: Array<string>;
-  // data: Array<any>;
+  data?: FuncionariosResponse |
+  ClientesResponse |
+  EtapasResponse |
+  ProjetoResponse;
 }
 
 type Props = OwnProps;
 
 const TableData = (props: Props): React.ReactElement => {
-  const { titulo, headers } = props;
-  const isMobile = useMediaQuery('(max-width:959px)');
-
+  const { headers, handleFilter, tipoFiltro, data } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const isMobile = useMediaQuery('(max-width:959px)');
+
+
+  // const rows = data?.content?.map(row => ({
+  //   ...row,
+  //   id: row.transactionId,
+  //   transactionTypeDescription: getTransactionTypesTranslation(
+  //     row?.transactionType
+  //   ),
+  //   transactionStatusDescription: getTransactionStatusTranslation(
+  //     row?.transactionStatus
+  //   ),
+  //   mipStatusDescription: row?.mipStatus?.description || '',
+  //   dateTime: formatDate(row?.dateTime, true),
+  //   payerBranchAccount: `${row?.payerDetails?.branch || ''}/${row?.payerDetails
+  //     ?.account || ''}`,
+  //   payerName: row?.payerDetails?.name || '',
+  //   payerTaxId: formatCpfCnpj(row?.payerDetails?.taxId) || '',
+  //   receiverName: row?.receiverDetails?.name || '',
+  //   receiverTaxId: formatCpfCnpj(row?.receiverDetails?.taxId) || '',
+  //   actions: action(row.transactionId),
+  //   amount: formatCurrency(parseFloat(row.amount)),
+  //   checkDisabled: !row.canBeReprocessed,
+  // }));
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -88,7 +119,7 @@ const TableData = (props: Props): React.ReactElement => {
                   border: 'none',
                 }}
               >
-                {titulo}
+                {tipoFiltro}
               </TableCell>
               {headers.map((header) => (
                 <TableCell
