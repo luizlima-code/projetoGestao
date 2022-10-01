@@ -1,5 +1,6 @@
 import { PageableResponse } from '../../../config/types';
-import { Clientes } from "../clientes/types";
+import { Clientes } from '../clientes/types';
+import { ItemProjeto } from '../itemProjeto/types';
 
 export enum ProjetosTypes {
   GETPROJETOSREQUEST = '@projetos/GET_PROJETOS_REQUEST',
@@ -10,12 +11,19 @@ export enum ProjetosTypes {
   POSTPROJETOSSUCCESS = '@projetos/POST_PROJETOS_SUCCESS',
   PUTPROJETOSREQUEST = '@projetos/PUT_PROJETOS_REQUEST',
   PUTPROJETOSSUCCESS = '@projetos/PUT_PROJETOS_SUCCESS',
+  DELETEPROJETOSREQUEST = '@projetos/DELETE_PROJETOS_REQUEST',
+  DELETEPROJETOSSUCCESS = '@projetos/DELETE_PROJETOS_SUCCESS',
   // itemProjeto
   GETITEMPROJETOSREQUEST = '@projetos/GET_ITEM_PROJETOS_REQUEST',
   GETITEMPROJETOSSUCCESS = '@projetos/GET_ITEM_PROJETOS_SUCCESS',
+  POSTITEMPROJETOREQUEST = '@projetos/POST_ITEM_PROJETO_REQUEST',
+  POSTITEMPROJETOSUCCESS = '@projetos/POST_ITEM_PROJETO_SUCCESS',
   // projetos atrasados
   GETPROJETOSATRASADOSREQUEST = '@projetos/GET_PROJETOS_ATRASADOS_REQUEST',
   GETPROJETOSATRASADOSSUCCESS = '@projetos/GET_PROJETOS_ATRASADOS_SUCCESS',
+  // prazoVsAtrasos
+  GETPRAZOVSATRASADOSREQUEST = '@projetos/GET_PRAZO_VS_ATRASADOS_REQUEST',
+  GETPRAZOVSATRASADOSSUCCESS = '@projetos/GET_PRAZO_VS_ATRASADOS_SUCCESS',
 }
 
 export interface Projetos {
@@ -29,16 +37,9 @@ export interface Projetos {
   nome: string;
 }
 
-export interface ItemProjeto {
-  codigo: string;
-  id?: string;
-  nome: string;
-  projeto: Projetos;
-}
-
-// ta incompleto no swagger
-export interface ProjetosAtrasados {
-  dataAtual: string;
+export interface PrazoVsAtrasos {
+  foraDoPrazo: string;
+  noPrazo: string;
 }
 
 export type ProjetoResponse = PageableResponse<Projetos>;
@@ -47,6 +48,8 @@ export interface ProjetosState {
   readonly isLoading: boolean;
   readonly projetos: Projetos[];
   readonly projetosById: Projetos;
+  readonly projetosPut: Projetos;
   readonly itemProjeto: ItemProjeto[];
-  readonly projetosAtrasados: ProjetosAtrasados[];
+  readonly projetosAtrasados: Projetos[];
+  readonly prazoVsAtrasos: PrazoVsAtrasos;
 }

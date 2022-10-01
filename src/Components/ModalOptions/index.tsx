@@ -3,7 +3,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import DateFnsUtils from '@date-io/date-fns';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import Modal from '@mui/material/Modal';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { BoxStyle, Buttons } from './styles';
@@ -183,15 +186,33 @@ const ModalOptions = ({
           <Form>
             <Grid container spacing={1.2}>
               <Grid item md={12} xs={12}>
-                <FieldsForms component={TextField} name="nome" id="nome" label="Nome" fullWidth />
+                <FieldsForms
+                  component={TextField}
+                  name="nome"
+                  id="nome"
+                  label="Nome"
+                  fullWidth
+                />
               </Grid>
             </Grid>
             <Grid container spacing={1.2}>
               <Grid item md={4} xs={12}>
-                <FieldsForms component={TextField} name="telefone" id="telefone" label="Telefone" fullWidth />
+                <FieldsForms
+                  component={TextField}
+                  name="telefone"
+                  id="telefone"
+                  label="Telefone"
+                  fullWidth
+                />
               </Grid>
               <Grid item md={4} xs={12}>
-                <FieldsForms component={TextField} name="cpf" id="cpf" label="CPF" fullWidth />
+                <FieldsForms
+                  component={TextField}
+                  name="cpf"
+                  id="cpf"
+                  label="CPF"
+                  fullWidth
+                />
               </Grid>
               <Grid item md={4} xs={12}>
                 <FieldsForms
@@ -346,7 +367,13 @@ const ModalOptions = ({
           <Form>
             <Grid container spacing={1.2}>
               <Grid item md={4} xs={12}>
-                <FieldsForms component={TextField} name="itemNome" id="itemNome" label="Nome" fullWidth />
+                <FieldsForms
+                  component={TextField}
+                  name="itemNome"
+                  id="itemNome"
+                  label="Nome"
+                  fullWidth
+                />
               </Grid>
               <Grid item md={4} xs={12}>
                 <FieldsForms
@@ -395,7 +422,13 @@ const ModalOptions = ({
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container spacing={1.2}>
                   <Grid item md={4} xs={12}>
-                    <FieldsForms component={TextField} name="nome" id="nome" label="Nome" fullWidth />
+                    <FieldsForms
+                      component={TextField}
+                      name="nome"
+                      id="nome"
+                      label="Nome"
+                      fullWidth
+                    />
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <FieldsForms
@@ -413,7 +446,7 @@ const ModalOptions = ({
                       id="dataInicial"
                       label="Data Inicial"
                       value={new Date()}
-                      onChange={event => setFieldValue('dataInicial', event)}
+                      onChange={(event) => setFieldValue('dataInicial', event)}
                       fullWidth
                     />
                   </Grid>
@@ -426,7 +459,7 @@ const ModalOptions = ({
                       id="dataVenda"
                       label="Data Venda"
                       value={new Date()}
-                      onChange={event => setFieldValue('dataVenda', event)}
+                      onChange={(event) => setFieldValue('dataVenda', event)}
                       fullWidth
                     />
                   </Grid>
@@ -437,7 +470,7 @@ const ModalOptions = ({
                       id="dataPrevisao"
                       label="Data Prevista"
                       value={new Date()}
-                      onChange={event => setFieldValue('dataPrevisao', event)}
+                      onChange={(event) => setFieldValue('dataPrevisao', event)}
                       fullWidth
                     />
                   </Grid>
@@ -448,7 +481,7 @@ const ModalOptions = ({
                       id="dataEntrega"
                       label="Data Entrega"
                       value={new Date()}
-                      onChange={event => setFieldValue('dataEntrega', event)}
+                      onChange={(event) => setFieldValue('dataEntrega', event)}
                       fullWidth
                     />
                   </Grid>

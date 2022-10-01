@@ -1,14 +1,10 @@
 import { action } from 'typesafe-actions';
-import {
-  ItemProjeto,
-  Projetos,
-  ProjetosAtrasados,
-  ProjetosTypes,
-} from './types';
+import { ItemProjeto } from '../itemProjeto/types';
+import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
 
 interface PayloadForms {
   type: ProjetosTypes;
-  payload: Projetos | Projetos[] | ItemProjeto[] | ProjetosAtrasados[];
+  payload: Projetos | Projetos[] | ItemProjeto[] | PrazoVsAtrasos;
 }
 
 interface ActionType {
@@ -30,20 +26,13 @@ export const getByIdProjetosSuccess = (res: Projetos): ActionType =>
 export const getProjetosAtrasadosRequest = (): ActionType =>
   action(ProjetosTypes.GETPROJETOSATRASADOSREQUEST);
 
-export const getProjetosAtrasadosSuccess = (
-  res: ProjetosAtrasados[]
-): PayloadForms => action(ProjetosTypes.GETPROJETOSATRASADOSSUCCESS, res);
+export const getProjetosAtrasadosSuccess = (res: Projetos[]): PayloadForms =>
+  action(ProjetosTypes.GETPROJETOSATRASADOSSUCCESS, res);
 
-export const getByIdItemProjetosRequest = (request: any): ActionType =>
-  action(ProjetosTypes.GETITEMPROJETOSREQUEST, request);
-
-export const getByIdItemProjetosSuccess = (res: ItemProjeto[]): ActionType =>
-  action(ProjetosTypes.GETITEMPROJETOSSUCCESS, res);
-
-export const postProjetosRequest = (req: Projetos) =>
+export const postProjetosRequest = (req: Projetos): ActionType =>
   action(ProjetosTypes.POSTPROJETOSREQUEST, req);
 
-export const postProjetosSuccess = () =>
+export const postProjetosSuccess = (): ActionType =>
   action(ProjetosTypes.POSTPROJETOSSUCCESS);
 
 export const putProjetosRequest = (req: Projetos): PayloadForms =>
@@ -51,3 +40,28 @@ export const putProjetosRequest = (req: Projetos): PayloadForms =>
 
 export const putProjetosSuccess = (res: Projetos): PayloadForms =>
   action(ProjetosTypes.PUTPROJETOSSUCCESS, res);
+
+export const getGraficoPrazoAtrasadoRequest = (): ActionType =>
+  action(ProjetosTypes.GETPRAZOVSATRASADOSREQUEST);
+
+export const getGraficoPrazoAtrasadoSuccess = (
+  res: PrazoVsAtrasos
+): PayloadForms => action(ProjetosTypes.GETPRAZOVSATRASADOSSUCCESS, res);
+
+export const deleteProjetosRequest = (req: Projetos): PayloadForms =>
+  action(ProjetosTypes.DELETEPROJETOSREQUEST, req);
+
+export const deleteProjetosSuccess = (): ActionType =>
+  action(ProjetosTypes.DELETEPROJETOSSUCCESS);
+
+export const getItemProjetosRequest = (request: any): ActionType =>
+  action(ProjetosTypes.GETITEMPROJETOSREQUEST, request);
+
+export const getItemProjetosSuccess = (res: ItemProjeto[]): ActionType =>
+  action(ProjetosTypes.GETITEMPROJETOSSUCCESS, res);
+
+export const postItemProjetoRequest = (req: ItemProjeto): ActionType =>
+  action(ProjetosTypes.POSTITEMPROJETOREQUEST, req);
+
+export const postItemProjetoSuccess = (): ActionType =>
+  action(ProjetosTypes.POSTITEMPROJETOSUCCESS);

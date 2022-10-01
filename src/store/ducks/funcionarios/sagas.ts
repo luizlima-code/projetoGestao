@@ -2,7 +2,12 @@ import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { FuncionarioService } from '../../../Services/funcionarios/funcionarios';
-import { getByIdFuncionariosSuccess, getFuncionariosSuccess, postFuncionariosSuccess } from './actions';
+import {
+  getByIdFuncionariosSuccess,
+  getFuncionariosSuccess,
+  postFuncionariosSuccess,
+  putFuncionariosSuccess,
+} from './actions';
 import { FuncionariosTypes, Funcionarios } from './types';
 
 interface FuncionariosType {
@@ -20,7 +25,11 @@ interface PayloadFuncionarioSpecific {
   payload: Funcionarios;
 }
 
-export function* getFuncionarios(): Generator<CallEffect<Funcionarios[]> | PutEffect<AnyAction>, void, FuncionariosData> {
+export function* getFuncionarios(): Generator<
+  CallEffect<Funcionarios[]> | PutEffect<AnyAction>,
+  void,
+  FuncionariosData
+> {
   try {
     const response = yield call(FuncionarioService.getFuncionarios);
 
@@ -31,13 +40,18 @@ export function* getFuncionarios(): Generator<CallEffect<Funcionarios[]> | PutEf
   }
 }
 
-export function* getFuncionariosById({ payload }: PayloadFuncionarioSpecific): Generator<
+export function* getFuncionariosById({
+  payload,
+}: PayloadFuncionarioSpecific): Generator<
   CallEffect<Funcionarios> | PutEffect<AnyAction>,
   void,
   FuncionariosType
 > {
   try {
-    const response = yield call(FuncionarioService.getByIdFuncionarios, payload);
+    const response = yield call(
+      FuncionarioService.getByIdFuncionarios,
+      payload
+    );
 
     yield put(getByIdFuncionariosSuccess(response.data));
   } catch (error) {
@@ -46,7 +60,9 @@ export function* getFuncionariosById({ payload }: PayloadFuncionarioSpecific): G
   }
 }
 
-export function* postFuncionarios({ payload }: PayloadFuncionarioSpecific): Generator<
+export function* postFuncionarios({
+  payload,
+}: PayloadFuncionarioSpecific): Generator<
   CallEffect<Funcionarios> | PutEffect<AnyAction>,
   void,
   Funcionarios
@@ -59,5 +75,45 @@ export function* postFuncionarios({ payload }: PayloadFuncionarioSpecific): Gene
   } catch (error) {
     console.error(error);
     toast.error('Erro ao cadastrar funcionario');
+  }
+}
+
+export function* putFuncionarios({
+  payload,
+}: PayloadFuncionarioSpecific): Generator<
+  CallEffect<Funcionarios> | PutEffect<AnyAction>,
+  void,
+  FuncionariosData
+> {
+  try {
+    const response = yield call(
+      FuncionarioService.putFuncionarios,
+      payload.id!,
+      payload
+    );
+
+    yield put(putFuncionariosSuccess(response.data));
+    toast.success('Funcionario editado com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao editar funcionario');
+  }
+}
+
+export function* deleteFuncionarios({
+  payload,
+}: PayloadFuncionarioSpecific): Generator<
+  CallEffect<Funcionarios> | PutEffect<AnyAction>,
+  void
+> {
+  try {
+    yield call(FuncionarioService.deleteFuncionarios, payload);
+
+    toast.success('Funcionario excluido com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao excluir funcionario');
   }
 }

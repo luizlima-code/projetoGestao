@@ -1,4 +1,4 @@
-import { PageableResponse } from "../../../config/types";
+import { PageableResponse } from '../../../config/types';
 
 export enum ClientesTypes {
   GETCLIENTESREQUEST = '@clientes/GET_CLIENTES_REQUEST',
@@ -9,6 +9,8 @@ export enum ClientesTypes {
   POSTCLIENTESSUCCESS = '@clientes/POST_CLIENTES_SUCCESS',
   PUTCLIENTESREQUEST = '@clientes/PUT_CLIENTES_REQUEST',
   PUTCLIENTESSUCCESS = '@clientes/PUT_CLIENTES_SUCCESS',
+  DELETECLIENTESREQUEST = '@clientes/DELETE_CLIENTES_REQUEST',
+  DELETECLIENTESSUCCESS = '@clientes/DELETE_CLIENTES_SUCCESS',
 }
 
 export interface Clientes {
@@ -25,4 +27,5 @@ export interface ClientesState {
   readonly isLoading: boolean;
   readonly clientes: Clientes[];
   readonly clientesById: Clientes;
+  readonly clientesPut: Clientes;
 }

@@ -22,13 +22,20 @@ export const getByIdEtapasRequest = (request: any): ActionType =>
 export const getByIdEtapasSuccess = (res: Etapas): ActionType =>
   action(EtapasTypes.GETBYIDETAPASSUCCESS, res);
 
-export const postEtapasRequest = (req: Etapas) =>
+export const postEtapasRequest = (req: Etapas): ActionType =>
   action(EtapasTypes.POSTETAPASREQUEST, req);
 
-export const postEtapasSuccess = () => action(EtapasTypes.POSTETAPASSUCCESS);
+export const postEtapasSuccess = (): ActionType =>
+  action(EtapasTypes.POSTETAPASSUCCESS);
 
 export const putEtapasRequest = (req: Etapas): PayloadForms =>
   action(EtapasTypes.PUTETAPASREQUEST, req);
 
 export const putEtapasSuccess = (res: Etapas): PayloadForms =>
   action(EtapasTypes.PUTETAPASSUCCESS, res);
+
+export const deleteProjetosRequest = (req: Etapas): PayloadForms =>
+  action(EtapasTypes.DELETEETAPASREQUEST, req);
+
+export const deleteProjetosSuccess = (): ActionType =>
+  action(EtapasTypes.DELETEETAPASSUCCESS);

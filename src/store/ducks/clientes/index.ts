@@ -1,10 +1,16 @@
 import { Reducer } from 'redux';
-import { ClientesTypes, Clientes, ClientesState } from './types';
+import { ClientesTypes, ClientesState } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
   clientes: [],
   clientesById: {
+    nome: '',
+    email: '',
+    cpf: '',
+    telefone: '',
+  },
+  clientesPut: {
     nome: '',
     email: '',
     cpf: '',
@@ -58,7 +64,17 @@ const reducer: Reducer<ClientesState> = (
       return {
         ...state,
         isLoading: false,
-        clientes: action.payload,
+        clientesPut: action.payload,
+      };
+    case ClientesTypes.DELETECLIENTESREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ClientesTypes.DELETECLIENTESSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import { PageableResponse } from "../../../config/types";
+import { PageableResponse } from '../../../config/types';
 
 export enum EtapasTypes {
   GETETAPASREQUEST = '@etapas/GET_ETAPAS_REQUEST',
@@ -9,6 +9,8 @@ export enum EtapasTypes {
   POSTETAPASSUCCESS = '@etapas/POST_ETAPAS_SUCCESS',
   PUTETAPASREQUEST = '@etapas/PUT_ETAPAS_REQUEST',
   PUTETAPASSUCCESS = '@etapas/PUT_ETAPAS_SUCCESS',
+  DELETEETAPASREQUEST = '@etapas/DELETE_ETAPAS_REQUEST',
+  DELETEETAPASSUCCESS = '@etapas/DELETE_ETAPAS_SUCCESS',
 }
 
 export interface Etapas {
@@ -23,4 +25,5 @@ export interface EtapasState {
   readonly isLoading: boolean;
   readonly etapas: Etapas[];
   readonly etapasById: Etapas;
+  readonly etapasPut: Etapas;
 }

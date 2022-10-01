@@ -10,4 +10,6 @@ export const FuncionarioService = {
     apiDefault.post(`/planner/funcionario`, data),
   putFuncionarios: (id: string, form: Funcionarios): Promise<Funcionarios> =>
     apiDefault.put(`/planner/funcionario/${id}`, form),
+  deleteFuncionarios: (id: Funcionarios): Promise<Funcionarios> =>
+    apiDefault.delete(`/planner/funcionarios/${id}`),
 };
