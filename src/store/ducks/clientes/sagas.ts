@@ -6,6 +6,7 @@ import {
   getByIdClientesSuccess,
   getClientesSuccess,
   postClientesSuccess,
+  putClientesSuccess,
 } from './actions';
 import { Clientes, ClientesTypes } from './types';
 
@@ -71,5 +72,45 @@ export function* postClientes({
   } catch (error) {
     console.error(error);
     toast.error('Erro ao cadastrar cliente');
+  }
+}
+
+export function* putClientes({
+  payload,
+}: PayloadClientesSpecific): Generator<
+  CallEffect<Clientes> | PutEffect<AnyAction>,
+  void,
+  ClientesData
+> {
+  try {
+    const response = yield call(
+      ClientesService.putClientes,
+      payload.id!,
+      payload
+    );
+
+    yield put(putClientesSuccess(response.data));
+    toast.success('Cliente editado com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao editar cliente');
+  }
+}
+
+export function* deleteClientes({
+  payload,
+}: PayloadClientesSpecific): Generator<
+  CallEffect<Clientes> | PutEffect<AnyAction>,
+  void
+> {
+  try {
+    yield call(ClientesService.deleteClientes, payload);
+
+    toast.success('Cliente excluido com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao excluir cliente');
   }
 }

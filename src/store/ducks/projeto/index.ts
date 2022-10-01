@@ -1,12 +1,12 @@
 import { Reducer } from 'redux';
-import { ProjetosTypes, Projetos, ProjetosState } from './types';
+import { ProjetosTypes, ProjetosState } from './types';
 
 const Clientes = {
   nome: '',
   email: '',
   cpf: '',
   telefone: '',
-}
+};
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -22,6 +22,19 @@ const INITIAL_STATE = {
   },
   itemProjeto: [],
   projetosAtrasados: [],
+  prazoVsAtrasos: {
+    foraDoPrazo: '',
+    noPrazo: '',
+  },
+  projetosPut: {
+    cliente: Clientes,
+    dataEntrega: new Date().toISOString(),
+    dataPrevisao: new Date().toISOString(),
+    dataVenda: new Date().toISOString(),
+    dataInicial: new Date().toISOString(),
+    descricao: '',
+    nome: '',
+  },
 };
 
 const reducer: Reducer<ProjetosState> = (
@@ -38,7 +51,7 @@ const reducer: Reducer<ProjetosState> = (
       return {
         ...state,
         isLoading: false,
-        clientes: action.payload,
+        projetos: action.payload,
       };
     case ProjetosTypes.GETBYIDPROJETOSREQUEST:
       return {
@@ -49,7 +62,7 @@ const reducer: Reducer<ProjetosState> = (
       return {
         ...state,
         isLoading: false,
-        clientesById: action.payload,
+        projetosById: action.payload,
       };
     case ProjetosTypes.POSTPROJETOSREQUEST:
       return {
@@ -70,7 +83,17 @@ const reducer: Reducer<ProjetosState> = (
       return {
         ...state,
         isLoading: false,
-        clientes: action.payload,
+        projetosPut: action.payload,
+      };
+    case ProjetosTypes.DELETEPROJETOSREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ProjetosTypes.DELETEPROJETOSSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     case ProjetosTypes.GETPROJETOSATRASADOSREQUEST:
       return {
@@ -81,7 +104,18 @@ const reducer: Reducer<ProjetosState> = (
       return {
         ...state,
         isLoading: false,
-        clientes: action.payload,
+        projetosAtrasados: action.payload,
+      };
+    case ProjetosTypes.GETPRAZOVSATRASADOSREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ProjetosTypes.GETPRAZOVSATRASADOSSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        prazoVsAtrasos: action.payload,
       };
     case ProjetosTypes.GETITEMPROJETOSREQUEST:
       return {
@@ -92,7 +126,17 @@ const reducer: Reducer<ProjetosState> = (
       return {
         ...state,
         isLoading: false,
-        clientesById: action.payload,
+        itemProjeto: action.payload,
+      };
+    case ProjetosTypes.POSTITEMPROJETOREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ProjetosTypes.POSTITEMPROJETOSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

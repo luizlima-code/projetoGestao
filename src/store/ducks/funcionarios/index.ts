@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { FuncionariosTypes, Funcionarios, FuncionariosState } from './types';
+import { FuncionariosTypes, FuncionariosState } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -8,58 +8,77 @@ const INITIAL_STATE = {
     nome: '',
     email: '',
     cpf: '',
-    telefone: ''
-  }
-}
+    telefone: '',
+  },
+  funcionarioPut: {
+    nome: '',
+    email: '',
+    cpf: '',
+    telefone: '',
+  },
+};
 
-const reducer: Reducer<FuncionariosState> = (state = INITIAL_STATE, action: any) => {
+const reducer: Reducer<FuncionariosState> = (
+  state = INITIAL_STATE,
+  action: any
+) => {
   switch (action.type) {
     case FuncionariosTypes.GETFUNCIONARIOSREQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case FuncionariosTypes.GETFUNCIONARIOSSUCCESS:
       return {
         ...state,
         isLoading: false,
-        funcionarios: action.payload
+        funcionarios: action.payload,
       };
     case FuncionariosTypes.GETBYIDFUNCIONARIOSREQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case FuncionariosTypes.GETBYIDFUNCIONARIOSSUCCESS:
       return {
         ...state,
         isLoading: false,
-        funcionarioById: action.payload
+        funcionarioById: action.payload,
       };
     case FuncionariosTypes.POSTFUNCIONARIOSREQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case FuncionariosTypes.POSTFUNCIONARIOSSUCCESS:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
       };
     case FuncionariosTypes.PUTFUNCIONARIOSREQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case FuncionariosTypes.PUTFUNCIONARIOSSUCCESS:
       return {
         ...state,
         isLoading: false,
-        funcionarios: action.payload
+        funcionarios: action.payload,
+      };
+    case FuncionariosTypes.DELETEFUNCIONARIOSREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FuncionariosTypes.DELETEFUNCIONARIOSSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;
   }
-}
+};
 
 export default reducer;

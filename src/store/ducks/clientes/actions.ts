@@ -22,10 +22,10 @@ export const getByIdClientesRequest = (request: any): ActionType =>
 export const getByIdClientesSuccess = (res: Clientes): ActionType =>
   action(ClientesTypes.GETBYIDCLIENTESSUCCESS, res);
 
-export const postClientesRequest = (req: Clientes) =>
+export const postClientesRequest = (req: Clientes): ActionType =>
   action(ClientesTypes.POSTCLIENTESREQUEST, req);
 
-export const postClientesSuccess = () =>
+export const postClientesSuccess = (): ActionType =>
   action(ClientesTypes.POSTCLIENTESSUCCESS);
 
 export const putClientesRequest = (req: Clientes): PayloadForms =>
@@ -33,3 +33,9 @@ export const putClientesRequest = (req: Clientes): PayloadForms =>
 
 export const putClientesSuccess = (res: Clientes): PayloadForms =>
   action(ClientesTypes.PUTCLIENTESSUCCESS, res);
+
+export const deleteEtapaProjetoRequest = (req: Clientes): ActionType =>
+  action(ClientesTypes.DELETECLIENTESREQUEST, req);
+
+export const deleteEtapaProjetoSuccess = (): ActionType =>
+  action(ClientesTypes.DELETECLIENTESSUCCESS);

@@ -6,6 +6,7 @@ import {
   getByIdEtapasSuccess,
   getEtapasSuccess,
   postEtapasSuccess,
+  putEtapasSuccess,
 } from './actions';
 import { Etapas, EtapasTypes } from './types';
 
@@ -71,5 +72,41 @@ export function* postEtapas({
   } catch (error) {
     console.error(error);
     toast.error('Erro ao cadastrar etapa');
+  }
+}
+
+export function* putEtapas({
+  payload,
+}: PayloadEtapasSpecific): Generator<
+  CallEffect<Etapas> | PutEffect<AnyAction>,
+  void,
+  EtapasData
+> {
+  try {
+    const response = yield call(EtapasService.putEtapas, payload.id!, payload);
+
+    yield put(putEtapasSuccess(response.data));
+    toast.success('Etapa editado com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao editar etapa');
+  }
+}
+
+export function* deleteEtapas({
+  payload,
+}: PayloadEtapasSpecific): Generator<
+  CallEffect<Etapas> | PutEffect<AnyAction>,
+  void
+> {
+  try {
+    yield call(EtapasService.deleteEtapas, payload);
+
+    toast.success('Etapa excluido com sucesso');
+  } catch (error) {
+    console.error(error);
+    console.log(payload);
+    toast.error('Erro ao excluir etapa');
   }
 }

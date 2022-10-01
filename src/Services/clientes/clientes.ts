@@ -9,4 +9,6 @@ export const ClientesService = {
     apiDefault.post(`/planner/cliente`, data),
   putClientes: (id: string, form: Clientes): Promise<Clientes> =>
     apiDefault.put(`/planner/cliente/${id}`, form),
+  deleteClientes: (id: Clientes): Promise<Clientes> =>
+    apiDefault.delete(`/planner/cliente/${id}`),
 };
