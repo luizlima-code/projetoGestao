@@ -9,4 +9,6 @@ export const EtapasService = {
     apiDefault.post(`/planner/etapa`, data),
   putEtapas: (id: string, form: Etapas): Promise<Etapas> =>
     apiDefault.put(`/planner/etapa/${id}`, form),
+  deleteEtapas: (id: Etapas): Promise<Etapas> =>
+    apiDefault.delete(`/planner/etapa/${id}`),
 };

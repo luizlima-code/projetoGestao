@@ -1,10 +1,14 @@
 import { Reducer } from 'redux';
-import { EtapasTypes, Etapas, EtapasState } from './types';
+import { EtapasTypes, EtapasState } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
   etapas: [],
   etapasById: {
+    nome: '',
+    descricao: '',
+  },
+  etapasPut: {
     nome: '',
     descricao: '',
   },
@@ -21,7 +25,7 @@ const reducer: Reducer<EtapasState> = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         isLoading: false,
-        ETAPAS: action.payload,
+        etapas: action.payload,
       };
     case EtapasTypes.GETBYIDETAPASREQUEST:
       return {
@@ -53,7 +57,17 @@ const reducer: Reducer<EtapasState> = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         isLoading: false,
-        etapas: action.payload,
+        etapasPut: action.payload,
+      };
+    case EtapasTypes.DELETEETAPASREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EtapasTypes.DELETEETAPASSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

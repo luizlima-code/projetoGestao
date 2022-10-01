@@ -7,11 +7,16 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { conformToMask } from 'react-text-mask';
 import { TableContainer, TablePagination, useMediaQuery } from '@mui/material';
-import { FuncionariosResponse } from '../../../store/ducks/funcionarios/types';
+import {
+  FuncionariosResponse,
+  Funcionarios,
+} from '../../../store/ducks/funcionarios/types';
 import { ClientesResponse } from '../../../store/ducks/clientes/types';
 import { EtapasResponse } from '../../../store/ducks/etapas/types';
 import { ProjetoResponse } from '../../../store/ducks/projeto/types';
+import { maskFormateCpfCnpj } from '../../../config/masks/cpf_cnpj_mask';
 
 function createData(
   name: string,
@@ -49,10 +54,11 @@ interface OwnProps {
   handleFilter: (filter: any) => void;
   tipoFiltro: string;
   headers: Array<string>;
-  data?: FuncionariosResponse |
-  ClientesResponse |
-  EtapasResponse |
-  ProjetoResponse;
+  data?:
+    | FuncionariosResponse
+    | ClientesResponse
+    | EtapasResponse
+    | ProjetoResponse;
 }
 
 type Props = OwnProps;
@@ -63,28 +69,43 @@ const TableData = (props: Props): React.ReactElement => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const isMobile = useMediaQuery('(max-width:959px)');
 
+  const formatCpfCnpj = (cpfCnpj: string) => {
+    return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
+  };
+
+  // const rows = data?.content?.map((row) => ({
+  //   ...row,
+  //   // id: row.id,
+  //   nome: row.nome,
+  //   cliente: {
+  //     id: row.cliente.id,
+  //     nome: row.id,
+  //     cpf: formatCpfCnpj(row.cliente.cpf),
+  //     email: row.cliente.email,
+  //     telefone: row.cliente.telefone,
+  //   },
+  //   dataEntrega: row.dataEntrega,
+  //   dataInicial: row.dataInicial,
+  //   dataPrevisao: row.dataPrevisao,
+  //   dataVenda: row.dataVenda,
+  //   descricao: row.descricao,
+  // }));
 
   // const rows = data?.content?.map(row => ({
   //   ...row,
-  //   id: row.transactionId,
-  //   transactionTypeDescription: getTransactionTypesTranslation(
-  //     row?.transactionType
-  //   ),
-  //   transactionStatusDescription: getTransactionStatusTranslation(
-  //     row?.transactionStatus
-  //   ),
-  //   mipStatusDescription: row?.mipStatus?.description || '',
-  //   dateTime: formatDate(row?.dateTime, true),
-  //   payerBranchAccount: `${row?.payerDetails?.branch || ''}/${row?.payerDetails
-  //     ?.account || ''}`,
-  //   payerName: row?.payerDetails?.name || '',
-  //   payerTaxId: formatCpfCnpj(row?.payerDetails?.taxId) || '',
-  //   receiverName: row?.receiverDetails?.name || '',
-  //   receiverTaxId: formatCpfCnpj(row?.receiverDetails?.taxId) || '',
-  //   actions: action(row.transactionId),
-  //   amount: formatCurrency(parseFloat(row.amount)),
-  //   checkDisabled: !row.canBeReprocessed,
+  //   id: row.id,
+  //   nome: row.nome,
+  //   cpf: formatCpfCnpj(row.cpf),
+  //   email: row.email,
+  //   telefone: row.telefone
   // }));
+
+  //  const rows = data?.content?.map(row => ({
+  //    ...row,
+  //    // id: row.id,
+  //    nome: row.nome,
+  //    descricao: row.descricao,
+  //  }));
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
