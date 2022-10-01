@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import apiDefault from '../Services/api';
+import { apiDefault } from '../Services/api';
 
 interface AuthContextData {
   token: string;

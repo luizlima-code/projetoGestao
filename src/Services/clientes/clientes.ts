@@ -1,5 +1,5 @@
 import { Clientes } from '../../store/ducks/clientes/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const ClientesService = {
   getClientes: (): Promise<Clientes[]> => apiDefault.get(`/planner/cliente`),
