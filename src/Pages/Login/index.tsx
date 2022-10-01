@@ -2,7 +2,6 @@ import { display } from '@mui/system';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from '../../Components/Dashboard';
 import apiLoginDefault from '../../Services/apiLogin';
 
 import {
@@ -44,7 +43,7 @@ const Login: React.FC = () => {
   const handleLogin = async (values: LoginTypes, setSubmitting: Function) => {
     const response = await loginUser(values);
     setSubmitting();
-    navigate("/");
+    navigate("/home");
   }
 
   return (
@@ -59,7 +58,7 @@ const Login: React.FC = () => {
               handleLogin(values, setSubmitting);
             }}
           >
-            <Form>
+            <Form className='formsEdit'>
               <Input placeholder="email" id="email" name="email" />
               <Input
                 placeholder="senha"

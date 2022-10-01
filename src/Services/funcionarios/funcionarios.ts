@@ -1,5 +1,5 @@
 import { Funcionarios } from '../../store/ducks/funcionarios/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const FuncionarioService = {
   getFuncionarios: (): Promise<Funcionarios[]> =>

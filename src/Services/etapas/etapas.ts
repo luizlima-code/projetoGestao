@@ -1,5 +1,5 @@
 import { Etapas } from '../../store/ducks/etapas/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const EtapasService = {
   getEtapas: (): Promise<Etapas[]> => apiDefault.get(`/planner/etapa`),

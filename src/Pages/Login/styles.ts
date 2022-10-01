@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const ContainerContent = styled.div`
   width: 70%;
-  height: 70%;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,20 +39,30 @@ export const MainContent = styled.div`
 
   padding: 10px;
 
+  .formsEdit {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   @media only screen and (max-width: 959px) {
-    width: 95% !important;
+    width: 90% !important;
     height: 80%;
   }
 `;
 
 // TODO: Colocar responsividade nos inputs
 export const Input = styled(Field)`
-  width: 90%;
-  margin: 0 18px 18px 18px;
+  width: 100%;
   padding-left: 10px;
   border-radius: 16px;
   height: 50px;
   border: none;
+
+  :first-child {
+    margin-bottom: 20px;
+  }
 
   align-items: center;
 `;
@@ -63,11 +73,10 @@ export const ButtonLogin = styled.button`
   border-radius: 16px;
   transition: all 0.4s;
   font-weight: 600;
-
-  margin: 0 32%;
+  margin-top: 20px;
 
   @media only screen and (max-width: 959px) {
-    margin: 0 30%;
+    margin-top: 20px;
   }
 
   :hover {

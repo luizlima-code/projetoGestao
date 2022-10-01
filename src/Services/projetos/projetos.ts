@@ -3,7 +3,7 @@ import {
   ProjetosAtrasados,
   ItemProjeto,
 } from '../../store/ducks/projeto/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const ProjetosService = {
   getProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
