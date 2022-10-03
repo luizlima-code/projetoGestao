@@ -34,7 +34,7 @@ export interface EtapaProjeto {
         id?: string;
         observacao: string;
         percentualConcluido: string;
-      }
+      }?
     ];
     id?: string;
     nome: string;

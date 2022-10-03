@@ -4,7 +4,7 @@ import funcionarios from './funcionarios';
 import projeto from './projeto';
 import clientes from './clientes';
 import etapas from './etapas';
-import etapaProjeto from './etapaProjeto';
+// import etapaProjeto from './etapaProjeto';
 import itemProjeto from './itemProjeto';
 
 const rootReducer = combineReducers({
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   projeto,
   clientes,
   etapas,
-  etapaProjeto,
+  // etapaProjeto,
   itemProjeto,
 });
 

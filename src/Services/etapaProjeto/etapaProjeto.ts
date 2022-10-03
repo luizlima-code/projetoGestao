@@ -2,7 +2,7 @@ import {
   AgendaDiaEAtrasados,
   EtapaProjeto,
 } from '../../store/ducks/etapaProjeto/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const EtapaProjetoService = {
   getEtapaProjeto: (): Promise<EtapaProjeto[]> =>
