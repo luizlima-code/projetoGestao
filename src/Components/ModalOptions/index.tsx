@@ -45,11 +45,19 @@ interface ProjetoTypes {
   descricao: string;
 }
 
+interface PropsTypes {
+  openModal: boolean;
+  setOpenModal: (boolean: boolean) => void;
+  title: string;
+  id?: string;
+}
+
 const ModalOptions = ({
   openModal,
   setOpenModal,
   title,
-}: any): React.ReactElement => {
+  id,
+}: PropsTypes): React.ReactElement => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
 
@@ -126,7 +134,7 @@ const ModalOptions = ({
           {title}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-          Cadastrar {title}
+          {id ? `Editar ` : `Cadastrar `} {title}
         </Typography>
       </Grid>
       {isMobile ? null : (

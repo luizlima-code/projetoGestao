@@ -25,7 +25,7 @@ export type ClientesResponse = PageableResponse<Clientes>;
 
 export interface ClientesState {
   readonly isLoading: boolean;
-  readonly clientes: Clientes[];
+  readonly clientes: ClientesResponse;
   readonly clientesById: Clientes;
   readonly clientesPut: Clientes;
 }

@@ -7,8 +7,9 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import ModalOptions from '../../../Components/ModalOptions';
 import { conformToMask } from 'react-text-mask';
-import { TableContainer, TablePagination, useMediaQuery } from '@mui/material';
+import { IconButton, TableContainer, TablePagination, Tooltip, useMediaQuery } from '@mui/material';
 import {
   FuncionariosResponse,
   Funcionarios,
@@ -17,48 +18,23 @@ import { ClientesResponse } from '../../../store/ducks/clientes/types';
 import { EtapasResponse } from '../../../store/ducks/etapas/types';
 import { ProjetoResponse } from '../../../store/ducks/projeto/types';
 import { maskFormateCpfCnpj } from '../../../config/masks/cpf_cnpj_mask';
+import { Delete, Edit } from '@mui/icons-material';
 
-function createData(
-  name: string,
-  calories: number,
-  carbs: number,
-  protein: number,
-  novo?: number
-) {
-  return { name, calories, carbs, protein, novo };
+
+interface ClientesTypes {
+  id?: string;
+  nome: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+  actions?: () => void;
 }
-
-const rows = [
-  createData('aFrozen yoghurt', 159, 24, 4.0),
-  createData('bIce cream sandwich', 237, 37, 4.3),
-  createData('cEclair', 262, 24, 6.0),
-  createData('dFrozen yoghurt', 159, 24, 4.0),
-  createData('eIce cream sandwich', 237, 37, 4.3),
-  createData('fEclair', 262, 24, 6.0),
-  createData('gFrozen yoghurt', 159, 24, 4.0),
-  createData('hIce cream sandwich', 237, 37, 4.3),
-  createData('iEclair', 262, 24, 6.0),
-  createData('kIce cream sandwich', 237, 37, 4.3),
-  createData('lEclair', 262, 24, 6.0),
-  createData('jFrozen yoghurt', 159, 24, 4.0),
-  createData('mIce cream sandwich', 237, 37, 4.3),
-  createData('nEclair', 262, 24, 6.0),
-  createData('oIce cream sandwich', 237, 37, 4.3),
-  createData('qEclair', 262, 24, 6.0),
-  createData('yFrozen yoghurt', 159, 24, 4.0),
-  createData('xIce cream sandwich', 237, 37, 4.3),
-  createData('zEclair', 262, 24, 6.0),
-];
 
 interface OwnProps {
   handleFilter: (filter: any) => void;
   tipoFiltro: string;
   headers: Array<string>;
-  data?:
-    | FuncionariosResponse
-    | ClientesResponse
-    | EtapasResponse
-    | ProjetoResponse;
+  data?: ClientesResponse;
 }
 
 type Props = OwnProps;
@@ -69,8 +45,53 @@ const TableData = (props: Props): React.ReactElement => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const isMobile = useMediaQuery('(max-width:959px)');
 
+  const [open, setOpen] = React.useState(true);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [title, setTitle] = React.useState('');
+  const [idDoModal, setIdDoModal] = React.useState('');
+  const handleOpen = () => setOpenModal(true);
+
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
+  };
+
+  const handleOpenModalOptions = (title: string, id: string) => {
+    handleOpen();
+    setTitle(title);
+    setIdDoModal(id);
+  };
+
+  const handleEditConfig = (configId: string) => {
+    handleOpenModalOptions('Cliente', configId);
+  };
+
+  // caso a parte
+  const handleOpenConfirmDelete = (configId: string) => {
+    setOpen(true);
+    // setIdDelete(configId);
+  };
+
+  const action = (configId: any) => {
+    return (
+      <>
+        <Tooltip title='Editar' aria-label="edit">
+          <IconButton
+            color="primary"
+            onClick={() => handleEditConfig(configId)}
+          >
+            <Edit />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Deletar' aria-label="delete">
+          <IconButton
+            color="primary"
+            onClick={() => handleOpenConfirmDelete(configId)}
+          >
+            <Delete />
+          </IconButton>
+        </Tooltip>
+      </>
+    );
   };
 
   // const rows = data?.content?.map((row) => ({
@@ -91,14 +112,14 @@ const TableData = (props: Props): React.ReactElement => {
   //   descricao: row.descricao,
   // }));
 
-  // const rows = data?.content?.map(row => ({
-  //   ...row,
-  //   id: row.id,
-  //   nome: row.nome,
-  //   cpf: formatCpfCnpj(row.cpf),
-  //   email: row.email,
-  //   telefone: row.telefone
-  // }));
+  const rows = data?.content?.map((row: ClientesTypes) => ({
+    ...row,
+    nome: row.nome,
+    cpf: formatCpfCnpj(row.cpf),
+    email: row.email,
+    telefone: row.telefone,
+    actions: action(row.id),
+  }));
 
   //  const rows = data?.content?.map(row => ({
   //    ...row,
@@ -107,7 +128,10 @@ const TableData = (props: Props): React.ReactElement => {
   //    descricao: row.descricao,
   //  }));
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
 
@@ -121,84 +145,134 @@ const TableData = (props: Props): React.ReactElement => {
   const heightTable = isMobile ? 950 : '60vh';
 
   return (
-    <Container>
-      <TableContainer
-        component={Paper}
-        sx={{
-          borderRadius: 4,
-          maxHeight: heightTable,
-        }}
-      >
-        <Table stickyHeader size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell
-                sx={{
-                  backgroundColor: '#00b4d8',
-                  color: 'white',
-                  fontSize: 20,
-                  border: 'none',
-                }}
-              >
-                {tipoFiltro}
-              </TableCell>
-              {headers.map((header) => (
+    <>
+      <Container>
+        <TableContainer
+          component={Paper}
+          sx={{
+            borderRadius: 4,
+            maxHeight: heightTable,
+          }}
+        >
+          <Table stickyHeader size="small">
+            <TableHead>
+              <TableRow>
                 <TableCell
                   align="center"
                   sx={{
-                    border: 'none',
                     backgroundColor: '#00b4d8',
                     color: 'white',
-                    fontSize: 18,
+                    fontSize: 20,
+                    border: 'none',
                   }}
                 >
-                  {header}
+                  ID
                 </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow
-                  key={row.name}
+                <TableCell
+                  align="center"
                   sx={{
-                    '&:last-child td, &:last-child th': { border: 0 },
+                    backgroundColor: '#00b4d8',
+                    color: 'white',
+                    fontSize: 20,
+                    border: 'none',
                   }}
                 >
-                  {Object.values(row).map((object) => (
-                    <TableCell
-                      align="center"
-                      sx={{
-                        ':first-child': {
-                          textAlign: 'initial',
-                        },
-                        fontSize: 16,
-                      }}
-                    >
-                      {object}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        labelRowsPerPage="Quantidade:"
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`
-        }
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+                  Nome
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    backgroundColor: '#00b4d8',
+                    color: 'white',
+                    fontSize: 20,
+                    border: 'none',
+                  }}
+                >
+                  CPF
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    backgroundColor: '#00b4d8',
+                    color: 'white',
+                    fontSize: 20,
+                    border: 'none',
+                  }}
+                >
+                  Email
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    backgroundColor: '#00b4d8',
+                    color: 'white',
+                    fontSize: 20,
+                    border: 'none',
+                  }}
+                >
+                  Telefone
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    backgroundColor: '#00b4d8',
+                    color: 'white',
+                    fontSize: 20,
+                    border: 'none',
+                  }}
+                >
+                  Ações
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: any) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                    }}
+                  >
+                    {Object.values(row).map((object: any) => (
+                      <TableCell
+                        align="center"
+                        sx={{
+                          ':first-child': {
+                            textAlign: 'initial',
+                          },
+                          fontSize: 16,
+                        }}
+                      >
+                        {object}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          labelRowsPerPage="Quantidade:"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`
+          }
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows ? rows.length : 0}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Container>
+      <ModalOptions
+        title={title}
+        id={idDoModal}
+        openModal={openModal}
+        setOpenModal={(e: boolean) => setOpenModal(e)}
       />
-    </Container>
+    </>
   );
 };
 

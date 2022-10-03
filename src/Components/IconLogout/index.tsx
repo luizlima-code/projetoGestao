@@ -11,8 +11,10 @@ import {
   ListItemIcon,
   useMediaQuery,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const IconLogout: React.FC = ({ direction, ...args }: any) => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -79,7 +81,7 @@ const IconLogout: React.FC = ({ direction, ...args }: any) => {
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem onClick={() => navigate("/")}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

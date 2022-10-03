@@ -33,7 +33,7 @@ export function* getClientes(): Generator<
   try {
     const response = yield call(ClientesService.getClientes);
 
-    yield put(getClientesSuccess(response.data.content));
+    yield put(getClientesSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar clientes');
