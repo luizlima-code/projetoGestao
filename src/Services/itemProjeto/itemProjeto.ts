@@ -1,6 +1,6 @@
 import { EtapaProjeto } from '../../store/ducks/etapaProjeto/types';
 import { ItemProjeto } from '../../store/ducks/itemProjeto/types';
-import apiDefault from '../api';
+import { apiDefault } from '../api';
 
 export const ItemProjetoService = {
   getItemProjeto: (): Promise<ItemProjeto[]> =>

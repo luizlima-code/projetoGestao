@@ -18,19 +18,6 @@ const Projetos = {
   nome: '',
 };
 
-const Funcionarios = {
-  nome: '',
-  email: '',
-  cpf: '',
-  telefone: '',
-};
-
-const ItemProjeto = {
-  codigo: '',
-  nome: '',
-  projeto: Projetos,
-};
-
 const INITIAL_STATE = {
   isLoading: false,
   itemProjetos: [],
@@ -44,27 +31,7 @@ const INITIAL_STATE = {
     nome: '',
     projeto: Projetos,
   },
-  etapaProjetoByIdItem: {
-    dataEntrega: '',
-    dataPrevisao: '',
-    etapa: {
-      descricao: '',
-      desempenhos: [
-        {
-          data: '',
-          funcionario: Funcionarios,
-          id: '',
-          observacao: '',
-          percentualConcluido: '',
-        },
-      ],
-      id: '',
-      nome: '',
-    },
-    id: '',
-    itemProjeto: ItemProjeto,
-    percentualConcluido: '',
-  },
+  etapaProjetoByIdItem: [],
 };
 
 const reducer: Reducer<ItemProjetoState> = (
