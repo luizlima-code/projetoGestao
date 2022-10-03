@@ -1,11 +1,10 @@
 export interface Pageable {
   pageNumber: number;
   pageSize: number;
-  totalElements: number;
-  totalPages: number;
   offset: number;
   unpaged: boolean;
   paged: boolean;
+  sort: Sort;
 }
 
 export interface Sort {
