@@ -10,6 +10,7 @@ import {
 } from './funcionarios/sagas';
 import { FuncionariosTypes } from './funcionarios/types';
 import {
+  getGraficoPrazoAtrasado,
   getItemProjeto,
   getProjetos,
   getProjetosAtrasados,
@@ -40,6 +41,10 @@ export function* rootSaga(): Generator {
     takeLatest(ProjetosTypes.GETBYIDPROJETOSREQUEST, getProjetosById),
     takeLatest(ProjetosTypes.GETITEMPROJETOSREQUEST, getItemProjeto),
     takeLatest(ProjetosTypes.GETPROJETOSATRASADOSREQUEST, getProjetosAtrasados),
+    takeLatest(
+      ProjetosTypes.GETPRAZOVSATRASADOSREQUEST,
+      getGraficoPrazoAtrasado
+    ),
     takeLatest(ProjetosTypes.POSTPROJETOSREQUEST, postProjetos),
   ]);
 }

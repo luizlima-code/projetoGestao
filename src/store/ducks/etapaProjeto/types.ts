@@ -1,5 +1,5 @@
 import { PageableResponse } from '../../../config/types';
-import { Funcionarios } from '../funcionarios/types';
+import { Etapas } from '../etapas/types';
 import { ItemProjeto } from '../itemProjeto/types';
 
 export enum EtapaProjetoTypes {
@@ -22,23 +22,39 @@ export enum EtapaProjetoTypes {
   GETDIAETAPAPROJETOSUCCESS = '@etapaProjeto/GET_DIA_ETAPA_PROJETO_SUCCESS',
 }
 
+// export interface EtapaProjeto {
+//   dataEntrega: string;
+//   dataPrevisao: string;
+//   etapa: {
+//     descricao: string;
+//     desempenhos: [
+//       {
+//         data: string;
+//         funcionario: {
+//           cpf: string;
+//           email: string;
+//           id: string;
+//           nome: string;
+//           perfis: [string];
+//           telefone: string;
+//         };
+//         id?: string;
+//         observacao: string;
+//         percentualConcluido: string;
+//       }
+//     ];
+//     id?: string;
+//     nome: string;
+//   };
+//   id?: string;
+//   itemProjeto: ItemProjeto;
+//   percentualConcluido: string;
+// }
+
 export interface EtapaProjeto {
   dataEntrega: string;
   dataPrevisao: string;
-  etapa: {
-    descricao: string;
-    desempenhos: [
-      {
-        data: string;
-        funcionario: Funcionarios;
-        id?: string;
-        observacao: string;
-        percentualConcluido: string;
-      }?
-    ];
-    id?: string;
-    nome: string;
-  };
+  etapa: Etapas;
   id?: string;
   itemProjeto: ItemProjeto;
   percentualConcluido: string;
@@ -56,7 +72,7 @@ export interface AgendaDiaEAtrasados {
   nome: string;
 }
 
-export type ProjetoResponse = PageableResponse<EtapaProjeto>;
+export type EtapaProjetoResponse = PageableResponse<EtapaProjeto>;
 
 export interface EtapaProjetoState {
   readonly isLoading: boolean;

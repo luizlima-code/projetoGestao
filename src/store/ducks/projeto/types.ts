@@ -38,8 +38,8 @@ export interface Projetos {
 }
 
 export interface PrazoVsAtrasos {
-  foraDoPrazo: string;
-  noPrazo: string;
+  foraDoPrazo: number;
+  noPrazo: number;
 }
 
 export type ProjetoResponse = PageableResponse<Projetos>;

@@ -11,6 +11,7 @@ import {
   postItemProjetoSuccess,
   postProjetosSuccess,
   putProjetosSuccess,
+  getGraficoPrazoAtrasadoSuccess,
 } from './actions';
 import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
 
@@ -149,15 +150,21 @@ export function* deleteProjetos({
   }
 }
 
-export function* getGraficoPrazoAtrasado(): Generator<
+export function* getGraficoPrazoAtrasado({
+  filters,
+}: any): Generator<
   CallEffect<PrazoVsAtrasos> | PutEffect<AnyAction>,
   void,
   PrazoAtrasadoData
 > {
   try {
-    const response = yield call(ProjetosService.getGraficoPrazoAtrasos);
-
-    yield put(getProjetosSuccess(response.data));
+    console.log('Chegou: ', filters);
+    const response = yield call(ProjetosService.getGraficoPrazoAtrasos, {
+      dataFinal: '22/10/2022',
+      dataInicial: '22/02/2022',
+    });
+    console.log('DeuCerto: ', response);
+    yield put(getGraficoPrazoAtrasadoSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar projetos com prazos atrasados');

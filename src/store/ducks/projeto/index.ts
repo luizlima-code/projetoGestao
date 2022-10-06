@@ -23,8 +23,8 @@ const INITIAL_STATE = {
   itemProjeto: [],
   projetosAtrasados: [],
   prazoVsAtrasos: {
-    foraDoPrazo: '',
-    noPrazo: '',
+    foraDoPrazo: 0,
+    noPrazo: 0,
   },
   projetosPut: {
     cliente: Clientes,
@@ -107,11 +107,13 @@ const reducer: Reducer<ProjetosState> = (
         projetosAtrasados: action.payload,
       };
     case ProjetosTypes.GETPRAZOVSATRASADOSREQUEST:
+      console.log('aqui chegou');
       return {
         ...state,
         isLoading: true,
       };
     case ProjetosTypes.GETPRAZOVSATRASADOSSUCCESS:
+      console.log('aqui chegou dnv');
       return {
         ...state,
         isLoading: false,

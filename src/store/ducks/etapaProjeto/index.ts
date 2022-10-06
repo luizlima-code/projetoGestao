@@ -1,82 +1,67 @@
 import { Reducer } from 'redux';
 import { EtapaProjetoState, EtapaProjetoTypes } from './types';
 
-const Funcionarios = {
+const Clientes = {
   nome: '',
   email: '',
   cpf: '',
   telefone: '',
 };
 
-// const Clientes = {
-//   nome: '',
-//   email: '',
-//   cpf: '',
-//   telefone: '',
-// };
+const Projetos = {
+  cliente: Clientes,
+  dataEntrega: '',
+  dataPrevisao: '',
+  dataInicial: '',
+  dataVenda: '',
+  descricao: '',
+  nome: '',
+};
 
-// const Projetos = {
-//   cliente: Clientes,
-//   dataEntrega: '',
-//   dataPrevisao: '',
-//   dataInicial: '',
-//   dataVenda: '',
-//   descricao: '',
-//   nome: '',
-// };
+const ItemProjeto = {
+  codigo: '',
+  nome: '',
+  projeto: Projetos,
+};
 
-// const ItemProjeto = {
-//   codigo: '',
-//   nome: '',
-//   projeto: Projetos,
-// };
+const Etapa = {
+  id: '',
+  nome: '',
+  descricao: '',
+};
 
-// const INITIAL_STATE = {
-//   isLoading: false,
-//   etapaProjeto: [],
-//   etapaProjetoById: {
-//     dataEntrega: '',
-//     dataPrevisao: '',
-//     etapa: {
-//       descricao: '',
-//       desempenhos: [
-//         {
-//           data: '',
-//           funcionario: Funcionarios,
-//           id: '',
-//           observacao: '',
-//           percentualConcluido: '',
-//         },
-//       ],
-//       id: '',
-//       nome: '',
-//     },
-//     id: '',
-//     itemProjeto: ItemProjeto,
-//     percentualConcluido: '',
-//   },
-//   etapaProjetoPut: {
-//     dataEntrega: '',
-//     dataPrevisao: '',
-//     etapa: {
-//       descricao: '',
-//       desempenhos: [
-//         {
-//           data: '',
-//           funcionario: Funcionarios,
-//           observacao: '',
-//           percentualConcluido: '',
-//         },
-//       ],
-//       nome: '',
-//     },
-//     itemProjeto: ItemProjeto,
-//     percentualConcluido: '',
-//   },
-//   agendaDia: [],
-//   atrasadosEtapa: [],
-//   etapaProjetoDia: [],
-// };
+const EtapaProjeto = {
+  dataEntrega: '',
+  dataPrevisao: '',
+  etapa: Etapa,
+  id: '',
+  itemProjeto: ItemProjeto,
+  percentualConcluido: '',
+};
+
+const AgendaDiaEAtrasados = [
+  {
+    idEtapa: '',
+    itens: [
+      {
+        codigo: '',
+        nomeItem: '',
+        nomeProjeto: '',
+      },
+    ],
+    nome: '',
+  },
+];
+
+const INITIAL_STATE = {
+  isLoading: false,
+  etapaProjeto: [],
+  etapaProjetoById: EtapaProjeto,
+  etapaProjetoPut: EtapaProjeto,
+  agendaDia: AgendaDiaEAtrasados,
+  atrasadosEtapa: AgendaDiaEAtrasados,
+  etapaProjetoDia: [],
+};
 
 // const reducer: Reducer<EtapaProjetoState> = (
 //   state = INITIAL_STATE,
