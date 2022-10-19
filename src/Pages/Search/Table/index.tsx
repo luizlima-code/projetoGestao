@@ -99,6 +99,7 @@ const TableData = (props: Props): React.ReactElement => {
     );
   };
   const headerClienteEFuncionario = [
+    'Id',
     'Nome',
     'Cpf',
     'Email',
@@ -106,11 +107,18 @@ const TableData = (props: Props): React.ReactElement => {
     'Ações',
   ];
 
-  const headerEtapa = ['Nome', 'Descrição', 'Ações'];
+  const headerEtapa = ['Id', 'Nome', 'Descrição', 'Ações'];
 
-  const headerItem = ['Nome', 'Codigo', 'Projeto', 'Ações'];
+  const headerItem = ['Id', 'Nome', 'Codigo', 'Projeto', 'Ações'];
 
-  const headerProjeto = ['Nome', 'Descrição', 'Data Venda', 'Cliente', 'Ações'];
+  const headerProjeto = [
+    'Id',
+    'Nome',
+    'Descrição',
+    'Data Venda',
+    'Cliente',
+    'Ações',
+  ];
 
   const headerTable = () => {
     switch (tipoFiltro) {
