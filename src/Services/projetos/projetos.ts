@@ -19,15 +19,13 @@ export const ProjetosService = {
     apiDefault.put(`/planner/projeto/${id}`, form),
   deleteProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.delete(`/planner/projeto/${id}`),
-  getGraficoPrazoAtrasos: (filters: corpoData): Promise<PrazoVsAtrasos> => (
-    console.log('service: ', filters),
+  getGraficoPrazoAtrasos: (filters: corpoData): Promise<PrazoVsAtrasos> =>
     apiDefault.get(`/planner/projeto/prazoVsAtrasados`, {
       params: {
         filters,
       },
       responseType: 'json',
-    })
-  ),
+    }),
 
   // getGraficoPrazoAtrasos: (filters: corpoData): Promise<PrazoVsAtrasos> =>
   //   apiDefault.get(`/planner/projeto/prazoVsAtrasados`, {

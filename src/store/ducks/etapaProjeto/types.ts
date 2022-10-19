@@ -28,7 +28,6 @@ export interface EtapaProjeto {
   dataPrevisao: string;
   etapa: {
     descricao: string;
-    desempenhos: Desempenho[];
     id?: string;
     nome: string;
   };

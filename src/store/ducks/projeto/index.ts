@@ -107,13 +107,11 @@ const reducer: Reducer<ProjetosState> = (
         projetosAtrasados: action.payload,
       };
     case ProjetosTypes.GETPRAZOVSATRASADOSREQUEST:
-      console.log('aqui chegou');
       return {
         ...state,
         isLoading: true,
       };
     case ProjetosTypes.GETPRAZOVSATRASADOSSUCCESS:
-      console.log('aqui chegou dnv');
       return {
         ...state,
         isLoading: false,

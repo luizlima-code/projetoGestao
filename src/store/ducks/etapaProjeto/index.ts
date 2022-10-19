@@ -33,18 +33,9 @@ const Funcionarios = {
   perfis: [''],
 };
 
-const Desempenho = {
-  data: '',
-  funcionario: Funcionarios,
-  id: '',
-  observacao: '',
-  percentualConcluido: 0,
-};
-
 const Etapa = {
   id: '',
   nome: '',
-  desempenhos: [Desempenho],
   descricao: '',
 };
 

@@ -82,7 +82,6 @@ const Dashboard: React.FC = () => {
     dispatch(getProjetosAtrasadosRequest());
     dispatch(getGraficoPrazoAtrasadoRequest(filters));
   }, [getProjetosAtrasadosRequest, getGraficoPrazoAtrasadoRequest]);
-  console.log('aopa: ', prazoVsAtrasos);
 
   const data2 = {
     labels: ['Dentro prazo', 'Atrasados'],

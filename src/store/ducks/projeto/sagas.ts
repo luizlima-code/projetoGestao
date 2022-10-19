@@ -158,12 +158,10 @@ export function* getGraficoPrazoAtrasado({
   PrazoAtrasadoData
 > {
   try {
-    console.log('Chegou: ', filters);
     const response = yield call(ProjetosService.getGraficoPrazoAtrasos, {
       dataFinal: '22/10/2022',
       dataInicial: '22/02/2022',
     });
-    console.log('DeuCerto: ', response);
     yield put(getGraficoPrazoAtrasadoSuccess(response.data));
   } catch (error) {
     console.error(error);

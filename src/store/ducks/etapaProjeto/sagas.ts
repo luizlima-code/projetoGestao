@@ -3,6 +3,8 @@ import { AnyAction } from 'redux';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { EtapaProjetoService } from '../../../Services/etapaProjeto/etapaProjeto';
 import {
+  getAgendaDiaSuccess,
+  getAtrasadosEtapaSuccess,
   getByIdEtapaProjetoSuccess,
   getEtapaProjetoDiaSuccess,
   getEtapaProjetoSuccess,
@@ -128,7 +130,7 @@ export function* getAgendaDia(): Generator<
   try {
     const response = yield call(EtapaProjetoService.getAgendaDia);
 
-    yield put(getEtapaProjetoSuccess(response.data.content));
+    yield put(getAgendaDiaSuccess(response.data.content));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar agenda do dia');
@@ -143,7 +145,7 @@ export function* getAtrasadosEtapa(): Generator<
   try {
     const response = yield call(EtapaProjetoService.getAtrasadosEtapa);
 
-    yield put(getEtapaProjetoSuccess(response.data.content));
+    yield put(getAtrasadosEtapaSuccess(response.data.content));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar etapas atrasadas');

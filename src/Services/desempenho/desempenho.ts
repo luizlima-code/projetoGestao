@@ -20,13 +20,11 @@ export const DesempenhoService = {
     apiDefault.put(`/planner/desempenho/${id}`, form),
   deleteDesempenho: (id: Desempenho): Promise<Desempenho> =>
     apiDefault.delete(`/planner/desempenho/${id}`),
-  getDesempenhoEtapa: (filters: corpoData): Promise<DesempenhoEtapa[]> => (
-    console.log('service: ', filters),
+  getDesempenhoEtapa: (filters: corpoData): Promise<DesempenhoEtapa[]> =>
     apiDefault.get(`/planner/desempenho/desempenhoEtapa`, {
       params: {
         filters,
       },
       responseType: 'json',
-    })
-  ),
+    }),
 };
