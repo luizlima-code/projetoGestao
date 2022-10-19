@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
-import { ClientesTypes, ClientesState } from './types';
+import { ClientesTypes, ClientesState, ClientesResponse } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
-  clientes: [],
+  clientes: <ClientesResponse>{},
   clientesById: {
     nome: '',
     email: '',
