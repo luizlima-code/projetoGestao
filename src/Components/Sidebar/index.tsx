@@ -56,7 +56,7 @@ export default function Sidebar() {
     <>
       <Container>
         <List component="nav" aria-labelledby="nested-list-subheader">
-          <Link to={'/'} style={{ textDecoration: 'none', color: 'black' }}>
+          <Link to={'/home'} style={{ textDecoration: 'none', color: 'black' }}>
             <ListItemButton>
               <ListItemIcon>
                 <Home style={{ color: 'black ' }} />
