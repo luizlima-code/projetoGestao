@@ -14,8 +14,13 @@ export const ProjetosService = {
     apiDefault.put(`/planner/projeto/${id}`, form),
   deleteProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.delete(`/planner/projeto/${id}`),
-  getGraficoPrazoAtrasos: (): Promise<PrazoVsAtrasos> =>
-    apiDefault.get(`/planner/projeto/prazoVsAtrasados`),
+  getGraficoPrazoAtrasos: (filters: any): Promise<PrazoVsAtrasos> =>
+    apiDefault.get(`/planner/projeto/prazoVsAtrasados`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   getItemProjeto: (id: Projetos): Promise<ItemProjeto[]> =>
     apiDefault.get(`/planner/projeto/${id}/itemProjeto`),
   postItemProjetos: (id: Projetos, data: ItemProjeto): Promise<ItemProjeto> =>
