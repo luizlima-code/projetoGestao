@@ -33,6 +33,7 @@ const TableDashboard = (props: Props): React.ReactElement => {
   const rows = data?.map((row) => ({
     ...row,
     nome: row.nome,
+    codigo: row.idEtapa,
     itens: row.itens.map((itens) => ({
       codigo: itens.codigo,
       item: itens.nomeItem,

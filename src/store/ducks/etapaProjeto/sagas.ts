@@ -122,30 +122,34 @@ export function* getEtapaProjetoDia(): Generator<
   }
 }
 
-export function* getAgendaDia(): Generator<
+export function* getAgendaDia({
+  payload,
+}: any): Generator<
   CallEffect<AgendaDiaEAtrasados[]> | PutEffect<AnyAction>,
   void,
   AgendaEAtrasadosData
 > {
   try {
-    const response = yield call(EtapaProjetoService.getAgendaDia);
+    const response = yield call(EtapaProjetoService.getAgendaDia, payload);
 
-    yield put(getAgendaDiaSuccess(response.data.content));
+    yield put(getAgendaDiaSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar agenda do dia');
   }
 }
 
-export function* getAtrasadosEtapa(): Generator<
+export function* getAtrasadosEtapa({
+  payload,
+}: any): Generator<
   CallEffect<AgendaDiaEAtrasados[]> | PutEffect<AnyAction>,
   void,
   AgendaEAtrasadosData
 > {
   try {
-    const response = yield call(EtapaProjetoService.getAtrasadosEtapa);
+    const response = yield call(EtapaProjetoService.getAtrasadosEtapa, payload);
 
-    yield put(getAtrasadosEtapaSuccess(response.data.content));
+    yield put(getAtrasadosEtapaSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar etapas atrasadas');

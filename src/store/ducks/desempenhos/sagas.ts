@@ -123,16 +123,16 @@ export function* deleteDesempenho({
 }
 
 export function* getDesempenhoEtapa({
-  filters,
+  payload,
 }: any): Generator<
   CallEffect<DesempenhoEtapa[]> | PutEffect<AnyAction>,
   void,
   DesempenhoEtapaData
 > {
   try {
-    const response = yield call(DesempenhoService.getDesempenhoEtapa, filters);
+    const response = yield call(DesempenhoService.getDesempenhoEtapa, payload);
 
-    yield put(getDesempenhoEtapaSuccess(response.data.content));
+    yield put(getDesempenhoEtapaSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar desempenho da etapa');

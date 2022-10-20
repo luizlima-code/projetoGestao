@@ -34,14 +34,14 @@ export const deleteEtapaProjetoRequest = (req: EtapaProjeto): ActionType =>
 export const deleteEtapaProjetoSuccess = (): ActionType =>
   action(EtapaProjetoTypes.DELETEETAPAPROJETOSUCCESS);
 
-export const getAgendaDiaRequest = (): ActionType =>
-  action(EtapaProjetoTypes.GETAGENDADIAREQUEST);
+export const getAgendaDiaRequest = (req: any) =>
+  action(EtapaProjetoTypes.GETAGENDADIAREQUEST, req);
 
 export const getAgendaDiaSuccess = (res: AgendaDiaEAtrasados[]): PayloadForms =>
   action(EtapaProjetoTypes.GETAGENDADIASUCCESS, res);
 
-export const getAtrasadosEtapaRequest = (): ActionType =>
-  action(EtapaProjetoTypes.GETETAPASATRASADAREQUEST);
+export const getAtrasadosEtapaRequest = (req: any) =>
+  action(EtapaProjetoTypes.GETETAPASATRASADAREQUEST, req);
 
 export const getAtrasadosEtapaSuccess = (
   res: AgendaDiaEAtrasados[]

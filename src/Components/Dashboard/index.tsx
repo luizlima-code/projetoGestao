@@ -18,15 +18,13 @@ import { faker } from '@faker-js/faker';
 import { Button, Grid } from '@mui/material';
 import TableDashboard from '../Table';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getFuncionariosRequest,
-  getByIdFuncionariosRequest,
-} from '../../store/ducks/funcionarios/actions';
 import { RootState } from '../../store/ducks/rootReducer';
+import { getGraficoPrazoAtrasadoRequest } from '../../store/ducks/projeto/actions';
+import { getDesempenhoEtapaRequest } from '../../store/ducks/desempenhos/actions';
 import {
-  getGraficoPrazoAtrasadoRequest,
-  getProjetosAtrasadosRequest,
-} from '../../store/ducks/projeto/actions';
+  getAgendaDiaRequest,
+  getAtrasadosEtapaRequest,
+} from '../../store/ducks/etapaProjeto/actions';
 
 ChartJS.register(
   ArcElement,
@@ -45,21 +43,9 @@ export const options = {
   aspectRatio: 3,
   plugins: {
     legend: {
-      position: 'top' as const,
+      display: false,
     },
   },
-};
-
-const labels = ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5', 'Dia 6', 'Dia 7'];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Desempenho',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 206, 86)',
-    },
-  ],
 };
 
 const Dashboard: React.FC = () => {
@@ -70,19 +56,34 @@ const Dashboard: React.FC = () => {
   );
 
   const { prazoVsAtrasos } = useSelector((state: RootState) => state.projeto);
+  const { desempenhoEtapa } = useSelector(
+    (state: RootState) => state.desempenhos
+  );
+  const { agendaDia, atrasadosEtapa } = useSelector(
+    (state: RootState) => state.etapaProjeto
+  );
 
-  const filters = {
+  console.log('Tabela01: ', agendaDia);
+  console.log('Tabela03: ', atrasadosEtapa);
+
+  const intervalFilter = {
     dataFinal: '22/10/2022',
-    dataInicial: '22/02/2022',
+    dataInicial: '13/01/2022',
+  };
+
+  const dataSelectFilter = {
+    data: '13/10/2022',
   };
 
   useEffect(() => {
+    dispatch(getGraficoPrazoAtrasadoRequest(intervalFilter));
+    dispatch(getDesempenhoEtapaRequest(intervalFilter));
     // dispatch(getProjetosAtrasadosRequest());
-    console.log('Dashboard ', filters);
-    dispatch(getGraficoPrazoAtrasadoRequest(filters));
+    dispatch(getAgendaDiaRequest(dataSelectFilter));
+    dispatch(getAtrasadosEtapaRequest(dataSelectFilter));
   }, []);
 
-  const data2 = {
+  const dataDonut = {
     labels: ['Dentro prazo', 'Atrasados'],
     datasets: [
       {
@@ -94,6 +95,16 @@ const Dashboard: React.FC = () => {
     ],
   };
 
+  const labels = desempenhoEtapa.map((desempenho) => desempenho.nomeEtapa);
+  const dataBarVertical = {
+    labels,
+    datasets: [
+      {
+        data: desempenhoEtapa.map((desempenho) => desempenho.desempenhoMedio),
+        backgroundColor: 'rgba(255, 206, 86)',
+      },
+    ],
+  };
   const handleTesteGet = async () => {
     console.log('funcionarios: ', funcionarios);
     console.log('funcionarios by id: ', funcionarioById);
@@ -116,7 +127,8 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <TableDashboard
               height="65vh"
-              headers={['Nome', 'Codigo', 'Item', 'Projeto']}
+              headers={['Nome', 'Codigo', 'Item']}
+              // data={agendaDia}
             />
           </DivGrid>
         </Grid>
@@ -132,7 +144,7 @@ const Dashboard: React.FC = () => {
         >
           <Grid item>
             <DivGrid style={{ padding: 8 }}>
-              <Bar options={options} data={data} />
+              <Bar options={options} data={dataBarVertical} />
             </DivGrid>
           </Grid>
           <Grid item mt={2}>
@@ -148,14 +160,14 @@ const Dashboard: React.FC = () => {
       <Grid container spacing={2}>
         <Grid item md={3.5} xs={12}>
           <DivGrid>
-            <Doughnut data={data2} />
+            <Doughnut data={dataDonut} />
           </DivGrid>
         </Grid>
         <Grid item md={8.5} xs={12}>
           <DivGrid>
             <TableDashboard
               height="48vh"
-              headers={['Nome', 'Codigo', 'Item', 'Projeto', 'Data da Entrega']}
+              headers={['Nome', 'Codigo', 'Item']}
             />
           </DivGrid>
         </Grid>

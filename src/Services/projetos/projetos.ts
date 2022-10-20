@@ -2,11 +2,6 @@ import { ItemProjeto } from '../../store/ducks/itemProjeto/types';
 import { Projetos, PrazoVsAtrasos } from '../../store/ducks/projeto/types';
 import { apiDefault } from '../api';
 
-type corpoData = {
-  dataFinal: string;
-  dataInicial: string;
-};
-
 export const ProjetosService = {
   getProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
   getByIdProjetos: (id: Projetos): Promise<Projetos> =>
@@ -19,15 +14,13 @@ export const ProjetosService = {
     apiDefault.put(`/planner/projeto/${id}`, form),
   deleteProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.delete(`/planner/projeto/${id}`),
-  getGraficoPrazoAtrasos: (filters: any): Promise<PrazoVsAtrasos> => (
-    console.log('Service: ', filters),
+  getGraficoPrazoAtrasos: (filters: any): Promise<PrazoVsAtrasos> =>
     apiDefault.get(`/planner/projeto/prazoVsAtrasados`, {
       params: {
         ...filters,
       },
       responseType: 'json',
-    })
-  ),
+    }),
   getItemProjeto: (id: Projetos): Promise<ItemProjeto[]> =>
     apiDefault.get(`/planner/projeto/${id}/itemProjeto`),
   postItemProjetos: (id: Projetos, data: ItemProjeto): Promise<ItemProjeto> =>

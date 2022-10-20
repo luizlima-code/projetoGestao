@@ -4,11 +4,6 @@ import {
 } from '../../store/ducks/desempenhos/types';
 import { apiDefault } from '../api';
 
-type corpoData = {
-  dataFinal: string;
-  dataInicial: string;
-};
-
 export const DesempenhoService = {
   getAllDesempenhos: (): Promise<Desempenho[]> =>
     apiDefault.get(`/planner/desempenho`),
@@ -20,10 +15,10 @@ export const DesempenhoService = {
     apiDefault.put(`/planner/desempenho/${id}`, form),
   deleteDesempenho: (id: Desempenho): Promise<Desempenho> =>
     apiDefault.delete(`/planner/desempenho/${id}`),
-  getDesempenhoEtapa: (filters: corpoData): Promise<DesempenhoEtapa[]> =>
+  getDesempenhoEtapa: (filters: any): Promise<DesempenhoEtapa[]> =>
     apiDefault.get(`/planner/desempenho/desempenhoEtapa`, {
       params: {
-        filters,
+        ...filters,
       },
       responseType: 'json',
     }),
