@@ -69,39 +69,30 @@ const Dashboard: React.FC = () => {
     (state: RootState) => state.funcionarios
   );
 
-  const { projetosAtrasados, prazoVsAtrasos } = useSelector(
-    (state: RootState) => state.projeto
-  );
+  const { prazoVsAtrasos } = useSelector((state: RootState) => state.projeto);
 
   const filters = {
     dataFinal: '22/10/2022',
     dataInicial: '22/02/2022',
   };
-  // tabela 02
+
   useEffect(() => {
-    dispatch(getProjetosAtrasadosRequest());
+    // dispatch(getProjetosAtrasadosRequest());
+    console.log('Dashboard ', filters);
     dispatch(getGraficoPrazoAtrasadoRequest(filters));
-  }, [getProjetosAtrasadosRequest, getGraficoPrazoAtrasadoRequest]);
+  }, []);
 
   const data2 = {
     labels: ['Dentro prazo', 'Atrasados'],
     datasets: [
       {
         label: '# projetos',
-        data: [prazoVsAtrasos.noPrazo, prazoVsAtrasos.foraDoPrazo],
+        data: [prazoVsAtrasos.noPrazo * 100, prazoVsAtrasos.foraDoPrazo * 100],
         backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
         borderWidth: 6,
       },
     ],
   };
-
-  useEffect(() => {
-    dispatch(getFuncionariosRequest());
-  }, [getFuncionariosRequest]);
-
-  useEffect(() => {
-    dispatch(getByIdFuncionariosRequest('14'));
-  }, [getByIdFuncionariosRequest]);
 
   const handleTesteGet = async () => {
     console.log('funcionarios: ', funcionarios);

@@ -41,7 +41,7 @@ interface ItemProjetoData {
 
 interface PrazoAtrasadoData {
   type: ProjetosTypes;
-  data: PrazoVsAtrasos | any;
+  data: PrazoVsAtrasos;
 }
 
 export function* getProjetos(): Generator<
@@ -151,18 +151,20 @@ export function* deleteProjetos({
 }
 
 export function* getGraficoPrazoAtrasado({
-  filters,
+  payload,
 }: any): Generator<
   CallEffect<PrazoVsAtrasos> | PutEffect<AnyAction>,
   void,
   PrazoAtrasadoData
 > {
   try {
+    console.log('Sagas: ', payload);
     const response = yield call(
       ProjetosService.getGraficoPrazoAtrasos,
-      filters
+      payload
     );
 
+    console.log('Resposta sagas: ', response.data);
     yield put(getGraficoPrazoAtrasadoSuccess(response.data));
   } catch (error) {
     console.error(error);

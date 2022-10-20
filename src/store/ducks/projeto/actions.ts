@@ -41,8 +41,10 @@ export const putProjetosRequest = (req: Projetos): PayloadForms =>
 export const putProjetosSuccess = (res: Projetos): PayloadForms =>
   action(ProjetosTypes.PUTPROJETOSSUCCESS, res);
 
-export const getGraficoPrazoAtrasadoRequest = (filters: any) =>
-  action(ProjetosTypes.GETPRAZOVSATRASADOSREQUEST, filters);
+export const getGraficoPrazoAtrasadoRequest = (filters: any) => (
+  console.log('Actions: ', filters),
+  action(ProjetosTypes.GETPRAZOVSATRASADOSREQUEST, filters)
+);
 
 export const getGraficoPrazoAtrasadoSuccess = (
   res: PrazoVsAtrasos
