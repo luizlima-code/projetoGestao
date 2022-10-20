@@ -9,7 +9,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ModalOptions from '../../../Components/ModalOptions';
 import { conformToMask } from 'react-text-mask';
-import { IconButton, TableContainer, TablePagination, Tooltip, useMediaQuery } from '@mui/material';
+import {
+  IconButton,
+  TableContainer,
+  TablePagination,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
 import {
   FuncionariosResponse,
   Funcionarios,
@@ -19,7 +25,6 @@ import { EtapasResponse } from '../../../store/ducks/etapas/types';
 import { ProjetoResponse } from '../../../store/ducks/projeto/types';
 import { maskFormateCpfCnpj } from '../../../config/masks/cpf_cnpj_mask';
 import { Delete, Edit } from '@mui/icons-material';
-
 
 interface ClientesTypes {
   id?: string;
@@ -74,7 +79,7 @@ const TableData = (props: Props): React.ReactElement => {
   const action = (configId: any) => {
     return (
       <>
-        <Tooltip title='Editar' aria-label="edit">
+        <Tooltip title="Editar" aria-label="edit">
           <IconButton
             color="primary"
             onClick={() => handleEditConfig(configId)}
@@ -82,7 +87,7 @@ const TableData = (props: Props): React.ReactElement => {
             <Edit />
           </IconButton>
         </Tooltip>
-        <Tooltip title='Deletar' aria-label="delete">
+        <Tooltip title="Deletar" aria-label="delete">
           <IconButton
             color="primary"
             onClick={() => handleOpenConfirmDelete(configId)}
@@ -92,6 +97,44 @@ const TableData = (props: Props): React.ReactElement => {
         </Tooltip>
       </>
     );
+  };
+  const headerClienteEFuncionario = [
+    'Id',
+    'Nome',
+    'Cpf',
+    'Email',
+    'Telefone',
+    'Ações',
+  ];
+
+  const headerEtapa = ['Id', 'Nome', 'Descrição', 'Ações'];
+
+  const headerItem = ['Id', 'Nome', 'Codigo', 'Projeto', 'Ações'];
+
+  const headerProjeto = [
+    'Id',
+    'Nome',
+    'Descrição',
+    'Data Venda',
+    'Cliente',
+    'Ações',
+  ];
+
+  const headerTable = () => {
+    switch (tipoFiltro) {
+      case 'Cliente':
+        return headerClienteEFuncionario;
+      case 'Etapa':
+        return headerEtapa;
+      case 'Funcionario':
+        return headerClienteEFuncionario;
+      case 'Item':
+        return headerItem;
+      case 'Projeto':
+        return headerProjeto;
+      default:
+        return headerClienteEFuncionario;
+    }
   };
 
   // const rows = data?.content?.map((row) => ({
@@ -157,76 +200,24 @@ const TableData = (props: Props): React.ReactElement => {
           <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  ID
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  Nome
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  CPF
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  Email
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  Telefone
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    backgroundColor: '#00b4d8',
-                    color: 'white',
-                    fontSize: 20,
-                    border: 'none',
-                  }}
-                >
-                  Ações
-                </TableCell>
+                {headerTable().map((header) => (
+                  <TableCell
+                    align="center"
+                    sx={{
+                      backgroundColor: '#00b4d8',
+                      color: 'white',
+                      fontSize: 20,
+                      border: 'none',
+                    }}
+                  >
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {rows
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any) => (
                   <TableRow
                     key={row.id}

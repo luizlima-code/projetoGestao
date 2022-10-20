@@ -5,7 +5,7 @@ import {
 import { apiDefault } from '../api';
 
 export const EtapaProjetoService = {
-  getEtapaProjeto: (): Promise<EtapaProjeto[]> =>
+  getAllEtapaProjeto: (): Promise<EtapaProjeto[]> =>
     apiDefault.get(`/planner/etapaProjeto`),
   getByIdEtapaProjeto: (id: EtapaProjeto): Promise<EtapaProjeto> =>
     apiDefault.get(`/planner/etapaProjeto/${id}`),

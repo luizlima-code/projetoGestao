@@ -30,7 +30,6 @@ const Search: React.FC = () => {
 
   const handleFilter = (filtered: string) => {
     setFilter(filtered);
-    console.log('este é o filter: ', filtered)
     // dispatch(getFuncionariosRequest(filtered));
   };
 

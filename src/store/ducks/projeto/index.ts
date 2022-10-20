@@ -23,8 +23,8 @@ const INITIAL_STATE = {
   itemProjeto: [],
   projetosAtrasados: [],
   prazoVsAtrasos: {
-    foraDoPrazo: '',
-    noPrazo: '',
+    foraDoPrazo: 0,
+    noPrazo: 0,
   },
   projetosPut: {
     cliente: Clientes,

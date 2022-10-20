@@ -2,6 +2,11 @@ import { ItemProjeto } from '../../store/ducks/itemProjeto/types';
 import { Projetos, PrazoVsAtrasos } from '../../store/ducks/projeto/types';
 import { apiDefault } from '../api';
 
+type corpoData = {
+  dataFinal: string;
+  dataInicial: string;
+};
+
 export const ProjetosService = {
   getProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
   getByIdProjetos: (id: Projetos): Promise<Projetos> =>

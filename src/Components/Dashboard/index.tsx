@@ -23,6 +23,10 @@ import {
   getByIdFuncionariosRequest,
 } from '../../store/ducks/funcionarios/actions';
 import { RootState } from '../../store/ducks/rootReducer';
+import {
+  getGraficoPrazoAtrasadoRequest,
+  getProjetosAtrasadosRequest,
+} from '../../store/ducks/projeto/actions';
 
 ChartJS.register(
   ArcElement,
@@ -46,31 +50,14 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+const labels = ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5', 'Dia 6', 'Dia 7'];
 export const data = {
   labels,
   datasets: [
     {
-      label: 'Rosa',
+      label: 'Desempenho',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: 'rgba(255, 206, 86)',
-    },
-    {
-      label: 'Azul 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: '#0077b6',
-    },
-  ],
-};
-
-export const data2 = {
-  labels: ['Blue', 'Yellow'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [28, 19],
-      backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
-      borderWidth: 6,
     },
   ],
 };
@@ -82,14 +69,38 @@ const Dashboard: React.FC = () => {
     (state: RootState) => state.funcionarios
   );
 
+  const { projetosAtrasados, prazoVsAtrasos } = useSelector(
+    (state: RootState) => state.projeto
+  );
+
+  const filters = {
+    dataFinal: '22/10/2022',
+    dataInicial: '22/02/2022',
+  };
+  // tabela 02
+  useEffect(() => {
+    dispatch(getProjetosAtrasadosRequest());
+    dispatch(getGraficoPrazoAtrasadoRequest(filters));
+  }, [getProjetosAtrasadosRequest, getGraficoPrazoAtrasadoRequest]);
+
+  const data2 = {
+    labels: ['Dentro prazo', 'Atrasados'],
+    datasets: [
+      {
+        label: '# projetos',
+        data: [prazoVsAtrasos.noPrazo, prazoVsAtrasos.foraDoPrazo],
+        backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
+        borderWidth: 6,
+      },
+    ],
+  };
+
   useEffect(() => {
     dispatch(getFuncionariosRequest());
-    // console.log('ola');
   }, [getFuncionariosRequest]);
 
   useEffect(() => {
     dispatch(getByIdFuncionariosRequest('14'));
-    // console.log('ola by id');
   }, [getByIdFuncionariosRequest]);
 
   const handleTesteGet = async () => {
@@ -114,8 +125,7 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <TableDashboard
               height="65vh"
-              titulo="Grafico 01"
-              headers={['header1', 'header2', 'header3']}
+              headers={['Nome', 'Codigo', 'Item', 'Projeto']}
             />
           </DivGrid>
         </Grid>
@@ -138,8 +148,7 @@ const Dashboard: React.FC = () => {
             <DivGrid>
               <TableDashboard
                 height="30vh"
-                titulo="Grafico 02"
-                headers={['header4', 'header5', 'header6']}
+                headers={['Projeto Atrasado', 'Data da entrega']}
               />
             </DivGrid>
           </Grid>
@@ -155,8 +164,7 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <TableDashboard
               height="48vh"
-              titulo="Grafico 03"
-              headers={['header7', 'header8', 'header9']}
+              headers={['Nome', 'Codigo', 'Item', 'Projeto', 'Data da Entrega']}
             />
           </DivGrid>
         </Grid>

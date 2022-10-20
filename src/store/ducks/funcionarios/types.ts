@@ -20,6 +20,7 @@ export interface Funcionarios {
   cpf: string;
   telefone: string;
   senha?: string;
+  perfis?: string[];
 }
 
 export type FuncionariosResponse = PageableResponse<Funcionarios>;

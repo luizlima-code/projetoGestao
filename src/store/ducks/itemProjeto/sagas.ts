@@ -4,6 +4,7 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ItemProjetoService } from '../../../Services/itemProjeto/itemProjeto';
 import { EtapaProjeto } from '../etapaProjeto/types';
 import {
+  getByIdItemEtapaProjetoSuccess,
   getByIdItemProjetoSuccess,
   getItemProjetoSuccess,
   postEtapaProjetoSuccess,
@@ -14,6 +15,10 @@ import { ItemProjeto, ItemProjetoTypes } from './types';
 interface ItemProjetoType {
   type: ItemProjetoTypes;
   data: ItemProjeto;
+}
+interface EtapaProjetoType {
+  type: ItemProjetoTypes;
+  data: EtapaProjeto;
 }
 
 interface ItemProjetoData {
@@ -31,7 +36,7 @@ interface PayloadEtapaProjetoSpecific {
   payload: EtapaProjeto;
 }
 
-export function* getItemProjeto(): Generator<
+export function* getAllItemProjetos(): Generator<
   CallEffect<ItemProjeto[]> | PutEffect<AnyAction>,
   void,
   ItemProjetoData
@@ -123,5 +128,22 @@ export function* postEtapa({
     console.error(error);
     console.log(payload);
     toast.error('Erro ao cadastrar etapa do projeto');
+  }
+}
+
+export function* getEtapaProjetoByIdItem({
+  payload,
+}: PayloadItemProjetoSpecific): Generator<
+  CallEffect<ItemProjeto> | PutEffect<AnyAction>,
+  void,
+  EtapaProjetoType
+> {
+  try {
+    const response = yield call(ItemProjetoService.getItemProjetoById, payload);
+
+    yield put(getByIdItemEtapaProjetoSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    toast.error('Erro ao pesquisar etapa do projeto');
   }
 }

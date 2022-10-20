@@ -6,6 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { AgendaDiaEAtrasados } from '../../store/ducks/etapaProjeto/types';
+import { Projetos } from '../../store/ducks/projeto/types';
 
 function createData(
   name: string,
@@ -16,29 +18,27 @@ function createData(
   return { name, calories, carbs, protein };
 }
 
-const rows = [
-  createData('aFrozen yoghurt', 159, 24, 4.0),
-  createData('bIce cream sandwich', 237, 37, 4.3),
-  createData('cEclair', 262, 24, 6.0),
-  createData('dFrozen ayoghurt', 159, 24, 4.0),
-  createData('eIce cream sandwich', 237, 37, 4.3),
-  createData('fEclairs', 262, 24, 6.0),
-  createData('hFrozens yoghurt', 159, 24, 4.0),
-  createData('gIces creams sandwich', 237, 37, 4.3),
-  createData('iEclairas', 262, 24, 6.0),
-];
-
 interface OwnProps {
   height?: any;
-  titulo: string;
   headers: Array<string>;
-  // data: Array<any>;
+  data?: AgendaDiaEAtrasados[];
+  // | Projetos[];
 }
 
 type Props = OwnProps;
 
 const TableDashboard = (props: Props): React.ReactElement => {
-  const { height, titulo, headers } = props;
+  const { height, headers, data } = props;
+
+  const rows = data?.map((row) => ({
+    ...row,
+    nome: row.nome,
+    itens: row.itens.map((itens) => ({
+      codigo: itens.codigo,
+      item: itens.nomeItem,
+      projeto: itens.nomeProjeto,
+    })),
+  }));
 
   return (
     <TableContainer
@@ -54,16 +54,6 @@ const TableDashboard = (props: Props): React.ReactElement => {
       <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
-            <TableCell
-              sx={{
-                backgroundColor: '#00b4d8',
-                color: 'white',
-                fontSize: 16,
-                border: 'none',
-              }}
-            >
-              {titulo}
-            </TableCell>
             {headers.map((row) => (
               <TableCell
                 align="center"
@@ -80,14 +70,14 @@ const TableDashboard = (props: Props): React.ReactElement => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows?.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.nome}
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
               }}
             >
-              {Object.values(row).map((object) => (
+              {Object.values(row.itens).map((object: any) => (
                 <TableCell
                   align="center"
                   sx={{

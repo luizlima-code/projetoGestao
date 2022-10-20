@@ -151,7 +151,7 @@ export function* deleteProjetos({
 }
 
 export function* getGraficoPrazoAtrasado({
-  payload,
+  filters,
 }: any): Generator<
   CallEffect<PrazoVsAtrasos> | PutEffect<AnyAction>,
   void,
@@ -160,7 +160,7 @@ export function* getGraficoPrazoAtrasado({
   try {
     const response = yield call(
       ProjetosService.getGraficoPrazoAtrasos,
-      payload
+      filters
     );
 
     yield put(getGraficoPrazoAtrasadoSuccess(response.data));

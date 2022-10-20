@@ -3,17 +3,19 @@ import { combineReducers } from 'redux';
 import funcionarios from './funcionarios';
 import projeto from './projeto';
 import clientes from './clientes';
+import desempenhos from './desempenhos';
 import etapas from './etapas';
-// import etapaProjeto from './etapaProjeto';
+import etapaProjeto from './etapaProjeto';
 import itemProjeto from './itemProjeto';
 
 const rootReducer = combineReducers({
-  funcionarios,
-  projeto,
   clientes,
+  desempenhos,
+  etapaProjeto,
   etapas,
-  // etapaProjeto,
+  funcionarios,
   itemProjeto,
+  projeto,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

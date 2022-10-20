@@ -199,23 +199,40 @@ const FilterData = ({
 
   const handleFilterBuscar = () => {
     handleFilter(modulo);
-    console.log(modulo);
   };
+
+  // ESTE É O CERTOOOOO
+  // const renderModal = () => {
+  //   switch (modulo) {
+  //     case 'Cliente':
+  //       return setTipoFiltro('Cliente'), FilterCliente as ReactJSXElement;
+  //     case 'Etapa':
+  //       return setTipoFiltro('Etapa'), FilterEtapas as ReactJSXElement;
+  //     case 'Funcionario':
+  //       return (
+  //         setTipoFiltro('Funcionario'), FilterFuncionario as ReactJSXElement
+  //       );
+  //     case 'Item':
+  //       return setTipoFiltro('Item'), FilterItem as ReactJSXElement;
+  //     case 'Projeto':
+  //       return setTipoFiltro('Projeto'), FilterProjeto as ReactJSXElement;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   const renderModal = () => {
     switch (modulo) {
       case 'Cliente':
         return setTipoFiltro('Cliente'), FilterCliente as ReactJSXElement;
       case 'Etapa':
-        return setTipoFiltro('Etapa'), FilterEtapas as ReactJSXElement;
+        return setTipoFiltro('Etapa'), FilterCliente as ReactJSXElement;
       case 'Funcionario':
-        return (
-          setTipoFiltro('Funcionario'), FilterFuncionario as ReactJSXElement
-        );
+        return setTipoFiltro('Funcionario'), FilterCliente as ReactJSXElement;
       case 'Item':
-        return setTipoFiltro('Item'), FilterItem as ReactJSXElement;
+        return setTipoFiltro('Item'), FilterCliente as ReactJSXElement;
       case 'Projeto':
-        return setTipoFiltro('Projeto'), FilterProjeto as ReactJSXElement;
+        return setTipoFiltro('Projeto'), FilterCliente as ReactJSXElement;
       default:
         return null;
     }
@@ -263,8 +280,8 @@ const FilterData = ({
           </Buttons>
         </Grid>
       </Grid>
-      {/* {renderModal()} */}
-      {FilterCliente}
+      {renderModal()}
+      {/* {FilterCliente} */}
       <Buttons>
         <Button
           variant="contained"
