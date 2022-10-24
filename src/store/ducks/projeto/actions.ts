@@ -23,8 +23,8 @@ export const getByIdProjetosRequest = (request: any): ActionType =>
 export const getByIdProjetosSuccess = (res: Projetos): ActionType =>
   action(ProjetosTypes.GETBYIDPROJETOSSUCCESS, res);
 
-export const getProjetosAtrasadosRequest = (): ActionType =>
-  action(ProjetosTypes.GETPROJETOSATRASADOSREQUEST);
+export const getProjetosAtrasadosRequest = (req: any) =>
+  action(ProjetosTypes.GETPROJETOSATRASADOSREQUEST, req);
 
 export const getProjetosAtrasadosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSATRASADOSSUCCESS, res);

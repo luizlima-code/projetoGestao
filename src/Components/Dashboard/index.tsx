@@ -14,12 +14,14 @@ import {
   BarElement,
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import TableDashboard from '../Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/ducks/rootReducer';
-import { getGraficoPrazoAtrasadoRequest } from '../../store/ducks/projeto/actions';
+import {
+  getGraficoPrazoAtrasadoRequest,
+  getProjetosAtrasadosRequest,
+} from '../../store/ducks/projeto/actions';
 import { getDesempenhoEtapaRequest } from '../../store/ducks/desempenhos/actions';
 import {
   getAgendaDiaRequest,
@@ -51,11 +53,9 @@ export const options = {
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { funcionarios, funcionarioById, isLoading } = useSelector(
-    (state: RootState) => state.funcionarios
+  const { prazoVsAtrasos, projetosAtrasados } = useSelector(
+    (state: RootState) => state.projeto
   );
-
-  const { prazoVsAtrasos } = useSelector((state: RootState) => state.projeto);
   const { desempenhoEtapa } = useSelector(
     (state: RootState) => state.desempenhos
   );
@@ -64,6 +64,7 @@ const Dashboard: React.FC = () => {
   );
 
   console.log('Tabela01: ', agendaDia);
+  console.log('Tabela02: ', projetosAtrasados);
   console.log('Tabela03: ', atrasadosEtapa);
 
   const intervalFilter = {
@@ -75,10 +76,14 @@ const Dashboard: React.FC = () => {
     data: '13/10/2022',
   };
 
+  const dataTESTE = {
+    data: '26/11/2022',
+  };
+
   useEffect(() => {
     dispatch(getGraficoPrazoAtrasadoRequest(intervalFilter));
     dispatch(getDesempenhoEtapaRequest(intervalFilter));
-    // dispatch(getProjetosAtrasadosRequest());
+    dispatch(getProjetosAtrasadosRequest(dataTESTE));
     dispatch(getAgendaDiaRequest(dataSelectFilter));
     dispatch(getAtrasadosEtapaRequest(dataSelectFilter));
   }, []);
@@ -105,11 +110,6 @@ const Dashboard: React.FC = () => {
       },
     ],
   };
-  const handleTesteGet = async () => {
-    console.log('funcionarios: ', funcionarios);
-    console.log('funcionarios by id: ', funcionarioById);
-    console.log('isloading: ', isLoading);
-  };
 
   return (
     <Container>
@@ -127,8 +127,8 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <TableDashboard
               height="65vh"
-              headers={['Nome', 'Codigo', 'Item']}
-              // data={agendaDia}
+              headers={['Id', 'Nome', 'Itens']}
+              data1={agendaDia}
             />
           </DivGrid>
         </Grid>
@@ -151,7 +151,8 @@ const Dashboard: React.FC = () => {
             <DivGrid>
               <TableDashboard
                 height="30vh"
-                headers={['Projeto Atrasado', 'Data da entrega']}
+                headers={['Id', 'Projeto atrasado', 'Data prevista']}
+                data2={projetosAtrasados}
               />
             </DivGrid>
           </Grid>
@@ -167,12 +168,12 @@ const Dashboard: React.FC = () => {
           <DivGrid>
             <TableDashboard
               height="48vh"
-              headers={['Nome', 'Codigo', 'Item']}
+              headers={['Id', 'Nome', 'Itens']}
+              data1={atrasadosEtapa}
             />
           </DivGrid>
         </Grid>
       </Grid>
-      <Button onClick={handleTesteGet}> ME CLICK</Button>
     </Container>
   );
 };

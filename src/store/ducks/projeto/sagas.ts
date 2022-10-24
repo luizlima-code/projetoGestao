@@ -76,13 +76,15 @@ export function* getProjetosById({
   }
 }
 
-export function* getProjetosAtrasados(): Generator<
+export function* getProjetosAtrasados({
+  payload,
+}: any): Generator<
   CallEffect<Projetos[]> | PutEffect<AnyAction>,
   void,
   ProjetosData
 > {
   try {
-    const response = yield call(ProjetosService.getProjetosAtrasados);
+    const response = yield call(ProjetosService.getProjetosAtrasados, payload);
 
     yield put(getProjetosAtrasadosSuccess(response.data.content));
   } catch (error) {

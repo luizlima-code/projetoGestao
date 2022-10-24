@@ -9,37 +9,33 @@ import TableRow from '@mui/material/TableRow';
 import { AgendaDiaEAtrasados } from '../../store/ducks/etapaProjeto/types';
 import { Projetos } from '../../store/ducks/projeto/types';
 
-function createData(
-  name: string,
-  calories: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, carbs, protein };
-}
-
 interface OwnProps {
   height?: any;
   headers: Array<string>;
-  data?: AgendaDiaEAtrasados[];
-  // | Projetos[];
+  data1?: AgendaDiaEAtrasados[];
+  data2?: Projetos[];
 }
 
 type Props = OwnProps;
 
 const TableDashboard = (props: Props): React.ReactElement => {
-  const { height, headers, data } = props;
+  const { height, headers, data1, data2 } = props;
 
-  const rows = data?.map((row) => ({
-    ...row,
+  const rows1 = data1?.map((row) => ({
+    // ...row,
+    id: row.idEtapa,
     nome: row.nome,
-    codigo: row.idEtapa,
-    itens: row.itens.map((itens) => ({
-      codigo: itens.codigo,
-      item: itens.nomeItem,
-      projeto: itens.nomeProjeto,
-    })),
+    itens: [row.itens.map((item) => item.nomeItem)],
   }));
+
+  const rows2 = data2?.map((row) => ({
+    // ...row,
+    id: row.id,
+    nome: row.nome,
+    dataEntrega: row.dataPrevisao,
+  }));
+
+  const rows = rows1 != null ? rows1 : rows2;
 
   return (
     <TableContainer
@@ -78,13 +74,13 @@ const TableDashboard = (props: Props): React.ReactElement => {
                 '&:last-child td, &:last-child th': { border: 0 },
               }}
             >
-              {Object.values(row.itens).map((object: any) => (
+              {Object.values(row).map((object: any) => (
                 <TableCell
                   align="center"
                   sx={{
-                    ':first-child': {
-                      textAlign: 'initial',
-                    },
+                    // ':first-child': {
+                    //   textAlign: 'initial',
+                    // },
                     fontSize: 16,
                   }}
                 >

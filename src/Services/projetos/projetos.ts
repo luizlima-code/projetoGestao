@@ -6,8 +6,13 @@ export const ProjetosService = {
   getProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
   getByIdProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.get(`/planner/projeto/${id}`),
-  getProjetosAtrasados: (): Promise<Projetos[]> =>
-    apiDefault.get(`/planner/projeto/projetosAtrasados`),
+  getProjetosAtrasados: (filters: any): Promise<Projetos[]> =>
+    apiDefault.get(`/planner/projeto/projetosAtrasados`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   postProjetos: (data: Projetos): Promise<Projetos> =>
     apiDefault.post(`/planner/projeto`, data),
   putProjetos: (id: string, form: Projetos): Promise<Projetos> =>
