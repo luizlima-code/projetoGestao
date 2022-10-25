@@ -179,7 +179,7 @@ const TableEtapa = (): React.ReactElement => {
         />
       </Container>
       <ModalOptions
-        title="Etapa"
+        title="Etapas"
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}

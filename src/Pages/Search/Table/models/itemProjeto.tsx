@@ -180,7 +180,7 @@ const TableItemProjeto = (): React.ReactElement => {
         />
       </Container>
       <ModalOptions
-        title="Item Projeto"
+        title="Item"
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}
