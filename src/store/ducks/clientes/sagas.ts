@@ -8,7 +8,7 @@ import {
   postClientesSuccess,
   putClientesSuccess,
 } from './actions';
-import { Clientes, ClientesTypes } from './types';
+import { ClienteCustomSearch, Clientes, ClientesTypes } from './types';
 
 interface ClientesType {
   type: ClientesTypes;
@@ -25,13 +25,20 @@ interface PayloadClientesSpecific {
   payload: Clientes;
 }
 
-export function* getClientes(): Generator<
+interface FilterCliente {
+  type: ClientesTypes;
+  payload: ClienteCustomSearch;
+}
+
+export function* getClientes({
+  payload,
+}: FilterCliente): Generator<
   CallEffect<Clientes[]> | PutEffect<AnyAction>,
   void,
   ClientesData
 > {
   try {
-    const response = yield call(ClientesService.getClientes);
+    const response = yield call(ClientesService.getClientes, payload);
 
     yield put(getClientesSuccess(response.data));
   } catch (error) {

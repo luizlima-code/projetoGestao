@@ -18,7 +18,10 @@ import { conformToMask } from 'react-text-mask';
 import ModalOptions from '../../../../Components/ModalOptions';
 import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
 import { getClientesRequest } from '../../../../store/ducks/clientes/actions';
-import { ClientesResponse } from '../../../../store/ducks/clientes/types';
+import {
+  ClienteCustomSearch,
+  ClientesResponse,
+} from '../../../../store/ducks/clientes/types';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 
@@ -42,6 +45,13 @@ const TableCliente = (): React.ReactElement => {
   const [idDoModal, setIdDoModal] = React.useState('');
   const handleOpen = () => setOpenModal(true);
 
+  const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
+  const heightTable = isMobile ? 950 : '60vh';
+
+  const { isLoading, clientes } = useSelector(
+    (state: RootState) => state.clientes
+  );
+
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
   };
@@ -59,6 +69,32 @@ const TableCliente = (): React.ReactElement => {
     setOpen(true);
     // setIdDelete(configId);
   };
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  // Corrigir
+  const customSearch: ClienteCustomSearch = {
+    nome: '',
+    pageNumber: 0,
+    pageSize: 10,
+  };
+
+  useEffect(() => {
+    dispatch(getClientesRequest(customSearch));
+  }, [getClientesRequest]);
+  console.log('Clientes: ', clientes);
 
   const action = (configId: any) => {
     return (
@@ -83,17 +119,6 @@ const TableCliente = (): React.ReactElement => {
     );
   };
 
-  const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
-
-  const { isLoading, clientes } = useSelector(
-    (state: RootState) => state.clientes
-  );
-
-  useEffect(() => {
-    dispatch(getClientesRequest());
-  }, [getClientesRequest]);
-  console.log('Clientes: ', clientes);
-
   const rows = clientes.content?.map((row: ClienteTypes) => ({
     ...row,
     nome: row.nome,
@@ -102,22 +127,6 @@ const TableCliente = (): React.ReactElement => {
     telefone: row.telefone,
     actions: action(row.id),
   }));
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const heightTable = isMobile ? 950 : '60vh';
 
   return (
     <>

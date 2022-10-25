@@ -21,6 +21,14 @@ export interface Clientes {
   telefone: string;
 }
 
+export interface ClienteCustomSearch {
+  nome?: string;
+  email?: string;
+  cpf?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export type ClientesResponse = PageableResponse<Clientes>;
 
 export interface ClientesState {

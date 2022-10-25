@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import Navbar from '../../Components/Navbar';
 import Sidebar from '../../Components/Sidebar';
-import { RootState } from '../../store/ducks/rootReducer';
 import FilterData from './Filter';
 
 import { Container, ContentSearch, MainContent } from './styles';

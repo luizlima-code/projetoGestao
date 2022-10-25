@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { ClientesTypes, Clientes } from './types';
+import { ClientesTypes, Clientes, ClienteCustomSearch } from './types';
 
 interface PayloadForms {
   type: ClientesTypes;
@@ -10,14 +10,14 @@ interface ActionType {
   type: ClientesTypes;
 }
 
-export const getClientesRequest = (): ActionType =>
-  action(ClientesTypes.GETCLIENTESREQUEST);
+export const getClientesRequest = (req: ClienteCustomSearch): ActionType =>
+  action(ClientesTypes.GETCLIENTESREQUEST, req);
 
 export const getClientesSuccess = (res: Clientes[]): PayloadForms =>
   action(ClientesTypes.GETCLIENTESSUCCESS, res);
 
-export const getByIdClientesRequest = (request: any): ActionType =>
-  action(ClientesTypes.GETBYIDCLIENTESREQUEST, request);
+export const getByIdClientesRequest = (req: any): ActionType =>
+  action(ClientesTypes.GETBYIDCLIENTESREQUEST, req);
 
 export const getByIdClientesSuccess = (res: Clientes): ActionType =>
   action(ClientesTypes.GETBYIDCLIENTESSUCCESS, res);

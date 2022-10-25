@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Buttons, Container } from './styles';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { Formik, Form } from 'formik';
 
 interface IFilters {
   handleFilter: (filter: any) => void;
@@ -23,6 +24,10 @@ const FilterData = ({
   setTipoFiltro,
 }: IFilters): React.ReactElement => {
   const [modulo, setModulo] = React.useState('Cliente');
+  const [filter, setFilter] = useState<any>({
+    pageNumber: 0,
+    pageSize: 10,
+  });
 
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
@@ -31,27 +36,21 @@ const FilterData = ({
   const FilterCliente = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
+        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+      </Grid>
+      <Grid item md={4} xs={12}>
         <TextField
-          name="cliNome"
-          id="cliNome"
-          label="Nome"
+          name="cpf"
+          id="cpf"
+          label="CPF/CNPJ"
           fullWidth
           size="small"
         />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="cliCpf"
-          id="cliCpf"
-          label="CPF"
-          fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <TextField
-          name="cliEmail"
-          id="cliEmail"
+          name="email"
+          id="email"
           label="Email"
           fullWidth
           size="small"
@@ -77,27 +76,21 @@ const FilterData = ({
   const FilterFuncionario = (
     <Grid container spacing={1}>
       <Grid item md={3} xs={12}>
+        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+      </Grid>
+      <Grid item md={3} xs={12}>
         <TextField
-          name="funcNome"
-          id="funcNome"
-          label="Nome"
+          name="cpf"
+          id="cpf"
+          label="CPF/CNPJ"
           fullWidth
           size="small"
         />
       </Grid>
       <Grid item md={3} xs={12}>
         <TextField
-          name="funcCpf"
-          id="funcCpf"
-          label="Cpf"
-          fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={3} xs={12}>
-        <TextField
-          name="funcEmail"
-          id="funcEmail"
+          name="email"
+          id="email"
           label="Email"
           fullWidth
           size="small"
@@ -105,8 +98,8 @@ const FilterData = ({
       </Grid>
       <Grid item md={3} xs={12}>
         <TextField
-          name="funcTelefone"
-          id="funcTelefone"
+          name="telefone"
+          id="telefone"
           label="Telefone"
           fullWidth
           size="small"
@@ -176,24 +169,6 @@ const FilterData = ({
           size="small"
         />
       </Grid>
-      {/* <Grid item md={2} xs={12}>
-        <TextField
-          name="projDataPrevista"
-          id="projDataPrevista"
-          label="Data Prevista"
-          fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={2} xs={12}>
-        <TextField
-          name="projDataEntrega"
-          id="projDataEntrega"
-          label="Data Entrega"
-          fullWidth
-          size="small"
-        />
-      </Grid> */}
     </Grid>
   );
 
@@ -262,7 +237,9 @@ const FilterData = ({
           </Buttons>
         </Grid>
       </Grid>
-      {renderModal()}
+      <Formik initialValues={filter} onSubmit={() => {}}>
+        <Form>{renderModal()}</Form>
+      </Formik>
       <Buttons>
         <Button
           variant="contained"
