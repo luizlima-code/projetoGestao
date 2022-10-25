@@ -27,7 +27,7 @@ export type FuncionariosResponse = PageableResponse<Funcionarios>;
 
 export interface FuncionariosState {
   readonly isLoading: boolean;
-  readonly funcionarios: Funcionarios[];
+  readonly funcionarios: FuncionariosResponse;
   readonly funcionarioById: Funcionarios;
   readonly funcionarioPut: Funcionarios;
 }

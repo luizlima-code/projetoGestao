@@ -3,8 +3,8 @@ import { EtapaProjeto } from '../etapaProjeto/types';
 import { Projetos } from '../projeto/types';
 
 export enum ItemProjetoTypes {
-  GETITEMPROJETOREQUEST = '@itemProjeto/GET_ITEM_PROJETO_REQUEST',
-  GETITEMPROJETOSUCCESS = '@itemProjeto/GET_ITEM_PROJETO_SUCCESS',
+  GETALLITEMPROJETOREQUEST = '@itemProjeto/GET_ALL_ITEM_PROJETO_REQUEST',
+  GETALLITEMPROJETOSUCCESS = '@itemProjeto/GET_ALL_ITEM_PROJETO_SUCCESS',
   GETBYIDITEMPROJETOREQUEST = '@itemProjeto/GET_BY_ID_ITEM_PROJETO_REQUEST',
   GETBYIDITEMPROJETOSUCCESS = '@itemProjeto/GET_BY_ID_ITEM_PROJETO_SUCCESS',
   PUTITEMPROJETOREQUEST = '@itemProjeto/PUT_ITEM_PROJETO_REQUEST',
@@ -25,11 +25,11 @@ export interface ItemProjeto {
   projeto: Projetos;
 }
 
-export type ProjetoResponse = PageableResponse<ItemProjeto>;
+export type ItemProjetoResponse = PageableResponse<ItemProjeto>;
 
 export interface ItemProjetoState {
   readonly isLoading: boolean;
-  readonly itemProjetos: ItemProjeto[];
+  readonly itemProjetos: ItemProjetoResponse;
   readonly itemProjetoById: ItemProjeto;
   readonly putItemProjeto: ItemProjeto;
   readonly etapaProjetoByIdItem: EtapaProjeto[];

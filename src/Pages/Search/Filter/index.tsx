@@ -149,7 +149,7 @@ const FilterData = ({
 
   const FilterProjeto = (
     <Grid container spacing={1}>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
           name="projNome"
           id="projNome"
@@ -158,7 +158,7 @@ const FilterData = ({
           size="small"
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
           name="projCliente"
           id="projCliente"
@@ -167,7 +167,7 @@ const FilterData = ({
           size="small"
         />
       </Grid>
-      <Grid item md={2} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
           name="projDataVenda"
           id="projDataVenda"
@@ -176,7 +176,7 @@ const FilterData = ({
           size="small"
         />
       </Grid>
-      <Grid item md={2} xs={12}>
+      {/* <Grid item md={2} xs={12}>
         <TextField
           name="projDataPrevista"
           id="projDataPrevista"
@@ -193,7 +193,7 @@ const FilterData = ({
           fullWidth
           size="small"
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 
@@ -201,38 +201,20 @@ const FilterData = ({
     handleFilter(modulo);
   };
 
-  // ESTE É O CERTOOOOO
-  // const renderModal = () => {
-  //   switch (modulo) {
-  //     case 'Cliente':
-  //       return setTipoFiltro('Cliente'), FilterCliente as ReactJSXElement;
-  //     case 'Etapa':
-  //       return setTipoFiltro('Etapa'), FilterEtapas as ReactJSXElement;
-  //     case 'Funcionario':
-  //       return (
-  //         setTipoFiltro('Funcionario'), FilterFuncionario as ReactJSXElement
-  //       );
-  //     case 'Item':
-  //       return setTipoFiltro('Item'), FilterItem as ReactJSXElement;
-  //     case 'Projeto':
-  //       return setTipoFiltro('Projeto'), FilterProjeto as ReactJSXElement;
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   const renderModal = () => {
     switch (modulo) {
       case 'Cliente':
         return setTipoFiltro('Cliente'), FilterCliente as ReactJSXElement;
       case 'Etapa':
-        return setTipoFiltro('Etapa'), FilterCliente as ReactJSXElement;
+        return setTipoFiltro('Etapa'), FilterEtapas as ReactJSXElement;
       case 'Funcionario':
-        return setTipoFiltro('Funcionario'), FilterCliente as ReactJSXElement;
+        return (
+          setTipoFiltro('Funcionario'), FilterFuncionario as ReactJSXElement
+        );
       case 'Item':
-        return setTipoFiltro('Item'), FilterCliente as ReactJSXElement;
+        return setTipoFiltro('Item'), FilterItem as ReactJSXElement;
       case 'Projeto':
-        return setTipoFiltro('Projeto'), FilterCliente as ReactJSXElement;
+        return setTipoFiltro('Projeto'), FilterProjeto as ReactJSXElement;
       default:
         return null;
     }
@@ -281,7 +263,6 @@ const FilterData = ({
         </Grid>
       </Grid>
       {renderModal()}
-      {/* {FilterCliente} */}
       <Buttons>
         <Button
           variant="contained"

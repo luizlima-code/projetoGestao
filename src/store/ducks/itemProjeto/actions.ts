@@ -11,11 +11,11 @@ interface ActionType {
   type: ItemProjetoTypes;
 }
 
-export const getItemProjetoRequest = (): ActionType =>
-  action(ItemProjetoTypes.GETITEMPROJETOREQUEST);
+export const getAllItemProjetoRequest = (): ActionType =>
+  action(ItemProjetoTypes.GETALLITEMPROJETOREQUEST);
 
-export const getItemProjetoSuccess = (res: ItemProjeto[]): PayloadForms =>
-  action(ItemProjetoTypes.GETBYIDITEMPROJETOSUCCESS, res);
+export const getAllItemProjetoSuccess = (res: ItemProjeto[]): PayloadForms =>
+  action(ItemProjetoTypes.GETALLITEMPROJETOSUCCESS, res);
 
 export const getByIdItemProjetoRequest = (req: any): ActionType =>
   action(ItemProjetoTypes.GETBYIDITEMPROJETOREQUEST, req);

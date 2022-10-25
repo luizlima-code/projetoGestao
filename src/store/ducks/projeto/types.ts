@@ -46,7 +46,7 @@ export type ProjetoResponse = PageableResponse<Projetos>;
 
 export interface ProjetosState {
   readonly isLoading: boolean;
-  readonly projetos: Projetos[];
+  readonly projetos: ProjetoResponse;
   readonly projetosById: Projetos;
   readonly projetosPut: Projetos;
   readonly itemProjeto: ItemProjeto[];

@@ -1,9 +1,13 @@
 import { Reducer } from 'redux';
-import { FuncionariosTypes, FuncionariosState } from './types';
+import {
+  FuncionariosTypes,
+  FuncionariosState,
+  FuncionariosResponse,
+} from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
-  funcionarios: [],
+  funcionarios: <FuncionariosResponse>{},
   funcionarioById: {
     nome: '',
     email: '',

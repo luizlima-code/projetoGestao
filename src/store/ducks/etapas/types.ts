@@ -23,7 +23,7 @@ export type EtapasResponse = PageableResponse<Etapas>;
 
 export interface EtapasState {
   readonly isLoading: boolean;
-  readonly etapas: Etapas[];
+  readonly etapas: EtapasResponse;
   readonly etapasById: Etapas;
   readonly etapasPut: Etapas;
 }

@@ -3,7 +3,7 @@ import { ItemProjeto } from '../../store/ducks/itemProjeto/types';
 import { apiDefault } from '../api';
 
 export const ItemProjetoService = {
-  getItemProjeto: (): Promise<ItemProjeto[]> =>
+  getAllItemProjeto: (): Promise<ItemProjeto[]> =>
     apiDefault.get(`/planner/itemProjeto`),
   getItemProjetoById: (id: ItemProjeto): Promise<ItemProjeto> =>
     apiDefault.get(`/planner/itemProjeto/${id}`),

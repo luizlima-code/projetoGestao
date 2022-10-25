@@ -100,7 +100,7 @@ export function* rootSaga(): Generator {
       getGraficoPrazoAtrasado
     ),
     // itemProjeto
-    takeLatest(ItemProjetoTypes.GETITEMPROJETOREQUEST, getAllItemProjetos),
+    takeLatest(ItemProjetoTypes.GETALLITEMPROJETOREQUEST, getAllItemProjetos),
     takeLatest(ItemProjetoTypes.GETBYIDITEMPROJETOREQUEST, getItemProjetoById),
     takeLatest(ItemProjetoTypes.DELETEITEMPROJETOREQUEST, deleteItemProjeto),
     takeLatest(ItemProjetoTypes.PUTITEMPROJETOREQUEST, putItemProjeto),

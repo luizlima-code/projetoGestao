@@ -33,7 +33,7 @@ export function* getEtapas(): Generator<
   try {
     const response = yield call(EtapasService.getEtapas);
 
-    yield put(getEtapasSuccess(response.data.content));
+    yield put(getEtapasSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao buscar etapas');

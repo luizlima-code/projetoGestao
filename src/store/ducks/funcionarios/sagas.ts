@@ -33,7 +33,7 @@ export function* getFuncionarios(): Generator<
   try {
     const response = yield call(FuncionarioService.getFuncionarios);
 
-    yield put(getFuncionariosSuccess(response.data.content));
+    yield put(getFuncionariosSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar funcionarios');

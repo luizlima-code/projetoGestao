@@ -6,7 +6,7 @@ import { EtapaProjeto } from '../etapaProjeto/types';
 import {
   getByIdItemEtapaProjetoSuccess,
   getByIdItemProjetoSuccess,
-  getItemProjetoSuccess,
+  getAllItemProjetoSuccess,
   postEtapaProjetoSuccess,
   putItemProjetoSuccess,
 } from './actions';
@@ -42,9 +42,10 @@ export function* getAllItemProjetos(): Generator<
   ItemProjetoData
 > {
   try {
-    const response = yield call(ItemProjetoService.getItemProjeto);
+    const response = yield call(ItemProjetoService.getAllItemProjeto);
 
-    yield put(getItemProjetoSuccess(response.data));
+    console.log('sagas:', response.data);
+    yield put(getAllItemProjetoSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar item projeto');

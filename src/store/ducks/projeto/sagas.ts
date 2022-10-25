@@ -52,7 +52,7 @@ export function* getProjetos(): Generator<
   try {
     const response = yield call(ProjetosService.getProjetos);
 
-    yield put(getProjetosSuccess(response.data.content));
+    yield put(getProjetosSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar projetos');
