@@ -42,17 +42,18 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 interface OwnProps {
   handleFilter: (filter: any) => void;
   tipoFiltro: string;
+  filter: any;
 }
 
 type Props = OwnProps;
 
 const TableData = (props: Props): React.ReactElement => {
-  const { handleFilter, tipoFiltro } = props;
+  const { handleFilter, tipoFiltro, filter } = props;
 
   const renderModal = () => {
     switch (tipoFiltro) {
       case 'Cliente':
-        return <TableCliente />;
+        return <TableCliente filter={filter} />;
       case 'Etapa':
         return <TableEtapa />;
       case 'Funcionario':
@@ -60,7 +61,7 @@ const TableData = (props: Props): React.ReactElement => {
       case 'Item':
         return <TableItemProjeto />;
       case 'Projeto':
-        return <TableProjeto />;
+        return <TableProjeto filter={filter} />;
     }
   };
 

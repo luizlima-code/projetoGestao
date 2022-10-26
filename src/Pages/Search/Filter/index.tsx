@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Buttons, Container } from './styles';
 import {
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { Formik, Form } from 'formik';
+import { Formik, Form, useFormik } from 'formik';
 
 interface IFilters {
   handleFilter: (filter: any) => void;
@@ -24,13 +24,36 @@ const FilterData = ({
   setTipoFiltro,
 }: IFilters): React.ReactElement => {
   const [modulo, setModulo] = React.useState('Cliente');
-  const [filter, setFilter] = useState<any>({
+  const formikRef = useRef(null) as any;
+
+  const defaultFilter = {
+    nome: '',
+    email: '',
+    cpf: '',
+    nomeCliente: '',
+    codigo: '',
+    projeto: '',
     pageNumber: 0,
     pageSize: 10,
-  });
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
+  };
+
+  const formik = useFormik({
+    initialValues: defaultFilter,
+    onSubmit: (values) => handleFilter(values),
+  });
+
+  const handleSubmit = (values: any, setSubmitting: Function) => {
+    handleFilter(values);
+    console.log(values);
+    setSubmitting(false);
+  };
+
+  const handleReset = () => {
+    formik.resetForm();
   };
 
   const FilterCliente = (
@@ -62,23 +85,17 @@ const FilterData = ({
   const FilterEtapas = (
     <Grid container spacing={1}>
       <Grid item md={12} xs={12}>
-        <TextField
-          name="etapaNome"
-          id="etapaNome"
-          label="Nome"
-          fullWidth
-          size="small"
-        />
+        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
       </Grid>
     </Grid>
   );
 
   const FilterFuncionario = (
     <Grid container spacing={1}>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
           name="cpf"
           id="cpf"
@@ -87,20 +104,11 @@ const FilterData = ({
           size="small"
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
           name="email"
           id="email"
           label="Email"
-          fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={3} xs={12}>
-        <TextField
-          name="telefone"
-          id="telefone"
-          label="Telefone"
           fullWidth
           size="small"
         />
@@ -111,18 +119,12 @@ const FilterData = ({
   const FilterItem = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
-        <TextField
-          name="itemNome"
-          id="itemNome"
-          label="Nome"
-          fullWidth
-          size="small"
-        />
+        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="itemCodigo"
-          id="itemCodigo"
+          name="codigo"
+          id="codigo"
           label="Codigo"
           fullWidth
           size="small"
@@ -130,8 +132,8 @@ const FilterData = ({
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="itemProjeto"
-          id="itemProjeto"
+          name="projeto"
+          id="projeto"
           label="Projeto"
           fullWidth
           size="small"
@@ -143,18 +145,12 @@ const FilterData = ({
   const FilterProjeto = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
-        <TextField
-          name="projNome"
-          id="projNome"
-          label="Nome"
-          fullWidth
-          size="small"
-        />
+        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="projCliente"
-          id="projCliente"
+          name="cliente"
+          id="cliente"
           label="Cliente"
           fullWidth
           size="small"
@@ -162,8 +158,8 @@ const FilterData = ({
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="projDataVenda"
-          id="projDataVenda"
+          name="dataVenda"
+          id="dataVenda"
           label="Data Venda"
           fullWidth
           size="small"
@@ -171,10 +167,6 @@ const FilterData = ({
       </Grid>
     </Grid>
   );
-
-  const handleFilterBuscar = () => {
-    handleFilter(modulo);
-  };
 
   const renderModal = () => {
     switch (modulo) {
@@ -237,30 +229,41 @@ const FilterData = ({
           </Buttons>
         </Grid>
       </Grid>
-      <Formik initialValues={filter} onSubmit={() => {}}>
-        <Form>{renderModal()}</Form>
+      <Formik
+        innerRef={formikRef}
+        initialValues={defaultFilter}
+        onSubmit={(values: any, { setSubmitting }) => {
+          handleSubmit(values, setSubmitting);
+        }}
+      >
+        {() => (
+          <Form>
+            {renderModal()}
+            <Buttons>
+              <Button
+                variant="contained"
+                sx={{ mt: 2, mr: 2 }}
+                size="small"
+                color="inherit"
+                style={{ backgroundColor: '#dedede', fontWeight: 300 }}
+                onClick={handleReset}
+              >
+                Limpar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ mt: 2 }}
+                size="small"
+                type="submit"
+                style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
+                endIcon={<SearchIcon />}
+              >
+                Buscar
+              </Button>
+            </Buttons>
+          </Form>
+        )}
       </Formik>
-      <Buttons>
-        <Button
-          variant="contained"
-          sx={{ mt: 2, mr: 2 }}
-          size="small"
-          color="inherit"
-          style={{ backgroundColor: '#dedede', fontWeight: 300 }}
-        >
-          Limpar
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ mt: 2 }}
-          size="small"
-          onClick={handleFilterBuscar}
-          style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
-          endIcon={<SearchIcon />}
-        >
-          Buscar
-        </Button>
-      </Buttons>
     </Container>
   );
 };

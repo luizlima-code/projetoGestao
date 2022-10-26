@@ -23,6 +23,14 @@ export interface Funcionarios {
   perfis?: string[];
 }
 
+export interface FuncionarioCustomSearch {
+  nome?: string;
+  email?: string;
+  cpf?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export type FuncionariosResponse = PageableResponse<Funcionarios>;
 
 export interface FuncionariosState {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Delete, Edit } from '@mui/icons-material';
 import {
@@ -20,6 +20,7 @@ import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 import { getProjetosRequest } from '../../../../store/ducks/projeto/actions';
 import { Clientes } from '../../../../store/ducks/clientes/types';
+import { ProjetoCustomSearch } from '../../../../store/ducks/projeto/types';
 
 interface ProjetoTypes {
   cliente: Clientes;
@@ -33,16 +34,30 @@ interface ProjetoTypes {
   actions?: () => void;
 }
 
-const TableProjeto = (): React.ReactElement => {
+interface OwnProps {
+  filter: any;
+}
+
+type Props = OwnProps;
+
+const TableProjeto = (props: Props): React.ReactElement => {
+  const { filter } = props;
   const dispatch = useDispatch();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(filter?.pageSize || 10);
+  const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
   const [open, setOpen] = React.useState(true);
   const [openModal, setOpenModal] = React.useState(false);
   const [idDoModal, setIdDoModal] = React.useState('');
   const handleOpen = () => setOpenModal(true);
+
+  const headers = ['Id', 'Nome', 'Data Venda', 'Cliente', 'Descrição', 'Ações'];
+  const heightTable = isMobile ? 950 : '60vh';
+
+  const { isLoading, projetos } = useSelector(
+    (state: RootState) => state.projeto
+  );
 
   const handleOpenModalOptions = (title: string, id: string) => {
     handleOpen();
@@ -56,6 +71,20 @@ const TableProjeto = (): React.ReactElement => {
   const handleOpenConfirmDelete = (configId: string) => {
     setOpen(true);
     // setIdDelete(configId);
+  };
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const action = (configId: any) => {
@@ -81,14 +110,15 @@ const TableProjeto = (): React.ReactElement => {
     );
   };
 
-  const headers = ['Id', 'Nome', 'Data Venda', 'Cliente', 'Descrição', 'Ações'];
-
-  const { isLoading, projetos } = useSelector(
-    (state: RootState) => state.projeto
-  );
+  const customSearch: ProjetoCustomSearch = {
+    nomeCliente: filter.nomeCliente,
+    nome: filter.nome,
+    pageNumber: page,
+    pageSize: rowsPerPage,
+  };
 
   useEffect(() => {
-    dispatch(getProjetosRequest());
+    dispatch(getProjetosRequest(customSearch));
   }, [getProjetosRequest]);
   console.log('Projetos: ', projetos);
 
@@ -100,22 +130,6 @@ const TableProjeto = (): React.ReactElement => {
     descricao: row.descricao,
     actions: action(row.id),
   }));
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const heightTable = isMobile ? 950 : '60vh';
 
   return (
     <>

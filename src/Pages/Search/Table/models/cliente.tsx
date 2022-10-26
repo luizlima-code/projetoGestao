@@ -12,7 +12,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { conformToMask } from 'react-text-mask';
 import ModalOptions from '../../../../Components/ModalOptions';
@@ -34,10 +34,17 @@ interface ClienteTypes {
   actions?: () => void;
 }
 
-const TableCliente = (): React.ReactElement => {
+interface OwnProps {
+  filter: any;
+}
+
+type Props = OwnProps;
+
+const TableCliente = (props: Props): React.ReactElement => {
+  const { filter } = props;
   const dispatch = useDispatch();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(filter?.pageSize || 10);
+  const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
   const [open, setOpen] = React.useState(true);
@@ -84,18 +91,6 @@ const TableCliente = (): React.ReactElement => {
     setPage(0);
   };
 
-  // Corrigir
-  const customSearch: ClienteCustomSearch = {
-    nome: '',
-    pageNumber: 0,
-    pageSize: 10,
-  };
-
-  useEffect(() => {
-    dispatch(getClientesRequest(customSearch));
-  }, [getClientesRequest]);
-  console.log('Clientes: ', clientes);
-
   const action = (configId: any) => {
     return (
       <>
@@ -118,6 +113,19 @@ const TableCliente = (): React.ReactElement => {
       </>
     );
   };
+
+  const customSearch: ClienteCustomSearch = {
+    nome: filter.nome,
+    cpf: filter.cpf,
+    email: filter.email,
+    pageNumber: page,
+    pageSize: rowsPerPage,
+  };
+
+  useEffect(() => {
+    dispatch(getClientesRequest(customSearch));
+  }, [getClientesRequest]);
+  console.log('Clientes: ', clientes);
 
   const rows = clientes.content?.map((row: ClienteTypes) => ({
     ...row,

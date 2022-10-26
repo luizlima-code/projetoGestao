@@ -37,6 +37,13 @@ export interface Projetos {
   nome: string;
 }
 
+export interface ProjetoCustomSearch {
+  nome?: string;
+  nomeCliente?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export interface PrazoVsAtrasos {
   foraDoPrazo: number;
   noPrazo: number;

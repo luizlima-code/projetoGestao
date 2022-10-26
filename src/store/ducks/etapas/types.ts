@@ -19,6 +19,12 @@ export interface Etapas {
   descricao: string;
 }
 
+export interface EtapaCustomSearch {
+  nome?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export type EtapasResponse = PageableResponse<Etapas>;
 
 export interface EtapasState {

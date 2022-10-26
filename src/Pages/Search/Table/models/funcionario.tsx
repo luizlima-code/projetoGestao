@@ -21,7 +21,10 @@ import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 import { getFuncionariosRequest } from '../../../../store/ducks/funcionarios/actions';
-import { FuncionariosResponse } from '../../../../store/ducks/funcionarios/types';
+import {
+  FuncionarioCustomSearch,
+  FuncionariosResponse,
+} from '../../../../store/ducks/funcionarios/types';
 
 interface FuncionarioTypes {
   id?: string;
@@ -43,6 +46,13 @@ const TableFuncionario = (): React.ReactElement => {
   const [idDoModal, setIdDoModal] = React.useState('');
   const handleOpen = () => setOpenModal(true);
 
+  const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
+  const heightTable = isMobile ? 950 : '60vh';
+
+  const { isLoading, funcionarios } = useSelector(
+    (state: RootState) => state.funcionarios
+  );
+
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
   };
@@ -59,6 +69,20 @@ const TableFuncionario = (): React.ReactElement => {
   const handleOpenConfirmDelete = (configId: string) => {
     setOpen(true);
     // setIdDelete(configId);
+  };
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const action = (configId: any) => {
@@ -84,14 +108,14 @@ const TableFuncionario = (): React.ReactElement => {
     );
   };
 
-  const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
-
-  const { isLoading, funcionarios } = useSelector(
-    (state: RootState) => state.funcionarios
-  );
+  const customSearch: FuncionarioCustomSearch = {
+    nome: '',
+    pageNumber: 0,
+    pageSize: 10,
+  };
 
   useEffect(() => {
-    dispatch(getFuncionariosRequest());
+    dispatch(getFuncionariosRequest(customSearch));
   }, [getFuncionariosRequest]);
   console.log('Funcionarios: ', funcionarios);
 
@@ -103,22 +127,6 @@ const TableFuncionario = (): React.ReactElement => {
     telefone: row.telefone,
     actions: action(row.id),
   }));
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const heightTable = isMobile ? 950 : '60vh';
 
   return (
     <>

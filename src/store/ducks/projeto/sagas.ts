@@ -13,7 +13,12 @@ import {
   putProjetosSuccess,
   getGraficoPrazoAtrasadoSuccess,
 } from './actions';
-import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
+import {
+  PrazoVsAtrasos,
+  ProjetoCustomSearch,
+  Projetos,
+  ProjetosTypes,
+} from './types';
 
 interface ProjetosType {
   type: ProjetosTypes;
@@ -44,13 +49,20 @@ interface PrazoAtrasadoData {
   data: PrazoVsAtrasos;
 }
 
-export function* getProjetos(): Generator<
+interface FilterProjeto {
+  type: ProjetosTypes;
+  payload: ProjetoCustomSearch;
+}
+
+export function* getProjetos({
+  payload,
+}: FilterProjeto): Generator<
   CallEffect<Projetos[]> | PutEffect<AnyAction>,
   void,
   ProjetosData
 > {
   try {
-    const response = yield call(ProjetosService.getProjetos);
+    const response = yield call(ProjetosService.getProjetos, payload);
 
     yield put(getProjetosSuccess(response.data));
   } catch (error) {

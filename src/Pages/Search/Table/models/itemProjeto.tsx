@@ -20,6 +20,7 @@ import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 import { getAllItemProjetoRequest } from '../../../../store/ducks/itemProjeto/actions';
 import { Projetos } from '../../../../store/ducks/projeto/types';
+import { ItemCustomSearch } from '../../../../store/ducks/itemProjeto/types';
 
 interface ItemProjetoTypes {
   codigo: string;
@@ -40,6 +41,13 @@ const TableItemProjeto = (): React.ReactElement => {
   const [idDoModal, setIdDoModal] = React.useState('');
   const handleOpen = () => setOpenModal(true);
 
+  const headers = ['Id', 'Nome', 'Código', 'Projeto', 'Ações'];
+  const heightTable = isMobile ? 950 : '60vh';
+
+  const { isLoading, itemProjetos } = useSelector(
+    (state: RootState) => state.itemProjeto
+  );
+
   const handleOpenModalOptions = (title: string, id: string) => {
     handleOpen();
     setIdDoModal(id);
@@ -52,6 +60,20 @@ const TableItemProjeto = (): React.ReactElement => {
   const handleOpenConfirmDelete = (configId: string) => {
     setOpen(true);
     // setIdDelete(configId);
+  };
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const action = (configId: any) => {
@@ -77,14 +99,14 @@ const TableItemProjeto = (): React.ReactElement => {
     );
   };
 
-  const headers = ['Id', 'Nome', 'Código', 'Projeto', 'Ações'];
-
-  const { isLoading, itemProjetos } = useSelector(
-    (state: RootState) => state.itemProjeto
-  );
+  const customSearch: ItemCustomSearch = {
+    nome: '',
+    pageNumber: 0,
+    pageSize: 10,
+  };
 
   useEffect(() => {
-    dispatch(getAllItemProjetoRequest());
+    dispatch(getAllItemProjetoRequest(customSearch));
   }, [getAllItemProjetoRequest]);
   console.log('ItemProjetos: ', itemProjetos);
 
@@ -95,22 +117,6 @@ const TableItemProjeto = (): React.ReactElement => {
     projeto: row.projeto.nome,
     actions: action(row.id),
   }));
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const heightTable = isMobile ? 950 : '60vh';
 
   return (
     <>

@@ -1,6 +1,11 @@
 import { action } from 'typesafe-actions';
 import { ItemProjeto } from '../itemProjeto/types';
-import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
+import {
+  PrazoVsAtrasos,
+  ProjetoCustomSearch,
+  Projetos,
+  ProjetosTypes,
+} from './types';
 
 interface PayloadForms {
   type: ProjetosTypes;
@@ -11,8 +16,8 @@ interface ActionType {
   type: ProjetosTypes;
 }
 
-export const getProjetosRequest = (): ActionType =>
-  action(ProjetosTypes.GETPROJETOSREQUEST);
+export const getProjetosRequest = (req: ProjetoCustomSearch): ActionType =>
+  action(ProjetosTypes.GETPROJETOSREQUEST, req);
 
 export const getProjetosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSSUCCESS, res);

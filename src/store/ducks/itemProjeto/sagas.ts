@@ -10,7 +10,7 @@ import {
   postEtapaProjetoSuccess,
   putItemProjetoSuccess,
 } from './actions';
-import { ItemProjeto, ItemProjetoTypes } from './types';
+import { ItemCustomSearch, ItemProjeto, ItemProjetoTypes } from './types';
 
 interface ItemProjetoType {
   type: ItemProjetoTypes;
@@ -36,13 +36,20 @@ interface PayloadEtapaProjetoSpecific {
   payload: EtapaProjeto;
 }
 
-export function* getAllItemProjetos(): Generator<
+interface FilterItem {
+  type: ItemProjetoTypes;
+  payload: ItemCustomSearch;
+}
+
+export function* getAllItemProjetos({
+  payload,
+}: FilterItem): Generator<
   CallEffect<ItemProjeto[]> | PutEffect<AnyAction>,
   void,
   ItemProjetoData
 > {
   try {
-    const response = yield call(ItemProjetoService.getAllItemProjeto);
+    const response = yield call(ItemProjetoService.getAllItemProjeto, payload);
 
     console.log('sagas:', response.data);
     yield put(getAllItemProjetoSuccess(response.data));

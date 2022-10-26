@@ -15,13 +15,11 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { conformToMask } from 'react-text-mask';
 import ModalOptions from '../../../../Components/ModalOptions';
-import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 import { getEtapasRequest } from '../../../../store/ducks/etapas/actions';
-import { EtapasResponse } from '../../../../store/ducks/etapas/types';
+import { EtapaCustomSearch } from '../../../../store/ducks/etapas/types';
 
 interface EtapaTypes {
   id?: string;
@@ -41,6 +39,11 @@ const TableEtapa = (): React.ReactElement => {
   const [idDoModal, setIdDoModal] = React.useState('');
   const handleOpen = () => setOpenModal(true);
 
+  const headers = ['Id', 'Nome', 'Descrição', 'Ações'];
+  const heightTable = isMobile ? 950 : '60vh';
+
+  const { isLoading, etapas } = useSelector((state: RootState) => state.etapas);
+
   const handleOpenModalOptions = (title: string, id: string) => {
     handleOpen();
     setIdDoModal(id);
@@ -53,6 +56,20 @@ const TableEtapa = (): React.ReactElement => {
   const handleOpenConfirmDelete = (configId: string) => {
     setOpen(true);
     // setIdDelete(configId);
+  };
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   const action = (configId: any) => {
@@ -78,12 +95,14 @@ const TableEtapa = (): React.ReactElement => {
     );
   };
 
-  const headers = ['Id', 'Nome', 'Descrição', 'Ações'];
-
-  const { isLoading, etapas } = useSelector((state: RootState) => state.etapas);
+  const customSearch: EtapaCustomSearch = {
+    nome: '',
+    pageNumber: 0,
+    pageSize: 10,
+  };
 
   useEffect(() => {
-    dispatch(getEtapasRequest());
+    dispatch(getEtapasRequest(customSearch));
   }, [getEtapasRequest]);
   console.log('Etapas: ', etapas);
 
@@ -94,22 +113,6 @@ const TableEtapa = (): React.ReactElement => {
     descricao: row.descricao,
     actions: action(row.id),
   }));
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const heightTable = isMobile ? 950 : '60vh';
 
   return (
     <>

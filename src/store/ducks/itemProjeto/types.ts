@@ -25,6 +25,14 @@ export interface ItemProjeto {
   projeto: Projetos;
 }
 
+export interface ItemCustomSearch {
+  nome?: string;
+  codigo?: string;
+  projeto?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export type ItemProjetoResponse = PageableResponse<ItemProjeto>;
 
 export interface ItemProjetoState {

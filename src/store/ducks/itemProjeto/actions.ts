@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions';
 import { EtapaProjeto } from '../etapaProjeto/types';
-import { ItemProjeto, ItemProjetoTypes } from './types';
+import { ItemCustomSearch, ItemProjeto, ItemProjetoTypes } from './types';
 
 interface PayloadForms {
   type: ItemProjetoTypes;
@@ -11,8 +11,8 @@ interface ActionType {
   type: ItemProjetoTypes;
 }
 
-export const getAllItemProjetoRequest = (): ActionType =>
-  action(ItemProjetoTypes.GETALLITEMPROJETOREQUEST);
+export const getAllItemProjetoRequest = (req: ItemCustomSearch): ActionType =>
+  action(ItemProjetoTypes.GETALLITEMPROJETOREQUEST, req);
 
 export const getAllItemProjetoSuccess = (res: ItemProjeto[]): PayloadForms =>
   action(ItemProjetoTypes.GETALLITEMPROJETOSUCCESS, res);

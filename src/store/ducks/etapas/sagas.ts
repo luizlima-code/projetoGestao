@@ -8,7 +8,7 @@ import {
   postEtapasSuccess,
   putEtapasSuccess,
 } from './actions';
-import { Etapas, EtapasTypes } from './types';
+import { EtapaCustomSearch, Etapas, EtapasTypes } from './types';
 
 interface EtapasType {
   type: EtapasTypes;
@@ -25,13 +25,20 @@ interface PayloadEtapasSpecific {
   payload: Etapas;
 }
 
-export function* getEtapas(): Generator<
+interface FilterEtapa {
+  type: EtapasTypes;
+  payload: EtapaCustomSearch;
+}
+
+export function* getEtapas({
+  payload,
+}: FilterEtapa): Generator<
   CallEffect<Etapas[]> | PutEffect<AnyAction>,
   void,
   EtapasData
 > {
   try {
-    const response = yield call(EtapasService.getEtapas);
+    const response = yield call(EtapasService.getEtapas, payload);
 
     yield put(getEtapasSuccess(response.data));
   } catch (error) {

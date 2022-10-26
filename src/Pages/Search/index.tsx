@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Navbar from '../../Components/Navbar';
 import Sidebar from '../../Components/Sidebar';
@@ -18,6 +18,10 @@ const Search: React.FC = () => {
     setFilter(filtered);
   };
 
+  useEffect(() => {
+    handleFilter(filter);
+  }, []);
+
   return (
     <Container>
       <Navbar />
@@ -25,10 +29,14 @@ const Search: React.FC = () => {
         <Sidebar />
         <ContentSearch>
           <FilterData
-            handleFilter={handleFilter}
+            handleFilter={(e) => handleFilter(e)}
             setTipoFiltro={setTipoFiltro}
           />
-          <TableData handleFilter={handleFilter} tipoFiltro={tipoFiltro} />
+          <TableData
+            handleFilter={handleFilter}
+            tipoFiltro={tipoFiltro}
+            filter={filter}
+          />
         </ContentSearch>
       </MainContent>
     </Container>

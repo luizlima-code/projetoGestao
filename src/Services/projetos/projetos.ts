@@ -1,9 +1,19 @@
 import { ItemProjeto } from '../../store/ducks/itemProjeto/types';
-import { Projetos, PrazoVsAtrasos } from '../../store/ducks/projeto/types';
+import {
+  Projetos,
+  PrazoVsAtrasos,
+  ProjetoCustomSearch,
+} from '../../store/ducks/projeto/types';
 import { apiDefault } from '../api';
 
 export const ProjetosService = {
-  getProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
+  getProjetos: (filters: ProjetoCustomSearch): Promise<Projetos[]> =>
+    apiDefault.get(`/planner/projeto`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   getByIdProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.get(`/planner/projeto/${id}`),
   getProjetosAtrasados: (filters: any): Promise<Projetos[]> =>
