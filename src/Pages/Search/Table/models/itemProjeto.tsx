@@ -114,8 +114,7 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getAllItemProjetoRequest(customSearch));
-  }, [getAllItemProjetoRequest]);
-  console.log('ItemProjetos: ', itemProjetos);
+  }, [filter]);
 
   const rows = itemProjetos?.content?.map((row: ItemProjetoTypes) => ({
     id: row.id,

@@ -124,7 +124,7 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getClientesRequest(customSearch));
-  }, [getClientesRequest]);
+  }, [filter]);
 
   const rows = clientes.content?.map((row: ClienteTypes) => ({
     ...row,

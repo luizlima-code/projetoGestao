@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { Buttons, Container } from './styles';
 import {
@@ -37,6 +37,7 @@ const FilterData = ({
 
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
+    handleReset();
   };
 
   const formik = useFormik({
@@ -46,6 +47,10 @@ const FilterData = ({
 
   const handleReset = () => {
     formik.resetForm();
+    handleFilter({
+      pageNumber: 0,
+      pageSize: 10,
+    });
   };
 
   const FilterCliente = (

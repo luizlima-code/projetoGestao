@@ -124,8 +124,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getFuncionariosRequest(customSearch));
-  }, [getFuncionariosRequest]);
-  console.log('Funcionarios: ', funcionarios);
+  }, [filter]);
 
   const rows = funcionarios?.content?.map((row: FuncionarioTypes) => ({
     id: row.id,
