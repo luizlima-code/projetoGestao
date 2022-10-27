@@ -27,8 +27,6 @@ export interface ItemProjeto {
 
 export interface ItemCustomSearch {
   nome?: string;
-  codigo?: string;
-  projeto?: string;
   pageNumber: number;
   pageSize: number;
 }

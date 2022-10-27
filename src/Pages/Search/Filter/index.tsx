@@ -31,8 +31,6 @@ const FilterData = ({
     email: '',
     cpf: '',
     nomeCliente: '',
-    codigo: '',
-    projeto: '',
     pageNumber: 0,
     pageSize: 10,
   };
@@ -43,10 +41,7 @@ const FilterData = ({
 
   const formik = useFormik({
     initialValues: defaultFilter,
-    onSubmit: (values) => (
-      handleFilter(values),
-      console.log(values)
-    ),
+    onSubmit: (values) => (handleFilter(values), console.log(values)),
   });
 
   const handleReset = () => {
@@ -73,6 +68,8 @@ const FilterData = ({
           label="CPF/CNPJ"
           fullWidth
           size="small"
+          value={formik.values.cpf}
+          onChange={formik.handleChange}
         />
       </Grid>
       <Grid item md={4} xs={12}>
@@ -82,6 +79,8 @@ const FilterData = ({
           label="Email"
           fullWidth
           size="small"
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -90,7 +89,15 @@ const FilterData = ({
   const FilterEtapas = (
     <Grid container spacing={1}>
       <Grid item md={12} xs={12}>
-        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+        <TextField
+          name="nome"
+          id="nome"
+          label="Nome"
+          fullWidth
+          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
+        />
       </Grid>
     </Grid>
   );
@@ -98,7 +105,15 @@ const FilterData = ({
   const FilterFuncionario = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
-        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+        <TextField
+          name="nome"
+          id="nome"
+          label="Nome"
+          fullWidth
+          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
+        />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
@@ -107,6 +122,8 @@ const FilterData = ({
           label="CPF/CNPJ"
           fullWidth
           size="small"
+          value={formik.values.cpf}
+          onChange={formik.handleChange}
         />
       </Grid>
       <Grid item md={4} xs={12}>
@@ -116,6 +133,8 @@ const FilterData = ({
           label="Email"
           fullWidth
           size="small"
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -123,16 +142,26 @@ const FilterData = ({
 
   const FilterItem = (
     <Grid container spacing={1}>
-      <Grid item md={4} xs={12}>
-        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+      <Grid item md={12} xs={12}>
+        <TextField
+          name="nome"
+          id="nome"
+          label="Nome"
+          fullWidth
+          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
+        />
       </Grid>
-      <Grid item md={4} xs={12}>
+      {/* <Grid item md={4} xs={12}>
         <TextField
           name="codigo"
           id="codigo"
           label="Codigo"
           fullWidth
           size="small"
+          value={formik.values.codigo}
+          onChange={formik.handleChange}
         />
       </Grid>
       <Grid item md={4} xs={12}>
@@ -143,25 +172,35 @@ const FilterData = ({
           fullWidth
           size="small"
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 
   const FilterProjeto = (
     <Grid container spacing={1}>
-      <Grid item md={4} xs={12}>
-        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
-      </Grid>
-      <Grid item md={4} xs={12}>
+      <Grid item md={6} xs={12}>
         <TextField
-          name="cliente"
-          id="cliente"
+          name="nome"
+          id="nome"
+          label="Nome"
+          fullWidth
+          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
+        />
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <TextField
+          name="nomeCliente"
+          id="nomeCliente"
           label="Cliente"
           fullWidth
           size="small"
+          value={formik.values.nomeCliente}
+          onChange={formik.handleChange}
         />
       </Grid>
-      <Grid item md={4} xs={12}>
+      {/* <Grid item md={4} xs={12}>
         <TextField
           name="dataVenda"
           id="dataVenda"
@@ -169,7 +208,7 @@ const FilterData = ({
           fullWidth
           size="small"
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 

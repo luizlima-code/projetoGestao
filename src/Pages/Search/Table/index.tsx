@@ -55,11 +55,11 @@ const TableData = (props: Props): React.ReactElement => {
       case 'Cliente':
         return <TableCliente filter={filter} />;
       case 'Etapa':
-        return <TableEtapa />;
+        return <TableEtapa filter={filter} />;
       case 'Funcionario':
-        return <TableFuncionario />;
+        return <TableFuncionario filter={filter} />;
       case 'Item':
-        return <TableItemProjeto />;
+        return <TableItemProjeto filter={filter} />;
       case 'Projeto':
         return <TableProjeto filter={filter} />;
     }

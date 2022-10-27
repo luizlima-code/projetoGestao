@@ -125,7 +125,6 @@ const TableCliente = (props: Props): React.ReactElement => {
   useEffect(() => {
     dispatch(getClientesRequest(customSearch));
   }, [getClientesRequest]);
-  console.log('Clientes: ', clientes);
 
   const rows = clientes.content?.map((row: ClienteTypes) => ({
     ...row,

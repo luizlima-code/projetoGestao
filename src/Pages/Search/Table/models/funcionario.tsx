@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Delete, Edit } from '@mui/icons-material';
 import {
@@ -34,11 +34,17 @@ interface FuncionarioTypes {
   telefone: string;
   actions?: () => void;
 }
+interface OwnProps {
+  filter: any;
+}
 
-const TableFuncionario = (): React.ReactElement => {
+type Props = OwnProps;
+
+const TableFuncionario = (props: Props): React.ReactElement => {
+  const { filter } = props;
   const dispatch = useDispatch();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(filter?.pageSize || 10);
+  const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
   const [open, setOpen] = React.useState(true);
@@ -109,9 +115,11 @@ const TableFuncionario = (): React.ReactElement => {
   };
 
   const customSearch: FuncionarioCustomSearch = {
-    nome: '',
-    pageNumber: 0,
-    pageSize: 10,
+    nome: filter.nome,
+    cpf: filter.cpf,
+    email: filter.email,
+    pageNumber: page,
+    pageSize: rowsPerPage,
   };
 
   useEffect(() => {
