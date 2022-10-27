@@ -43,14 +43,11 @@ const FilterData = ({
 
   const formik = useFormik({
     initialValues: defaultFilter,
-    onSubmit: (values) => handleFilter(values),
+    onSubmit: (values) => (
+      handleFilter(values),
+      console.log(values)
+    ),
   });
-
-  const handleSubmit = (values: any, setSubmitting: Function) => {
-    handleFilter(values);
-    console.log(values);
-    setSubmitting(false);
-  };
 
   const handleReset = () => {
     formik.resetForm();
@@ -59,7 +56,15 @@ const FilterData = ({
   const FilterCliente = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
-        <TextField name="nome" id="nome" label="Nome" fullWidth size="small" />
+        <TextField
+          name="nome"
+          id="nome"
+          label="Nome"
+          fullWidth
+          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
+        />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
@@ -229,41 +234,31 @@ const FilterData = ({
           </Buttons>
         </Grid>
       </Grid>
-      <Formik
-        innerRef={formikRef}
-        initialValues={defaultFilter}
-        onSubmit={(values: any, { setSubmitting }) => {
-          handleSubmit(values, setSubmitting);
-        }}
-      >
-        {() => (
-          <Form>
-            {renderModal()}
-            <Buttons>
-              <Button
-                variant="contained"
-                sx={{ mt: 2, mr: 2 }}
-                size="small"
-                color="inherit"
-                style={{ backgroundColor: '#dedede', fontWeight: 300 }}
-                onClick={handleReset}
-              >
-                Limpar
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ mt: 2 }}
-                size="small"
-                type="submit"
-                style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
-                endIcon={<SearchIcon />}
-              >
-                Buscar
-              </Button>
-            </Buttons>
-          </Form>
-        )}
-      </Formik>
+      <form onSubmit={formik.handleSubmit}>
+        {renderModal()}
+        <Buttons>
+          <Button
+            variant="contained"
+            sx={{ mt: 2, mr: 2 }}
+            size="small"
+            color="inherit"
+            style={{ backgroundColor: '#dedede', fontWeight: 300 }}
+            onClick={handleReset}
+          >
+            Limpar
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            size="small"
+            type="submit"
+            style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
+            endIcon={<SearchIcon />}
+          >
+            Buscar
+          </Button>
+        </Buttons>
+      </form>
     </Container>
   );
 };
