@@ -40,6 +40,7 @@ export interface Projetos {
 export interface ProjetoCustomSearch {
   nome?: string;
   nomeCliente?: string;
+  ativos: boolean;
   pageNumber: number;
   pageSize: number;
 }
