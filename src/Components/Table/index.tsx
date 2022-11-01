@@ -25,7 +25,11 @@ const TableDashboard = (props: Props): React.ReactElement => {
     // ...row,
     id: row.idEtapa,
     nome: row.nome,
-    itens: [row.itens.map((item) => item.nomeItem)],
+    itens: [
+      row.itens.length === 0
+        ? 'sem itens'
+        : row.itens.map((item) => `${item.nomeItem}, `),
+    ],
   }));
 
   const rows2 = data2?.map((row) => ({
