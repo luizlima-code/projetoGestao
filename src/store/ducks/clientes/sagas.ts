@@ -4,11 +4,12 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ClientesService } from '../../../Services/clientes/clientes';
 import {
   getByIdClientesSuccess,
+  getClientesFilterSuccess,
   getClientesSuccess,
   postClientesSuccess,
   putClientesSuccess,
 } from './actions';
-import { Clientes, ClientesTypes } from './types';
+import { ClienteCustomSearch, Clientes, ClientesTypes } from './types';
 
 interface ClientesType {
   type: ClientesTypes;
@@ -25,15 +26,37 @@ interface PayloadClientesSpecific {
   payload: Clientes;
 }
 
-export function* getClientes(): Generator<
+interface FilterCliente {
+  type: ClientesTypes;
+  payload: ClienteCustomSearch;
+}
+
+export function* getClientes({
+  payload,
+}: FilterCliente): Generator<
   CallEffect<Clientes[]> | PutEffect<AnyAction>,
   void,
   ClientesData
 > {
   try {
-    const response = yield call(ClientesService.getClientes);
+    const response = yield call(ClientesService.getClientes, payload);
 
     yield put(getClientesSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    toast.error('Erro ao pesquisar clientes');
+  }
+}
+
+export function* getClientesFilter(): Generator<
+  CallEffect<any> | PutEffect<AnyAction>,
+  void,
+  ClientesData
+> {
+  try {
+    const response = yield call(ClientesService.getClientesFilter);
+
+    yield put(getClientesFilterSuccess(response.data?.content));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar clientes');

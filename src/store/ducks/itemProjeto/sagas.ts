@@ -4,16 +4,21 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ItemProjetoService } from '../../../Services/itemProjeto/itemProjeto';
 import { EtapaProjeto } from '../etapaProjeto/types';
 import {
+  getByIdItemEtapaProjetoSuccess,
   getByIdItemProjetoSuccess,
-  getItemProjetoSuccess,
+  getAllItemProjetoSuccess,
   postEtapaProjetoSuccess,
   putItemProjetoSuccess,
 } from './actions';
-import { ItemProjeto, ItemProjetoTypes } from './types';
+import { ItemCustomSearch, ItemProjeto, ItemProjetoTypes } from './types';
 
 interface ItemProjetoType {
   type: ItemProjetoTypes;
   data: ItemProjeto;
+}
+interface EtapaProjetoType {
+  type: ItemProjetoTypes;
+  data: EtapaProjeto;
 }
 
 interface ItemProjetoData {
@@ -31,15 +36,23 @@ interface PayloadEtapaProjetoSpecific {
   payload: EtapaProjeto;
 }
 
-export function* getItemProjeto(): Generator<
+interface FilterItem {
+  type: ItemProjetoTypes;
+  payload: ItemCustomSearch;
+}
+
+export function* getAllItemProjetos({
+  payload,
+}: FilterItem): Generator<
   CallEffect<ItemProjeto[]> | PutEffect<AnyAction>,
   void,
   ItemProjetoData
 > {
   try {
-    const response = yield call(ItemProjetoService.getItemProjeto);
+    const response = yield call(ItemProjetoService.getAllItemProjeto, payload);
 
-    yield put(getItemProjetoSuccess(response.data));
+    console.log('sagas:', response.data);
+    yield put(getAllItemProjetoSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar item projeto');
@@ -123,5 +136,22 @@ export function* postEtapa({
     console.error(error);
     console.log(payload);
     toast.error('Erro ao cadastrar etapa do projeto');
+  }
+}
+
+export function* getEtapaProjetoByIdItem({
+  payload,
+}: PayloadItemProjetoSpecific): Generator<
+  CallEffect<ItemProjeto> | PutEffect<AnyAction>,
+  void,
+  EtapaProjetoType
+> {
+  try {
+    const response = yield call(ItemProjetoService.getItemProjetoById, payload);
+
+    yield put(getByIdItemEtapaProjetoSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    toast.error('Erro ao pesquisar etapa do projeto');
   }
 }

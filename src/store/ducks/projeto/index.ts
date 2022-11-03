@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { ProjetosTypes, ProjetosState } from './types';
+import { ProjetosTypes, ProjetosState, ProjetoResponse } from './types';
 
 const Clientes = {
   nome: '',
@@ -10,7 +10,7 @@ const Clientes = {
 
 const INITIAL_STATE = {
   isLoading: false,
-  projetos: [],
+  projetos: <ProjetoResponse>{},
   projetosById: {
     cliente: Clientes,
     dataEntrega: new Date().toISOString(),
@@ -23,8 +23,8 @@ const INITIAL_STATE = {
   itemProjeto: [],
   projetosAtrasados: [],
   prazoVsAtrasos: {
-    foraDoPrazo: '',
-    noPrazo: '',
+    foraDoPrazo: 0,
+    noPrazo: 0,
   },
   projetosPut: {
     cliente: Clientes,

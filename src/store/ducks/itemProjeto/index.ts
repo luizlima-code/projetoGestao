@@ -1,5 +1,9 @@
 import { Reducer } from 'redux';
-import { ItemProjetoState, ItemProjetoTypes } from './types';
+import {
+  ItemProjetoResponse,
+  ItemProjetoState,
+  ItemProjetoTypes,
+} from './types';
 
 const Clientes = {
   nome: '',
@@ -20,7 +24,7 @@ const Projetos = {
 
 const INITIAL_STATE = {
   isLoading: false,
-  itemProjetos: [],
+  itemProjetos: <ItemProjetoResponse>{},
   itemProjetoById: {
     codigo: '',
     nome: '',
@@ -39,12 +43,12 @@ const reducer: Reducer<ItemProjetoState> = (
   action: any
 ) => {
   switch (action.type) {
-    case ItemProjetoTypes.GETITEMPROJETOREQUEST:
+    case ItemProjetoTypes.GETALLITEMPROJETOREQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case ItemProjetoTypes.GETITEMPROJETOSUCCESS:
+    case ItemProjetoTypes.GETALLITEMPROJETOSUCCESS:
       return {
         ...state,
         isLoading: false,

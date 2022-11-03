@@ -27,26 +27,34 @@ export enum ProjetosTypes {
 }
 
 export interface Projetos {
-  cliente: Clientes;
+  cliente: Clientes | any;
   dataEntrega: string;
   dataPrevisao: string;
-  dataInicial: string;
+  dataInicial?: string;
   dataVenda: string;
   descricao: string;
   id?: string;
   nome: string;
 }
 
+export interface ProjetoCustomSearch {
+  nome?: string;
+  nomeCliente?: string;
+  ativos: boolean;
+  pageNumber: number;
+  pageSize: number;
+}
+
 export interface PrazoVsAtrasos {
-  foraDoPrazo: string;
-  noPrazo: string;
+  foraDoPrazo: number;
+  noPrazo: number;
 }
 
 export type ProjetoResponse = PageableResponse<Projetos>;
 
 export interface ProjetosState {
   readonly isLoading: boolean;
-  readonly projetos: Projetos[];
+  readonly projetos: ProjetoResponse;
   readonly projetosById: Projetos;
   readonly projetosPut: Projetos;
   readonly itemProjeto: ItemProjeto[];

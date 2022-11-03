@@ -8,7 +8,11 @@ import {
   postFuncionariosSuccess,
   putFuncionariosSuccess,
 } from './actions';
-import { FuncionariosTypes, Funcionarios } from './types';
+import {
+  FuncionariosTypes,
+  Funcionarios,
+  FuncionarioCustomSearch,
+} from './types';
 
 interface FuncionariosType {
   type: FuncionariosTypes;
@@ -25,15 +29,22 @@ interface PayloadFuncionarioSpecific {
   payload: Funcionarios;
 }
 
-export function* getFuncionarios(): Generator<
+interface FilterFuncionario {
+  type: FuncionariosTypes;
+  payload: FuncionarioCustomSearch;
+}
+
+export function* getFuncionarios({
+  payload,
+}: FilterFuncionario): Generator<
   CallEffect<Funcionarios[]> | PutEffect<AnyAction>,
   void,
   FuncionariosData
 > {
   try {
-    const response = yield call(FuncionarioService.getFuncionarios);
+    const response = yield call(FuncionarioService.getFuncionarios, payload);
 
-    yield put(getFuncionariosSuccess(response.data.content));
+    yield put(getFuncionariosSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar funcionarios');
