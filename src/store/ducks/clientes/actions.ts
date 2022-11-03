@@ -16,6 +16,12 @@ export const getClientesRequest = (req: ClienteCustomSearch): ActionType =>
 export const getClientesSuccess = (res: Clientes[]): PayloadForms =>
   action(ClientesTypes.GETCLIENTESSUCCESS, res);
 
+export const getClientesFilterRequest = (): ActionType =>
+  action(ClientesTypes.GETCLIENTESFILTERREQUEST);
+
+export const getClientesFilterSuccess = (res: any): PayloadForms =>
+  action(ClientesTypes.GETCLIENTESFILTERSUCCESS, res);
+
 export const getByIdClientesRequest = (req: any): ActionType =>
   action(ClientesTypes.GETBYIDCLIENTESREQUEST, req);
 

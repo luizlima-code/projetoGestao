@@ -111,7 +111,6 @@ const TableEtapa = (props: Props): React.ReactElement => {
   useEffect(() => {
     dispatch(getEtapasRequest(customSearch));
   }, [getEtapasRequest]);
-  console.log('Etapas: ', etapas);
 
   const rows = etapas?.content?.map((row: EtapaTypes) => ({
     ...row,

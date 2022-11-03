@@ -3,6 +3,8 @@ import { PageableResponse } from '../../../config/types';
 export enum ClientesTypes {
   GETCLIENTESREQUEST = '@clientes/GET_CLIENTES_REQUEST',
   GETCLIENTESSUCCESS = '@clientes/GET_CLIENTES_SUCCESS',
+  GETCLIENTESFILTERREQUEST = '@clientes/GET_CLIENTES_FILTER_REQUEST',
+  GETCLIENTESFILTERSUCCESS = '@clientes/GET_CLIENTES_FILTER_SUCCESS',
   GETBYIDCLIENTESREQUEST = '@clientes/GET_BY_ID_CLIENTES_REQUEST',
   GETBYIDCLIENTESSUCCESS = '@clientes/GET_BY_ID_CLIENTES_SUCCESS',
   POSTCLIENTESREQUEST = '@clientes/POST_CLIENTES_REQUEST',
@@ -34,6 +36,7 @@ export type ClientesResponse = PageableResponse<Clientes>;
 export interface ClientesState {
   readonly isLoading: boolean;
   readonly clientes: ClientesResponse;
+  readonly clientesFilter: Clientes[];
   readonly clientesById: Clientes;
   readonly clientesPut: Clientes;
 }

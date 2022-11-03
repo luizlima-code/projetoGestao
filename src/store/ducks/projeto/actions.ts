@@ -34,7 +34,7 @@ export const getProjetosAtrasadosRequest = (req: any) =>
 export const getProjetosAtrasadosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSATRASADOSSUCCESS, res);
 
-export const postProjetosRequest = (req: Projetos): ActionType =>
+export const postProjetosRequest = (req: any): ActionType =>
   action(ProjetosTypes.POSTPROJETOSREQUEST, req);
 
 export const postProjetosSuccess = (): ActionType =>

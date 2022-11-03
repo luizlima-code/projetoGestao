@@ -4,6 +4,7 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { ClientesService } from '../../../Services/clientes/clientes';
 import {
   getByIdClientesSuccess,
+  getClientesFilterSuccess,
   getClientesSuccess,
   postClientesSuccess,
   putClientesSuccess,
@@ -41,6 +42,21 @@ export function* getClientes({
     const response = yield call(ClientesService.getClientes, payload);
 
     yield put(getClientesSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    toast.error('Erro ao pesquisar clientes');
+  }
+}
+
+export function* getClientesFilter(): Generator<
+  CallEffect<any> | PutEffect<AnyAction>,
+  void,
+  ClientesData
+> {
+  try {
+    const response = yield call(ClientesService.getClientesFilter);
+
+    yield put(getClientesFilterSuccess(response.data?.content));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar clientes');

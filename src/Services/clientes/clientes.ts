@@ -12,6 +12,8 @@ export const ClientesService = {
       },
       responseType: 'json',
     }),
+  getClientesFilter: (): Promise<Clientes[]> =>
+    apiDefault.get(`/planner/cliente`),
   getByIdClientes: (id: Clientes): Promise<Clientes> =>
     apiDefault.get(`/planner/cliente/${id}`),
   postClientes: (data: Clientes): Promise<Clientes> =>

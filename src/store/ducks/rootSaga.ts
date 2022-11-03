@@ -3,6 +3,7 @@ import {
   deleteClientes,
   getClientes,
   getClientesById,
+  getClientesFilter,
   postClientes,
   putClientes,
 } from './clientes/sagas';
@@ -77,6 +78,7 @@ export function* rootSaga(): Generator {
     // clientes
     takeLatest(ClientesTypes.GETCLIENTESREQUEST, getClientes),
     takeLatest(ClientesTypes.GETBYIDCLIENTESREQUEST, getClientesById),
+    takeLatest(ClientesTypes.GETCLIENTESFILTERREQUEST, getClientesFilter),
     takeLatest(ClientesTypes.POSTCLIENTESREQUEST, postClientes),
     takeLatest(ClientesTypes.DELETECLIENTESREQUEST, deleteClientes),
     takeLatest(ClientesTypes.PUTCLIENTESREQUEST, putClientes),

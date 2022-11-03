@@ -27,10 +27,10 @@ export enum ProjetosTypes {
 }
 
 export interface Projetos {
-  cliente: Clientes;
+  cliente: Clientes | any;
   dataEntrega: string;
   dataPrevisao: string;
-  dataInicial: string;
+  dataInicial?: string;
   dataVenda: string;
   descricao: string;
   id?: string;

@@ -63,10 +63,6 @@ const Dashboard: React.FC = () => {
     (state: RootState) => state.etapaProjeto
   );
 
-  console.log('Tabela01: ', agendaDia);
-  console.log('Tabela02: ', projetosAtrasados);
-  console.log('Tabela03: ', atrasadosEtapa);
-
   const intervalFilter = {
     dataFinal: '22/10/2022',
     dataInicial: '13/01/2022',
