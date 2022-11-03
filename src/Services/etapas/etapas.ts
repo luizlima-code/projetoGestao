@@ -1,8 +1,14 @@
-import { Etapas } from '../../store/ducks/etapas/types';
+import { EtapaCustomSearch, Etapas } from '../../store/ducks/etapas/types';
 import { apiDefault } from '../api';
 
 export const EtapasService = {
-  getEtapas: (): Promise<Etapas[]> => apiDefault.get(`/planner/etapa`),
+  getEtapas: (filters: EtapaCustomSearch): Promise<Etapas[]> =>
+    apiDefault.get(`/planner/etapa`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   getByIdEtapas: (id: Etapas): Promise<Etapas> =>
     apiDefault.get(`/planner/etapa/${id}`),
   postEtapas: (data: Etapas): Promise<Etapas> =>

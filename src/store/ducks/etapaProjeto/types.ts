@@ -1,12 +1,13 @@
 import { PageableResponse } from '../../../config/types';
-import { Funcionarios } from '../funcionarios/types';
+import { Desempenho } from '../desempenhos/types';
+import { Etapas } from '../etapas/types';
 import { ItemProjeto } from '../itemProjeto/types';
 
 export enum EtapaProjetoTypes {
-  GETETAPAPROJETOREQUEST = '@etapaProjeto/GET_ETAPA_PROJETOS_REQUEST',
-  GETETAPAPROJETOSUCCESS = '@etapaProjeto/GET_ETAPA_PROJETOS_SUCCESS',
-  GETBYIDETAPAPROJETOREQUEST = '@etapaProjeto/GET_BY_ID_ETAPA_PROJETOS_REQUEST',
-  GETBYIDETAPAPROJETOSUCCESS = '@etapaProjeto/GET_BY_ID_ETAPA_PROJETOS_SUCCESS',
+  GETETAPAPROJETOREQUEST = '@etapaProjeto/GET_ETAPA_PROJETO_REQUEST',
+  GETETAPAPROJETOSUCCESS = '@etapaProjeto/GET_ETAPA_PROJETO_SUCCESS',
+  GETBYIDETAPAPROJETOREQUEST = '@etapaProjeto/GET_BY_ID_ETAPA_PROJETO_REQUEST',
+  GETBYIDETAPAPROJETOSUCCESS = '@etapaProjeto/GET_BY_ID_ETAPA_PROJETO_SUCCESS',
   PUTETAPAPROJETOREQUEST = '@etapaProjeto/PUT_ETAPA_PROJETO_REQUEST',
   PUTETAPAPROJETOSUCCESS = '@etapaProjeto/PUT_ETAPA_PROJETO_SUCCESS',
   DELETEETAPAPROJETOREQUEST = '@etapaProjeto/DELETE_ETAPA_PROJETO_REQUEST',
@@ -27,15 +28,6 @@ export interface EtapaProjeto {
   dataPrevisao: string;
   etapa: {
     descricao: string;
-    desempenhos: [
-      {
-        data: string;
-        funcionario: Funcionarios;
-        id?: string;
-        observacao: string;
-        percentualConcluido: string;
-      }?
-    ];
     id?: string;
     nome: string;
   };
@@ -44,19 +36,19 @@ export interface EtapaProjeto {
   percentualConcluido: string;
 }
 
+interface Itens {
+  codigo: string;
+  nomeItem: string;
+  nomeProjeto: string;
+}
+
 export interface AgendaDiaEAtrasados {
   idEtapa: string;
-  itens: [
-    {
-      codigo: string;
-      nomeItem: string;
-      nomeProjeto: string;
-    }
-  ];
+  itens: Itens[];
   nome: string;
 }
 
-export type ProjetoResponse = PageableResponse<EtapaProjeto>;
+export type EtapaProjetoResponse = PageableResponse<EtapaProjeto>;
 
 export interface EtapaProjetoState {
   readonly isLoading: boolean;

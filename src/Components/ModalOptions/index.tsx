@@ -5,22 +5,30 @@ import { Form, Formik } from 'formik';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   KeyboardDatePicker,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+import { RootState } from '../../store/ducks/rootReducer';
 import Modal from '@mui/material/Modal';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { BoxStyle, Buttons } from './styles';
-import { Grid, IconButton, useMediaQuery } from '@mui/material';
+import { Grid, IconButton, useMediaQuery, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { postFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
 import FieldsForms from '../FieldsForms';
 import { TextField } from 'formik-material-ui';
-import { postClientesRequest } from '../../store/ducks/clientes/actions';
+import { getClientesFilterRequest, postClientesRequest } from '../../store/ducks/clientes/actions';
 import { postEtapasRequest } from '../../store/ducks/etapas/actions';
 import { Clientes } from '../../store/ducks/clientes/types';
-import { postProjetosRequest } from '../../store/ducks/projeto/actions';
+import SelectForms from '../SelectForms';
+import { format } from 'date-fns';
+import {
+  postItemProjetoRequest,
+  postProjetosRequest,
+} from '../../store/ducks/projeto/actions';
+import { Projetos } from '../../store/ducks/projeto/types';
 
 interface FuncTypes {
   nome: string;
@@ -29,6 +37,12 @@ interface FuncTypes {
   telefone: string;
   senha?: string;
 }
+interface ItemTypes {
+  codigo: string;
+  id?: string;
+  nome: string;
+  projeto: { id: String };
+}
 
 interface EtapaTypes {
   descricao: string;
@@ -36,12 +50,12 @@ interface EtapaTypes {
 }
 
 interface ProjetoTypes {
-  cliente: Clientes;
+  cliente: { id: any };
   nome: string;
-  dataVenda: string;
-  dataPrevisao: string;
-  dataInicial: string;
-  dataEntrega: string;
+  dataVenda: string | any;
+  dataPrevisao: string | any;
+  // dataInicial: string | any;
+  dataEntrega: string | any;
   descricao: string;
 }
 
@@ -73,26 +87,47 @@ const ModalOptions = ({
     senha: '',
   };
 
+  const initial_values_cliente = {
+    nome: '',
+    cpf: '',
+    email: '',
+    telefone: '',
+  };
+
   const initial_values_etapa = {
     nome: '',
     descricao: '',
   };
 
+  const initial_values_item = {
+    codigo: '',
+    nome: '',
+    projeto: { id: '4' },
+  };
+
   const initial_values_projeto = {
     nome: '',
     cliente: {
-      nome: '',
-      email: '',
-      cpf: '',
-      telefone: '',
-      id: '4',
+      id: '0',
     },
-    dataVenda: new Date().toISOString(),
-    dataInicial: new Date().toISOString(),
-    dataPrevisao: new Date().toISOString(),
-    dataEntrega: new Date().toISOString(),
+    dataVenda: new Date(),
+    // dataInicial: new Date(),
+    dataPrevisao: new Date(),
+    dataEntrega: new Date(),
     descricao: '',
   };
+
+  // aqui será exemplo inicio
+
+  useEffect(() => {
+    dispatch(getClientesFilterRequest());
+  }, [getClientesFilterRequest]);
+
+  // aqui será exemplo fim
+
+  const { clientesFilter } = useSelector(
+    (state: RootState) => state.clientes
+  );
 
   const handlePostFunc = (values: FuncTypes, setSubmitting: any) => {
     dispatch(postFuncionariosRequest(values));
@@ -112,8 +147,30 @@ const ModalOptions = ({
     setOpenModal(false);
   };
 
+  const handlePostItem = (values: ItemTypes, setSubmitting: any) => {
+    // dispatch(postItemProjetoRequest(values));
+    setSubmitting();
+    setOpenModal(false);
+  };
+
   const handlePostProjeto = (values: ProjetoTypes, setSubmitting: any) => {
-    dispatch(postProjetosRequest(values));
+    const dataEntrega = format(values.dataEntrega, 'dd/MM/yyyy hh:mm')
+    // const dataInicial = format(values.dataInicial, 'dd/MM/yyyy hh:mm')
+    const dataPrevisao = format(values.dataPrevisao, 'dd/MM/yyyy hh:mm')
+    const dataVenda = format(values.dataVenda, 'dd/MM/yyyy hh:mm')
+
+    const payload = {
+      cliente: { id: values.cliente?.id },
+      nome: values.nome,
+      dataVenda: dataVenda,
+      // dataInicial: dataInicial,
+      dataPrevisao: dataPrevisao,
+      dataEntrega: dataEntrega,
+      descricao: values.descricao,
+    }
+
+
+    dispatch(postProjetosRequest(payload));
     setSubmitting();
     setOpenModal(false);
   };
@@ -186,7 +243,7 @@ const ModalOptions = ({
         {headerModal}
         <Formik
           enableReinitialize={false}
-          initialValues={initial_values_func}
+          initialValues={initial_values_cliente}
           onSubmit={(values: FuncTypes, { setSubmitting }) => {
             handlePostCliente(values, setSubmitting);
           }}
@@ -367,9 +424,9 @@ const ModalOptions = ({
         {headerModal}
         <Formik
           enableReinitialize={false}
-          initialValues={initial_values_func}
-          onSubmit={(values: FuncTypes, { setSubmitting }) => {
-            handlePostFunc(values, setSubmitting);
+          initialValues={initial_values_item}
+          onSubmit={(values: ItemTypes, { setSubmitting }) => {
+            handlePostItem(values, setSubmitting);
           }}
         >
           <Form>
@@ -440,55 +497,62 @@ const ModalOptions = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <FieldsForms
-                      component={TextField}
+                      component={SelectForms}
                       name="cliente"
                       id="cliente"
                       label="Cliente"
                       fullWidth
-                    />
+                      required
+                    >
+                      {clientesFilter.map((res: any) => (
+                        <MenuItem key={res.id} value={res}>
+                          {res.nome}
+                        </MenuItem>
+                      ))}
+                    </FieldsForms>
                   </Grid>
-                  <Grid item md={4} xs={12}>
-                    <KeyboardDatePicker
-                      format="dd/MM/yyyy"
+                  {/* <Grid item md={4} xs={12}>
+                    <KeyboardDateTimePicker
+                      format="dd/MM/yyyy hh:mm"
                       name="dataInicial"
                       id="dataInicial"
                       label="Data Inicial"
-                      value={new Date()}
+                      value={values.dataInicial}
                       onChange={(event) => setFieldValue('dataInicial', event)}
                       fullWidth
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Grid container spacing={1.2} pt={2}>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDatePicker
-                      format="dd/MM/yyyy"
+                    <KeyboardDateTimePicker
+                      format="dd/MM/yyyy hh:mm"
                       name="dataVenda"
                       id="dataVenda"
                       label="Data Venda"
-                      value={new Date()}
+                      value={values.dataVenda}
                       onChange={(event) => setFieldValue('dataVenda', event)}
                       fullWidth
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDatePicker
-                      format="dd/MM/yyyy"
+                    <KeyboardDateTimePicker
+                      format="dd/MM/yyyy hh:mm"
                       name="dataPrevisao"
                       id="dataPrevisao"
                       label="Data Prevista"
-                      value={new Date()}
+                      value={values.dataPrevisao}
                       onChange={(event) => setFieldValue('dataPrevisao', event)}
                       fullWidth
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDatePicker
-                      format="dd/MM/yyyy"
+                    <KeyboardDateTimePicker
+                      format="dd/MM/yyyy hh:mm"
                       name="dataEntrega"
                       id="dataEntrega"
                       label="Data Entrega"
-                      value={new Date()}
+                      value={values.dataEntrega}
                       onChange={(event) => setFieldValue('dataEntrega', event)}
                       fullWidth
                     />

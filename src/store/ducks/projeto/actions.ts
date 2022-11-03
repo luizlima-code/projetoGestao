@@ -1,6 +1,11 @@
 import { action } from 'typesafe-actions';
 import { ItemProjeto } from '../itemProjeto/types';
-import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
+import {
+  PrazoVsAtrasos,
+  ProjetoCustomSearch,
+  Projetos,
+  ProjetosTypes,
+} from './types';
 
 interface PayloadForms {
   type: ProjetosTypes;
@@ -11,8 +16,8 @@ interface ActionType {
   type: ProjetosTypes;
 }
 
-export const getProjetosRequest = (): ActionType =>
-  action(ProjetosTypes.GETPROJETOSREQUEST);
+export const getProjetosRequest = (req: ProjetoCustomSearch): ActionType =>
+  action(ProjetosTypes.GETPROJETOSREQUEST, req);
 
 export const getProjetosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSSUCCESS, res);
@@ -23,13 +28,13 @@ export const getByIdProjetosRequest = (request: any): ActionType =>
 export const getByIdProjetosSuccess = (res: Projetos): ActionType =>
   action(ProjetosTypes.GETBYIDPROJETOSSUCCESS, res);
 
-export const getProjetosAtrasadosRequest = (): ActionType =>
-  action(ProjetosTypes.GETPROJETOSATRASADOSREQUEST);
+export const getProjetosAtrasadosRequest = (req: any) =>
+  action(ProjetosTypes.GETPROJETOSATRASADOSREQUEST, req);
 
 export const getProjetosAtrasadosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSATRASADOSSUCCESS, res);
 
-export const postProjetosRequest = (req: Projetos): ActionType =>
+export const postProjetosRequest = (req: any): ActionType =>
   action(ProjetosTypes.POSTPROJETOSREQUEST, req);
 
 export const postProjetosSuccess = (): ActionType =>
@@ -41,8 +46,8 @@ export const putProjetosRequest = (req: Projetos): PayloadForms =>
 export const putProjetosSuccess = (res: Projetos): PayloadForms =>
   action(ProjetosTypes.PUTPROJETOSSUCCESS, res);
 
-export const getGraficoPrazoAtrasadoRequest = (): ActionType =>
-  action(ProjetosTypes.GETPRAZOVSATRASADOSREQUEST);
+export const getGraficoPrazoAtrasadoRequest = (filters: any) =>
+  action(ProjetosTypes.GETPRAZOVSATRASADOSREQUEST, filters);
 
 export const getGraficoPrazoAtrasadoSuccess = (
   res: PrazoVsAtrasos

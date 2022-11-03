@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { Buttons, Container } from './styles';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { useFormik } from 'formik';
 
 interface IFilters {
   handleFilter: (filter: any) => void;
@@ -24,37 +25,70 @@ const FilterData = ({
 }: IFilters): React.ReactElement => {
   const [modulo, setModulo] = React.useState('Cliente');
 
+  const defaultFilter = {
+    nome: '',
+    email: '',
+    cpf: '',
+    nomeCliente: '',
+    ativos: true,
+    pageNumber: 0,
+    pageSize: 10,
+  };
+
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
+    handleReset();
+  };
+
+  const formik = useFormik({
+    initialValues: defaultFilter,
+    onSubmit: (values) => (handleFilter(values), console.log(values)),
+  });
+
+  const handleReset = () => {
+    formik.resetForm();
+    handleFilter({
+      pageNumber: 0,
+      pageSize: 10,
+    });
   };
 
   const FilterCliente = (
     <Grid container spacing={1}>
       <Grid item md={4} xs={12}>
         <TextField
-          name="cliNome"
-          id="cliNome"
+          name="nome"
+          id="nome"
           label="Nome"
           fullWidth
           size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
         />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="cliCpf"
-          id="cliCpf"
-          label="CPF"
+          name="cpf"
+          id="cpf"
+          label="CPF/CNPJ"
           fullWidth
           size="small"
+          value={formik.values.cpf}
+          onChange={formik.handleChange}
+          // InputProps={{
+          //   inputComponent: TextMask,
+          // }}
         />
       </Grid>
       <Grid item md={4} xs={12}>
         <TextField
-          name="cliEmail"
-          id="cliEmail"
+          name="email"
+          id="email"
           label="Email"
           fullWidth
           size="small"
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -64,11 +98,13 @@ const FilterData = ({
     <Grid container spacing={1}>
       <Grid item md={12} xs={12}>
         <TextField
-          name="etapaNome"
-          id="etapaNome"
+          name="nome"
+          id="nome"
           label="Nome"
           fullWidth
           size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -76,40 +112,37 @@ const FilterData = ({
 
   const FilterFuncionario = (
     <Grid container spacing={1}>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
-          name="funcNome"
-          id="funcNome"
+          name="nome"
+          id="nome"
           label="Nome"
           fullWidth
           size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
-          name="funcCpf"
-          id="funcCpf"
-          label="Cpf"
+          name="cpf"
+          id="cpf"
+          label="CPF/CNPJ"
           fullWidth
           size="small"
+          value={formik.values.cpf}
+          onChange={formik.handleChange}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={4} xs={12}>
         <TextField
-          name="funcEmail"
-          id="funcEmail"
+          name="email"
+          id="email"
           label="Email"
           fullWidth
           size="small"
-        />
-      </Grid>
-      <Grid item md={3} xs={12}>
-        <TextField
-          name="funcTelefone"
-          id="funcTelefone"
-          label="Telefone"
-          fullWidth
-          size="small"
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -117,31 +150,15 @@ const FilterData = ({
 
   const FilterItem = (
     <Grid container spacing={1}>
-      <Grid item md={4} xs={12}>
+      <Grid item md={12} xs={12}>
         <TextField
-          name="itemNome"
-          id="itemNome"
+          name="nome"
+          id="nome"
           label="Nome"
           fullWidth
           size="small"
-        />
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <TextField
-          name="itemCodigo"
-          id="itemCodigo"
-          label="Codigo"
-          fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <TextField
-          name="itemProjeto"
-          id="itemProjeto"
-          label="Projeto"
-          fullWidth
-          size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
         />
       </Grid>
     </Grid>
@@ -149,58 +166,44 @@ const FilterData = ({
 
   const FilterProjeto = (
     <Grid container spacing={1}>
-      <Grid item md={3} xs={12}>
+      <Grid item md={5} xs={12}>
         <TextField
-          name="projNome"
-          id="projNome"
+          name="nome"
+          id="nome"
           label="Nome"
           fullWidth
           size="small"
+          value={formik.values.nome}
+          onChange={formik.handleChange}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={5} xs={12}>
         <TextField
-          name="projCliente"
-          id="projCliente"
+          name="nomeCliente"
+          id="nomeCliente"
           label="Cliente"
           fullWidth
           size="small"
+          value={formik.values.nomeCliente}
+          onChange={formik.handleChange}
         />
       </Grid>
       <Grid item md={2} xs={12}>
-        <TextField
-          name="projDataVenda"
-          id="projDataVenda"
-          label="Data Venda"
-          fullWidth
+        <Select
           size="small"
-        />
-      </Grid>
-      <Grid item md={2} xs={12}>
-        <TextField
-          name="projDataPrevista"
-          id="projDataPrevista"
-          label="Data Prevista"
           fullWidth
-          size="small"
-        />
-      </Grid>
-      <Grid item md={2} xs={12}>
-        <TextField
-          name="projDataEntrega"
-          id="projDataEntrega"
-          label="Data Entrega"
-          fullWidth
-          size="small"
-        />
+          displayEmpty
+          name="ativos"
+          id="ativos"
+          value={formik.values.ativos}
+          onChange={formik.handleChange}
+        >
+          <MenuItem value={true as any}>Ativos</MenuItem>
+          <MenuItem value={false as any}>Inativos</MenuItem>
+        </Select>
       </Grid>
     </Grid>
   );
-
-  const handleFilterBuscar = () => {
-    handleFilter(modulo);
-    console.log(modulo);
-  };
 
   const renderModal = () => {
     switch (modulo) {
@@ -263,29 +266,31 @@ const FilterData = ({
           </Buttons>
         </Grid>
       </Grid>
-      {/* {renderModal()} */}
-      {FilterCliente}
-      <Buttons>
-        <Button
-          variant="contained"
-          sx={{ mt: 2, mr: 2 }}
-          size="small"
-          color="inherit"
-          style={{ backgroundColor: '#dedede', fontWeight: 300 }}
-        >
-          Limpar
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ mt: 2 }}
-          size="small"
-          onClick={handleFilterBuscar}
-          style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
-          endIcon={<SearchIcon />}
-        >
-          Buscar
-        </Button>
-      </Buttons>
+      <form onSubmit={formik.handleSubmit}>
+        {renderModal()}
+        <Buttons>
+          <Button
+            variant="contained"
+            sx={{ mt: 2, mr: 2 }}
+            size="small"
+            color="inherit"
+            style={{ backgroundColor: '#dedede', fontWeight: 300 }}
+            onClick={handleReset}
+          >
+            Limpar
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            size="small"
+            type="submit"
+            style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
+            endIcon={<SearchIcon />}
+          >
+            Buscar
+          </Button>
+        </Buttons>
+      </form>
     </Container>
   );
 };

@@ -1,5 +1,9 @@
 import { action } from 'typesafe-actions';
-import { FuncionariosTypes, Funcionarios } from './types';
+import {
+  FuncionariosTypes,
+  Funcionarios,
+  FuncionarioCustomSearch,
+} from './types';
 
 interface PayloadForms {
   type: FuncionariosTypes;
@@ -10,8 +14,9 @@ interface ActionType {
   type: FuncionariosTypes;
 }
 
-export const getFuncionariosRequest = (): ActionType =>
-  action(FuncionariosTypes.GETFUNCIONARIOSREQUEST);
+export const getFuncionariosRequest = (
+  req: FuncionarioCustomSearch
+): ActionType => action(FuncionariosTypes.GETFUNCIONARIOSREQUEST, req);
 
 export const getFuncionariosSuccess = (res: Funcionarios[]): PayloadForms =>
   action(FuncionariosTypes.GETFUNCIONARIOSSUCCESS, res);

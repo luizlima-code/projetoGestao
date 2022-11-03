@@ -1,8 +1,19 @@
-import { Clientes } from '../../store/ducks/clientes/types';
+import {
+  ClienteCustomSearch,
+  Clientes,
+} from '../../store/ducks/clientes/types';
 import { apiDefault } from '../api';
 
 export const ClientesService = {
-  getClientes: (): Promise<Clientes[]> => apiDefault.get(`/planner/cliente`),
+  getClientes: (filters: ClienteCustomSearch): Promise<Clientes[]> =>
+    apiDefault.get(`/planner/cliente`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
+  getClientesFilter: (): Promise<Clientes[]> =>
+    apiDefault.get(`/planner/cliente`),
   getByIdClientes: (id: Clientes): Promise<Clientes> =>
     apiDefault.get(`/planner/cliente/${id}`),
   postClientes: (data: Clientes): Promise<Clientes> =>

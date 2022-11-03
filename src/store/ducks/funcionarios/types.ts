@@ -20,13 +20,22 @@ export interface Funcionarios {
   cpf: string;
   telefone: string;
   senha?: string;
+  perfis?: string[];
+}
+
+export interface FuncionarioCustomSearch {
+  nome?: string;
+  email?: string;
+  cpf?: string;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export type FuncionariosResponse = PageableResponse<Funcionarios>;
 
 export interface FuncionariosState {
   readonly isLoading: boolean;
-  readonly funcionarios: Funcionarios[];
+  readonly funcionarios: FuncionariosResponse;
   readonly funcionarioById: Funcionarios;
   readonly funcionarioPut: Funcionarios;
 }

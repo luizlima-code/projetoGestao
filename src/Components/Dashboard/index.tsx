@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
 
 import { Container, DivGrid } from './styles';
 import {
@@ -14,15 +15,25 @@ import {
   BarElement,
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import TableDashboard from '../Table';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getFuncionariosRequest,
-  getByIdFuncionariosRequest,
-} from '../../store/ducks/funcionarios/actions';
 import { RootState } from '../../store/ducks/rootReducer';
+import {
+  getGraficoPrazoAtrasadoRequest,
+  getProjetosAtrasadosRequest,
+} from '../../store/ducks/projeto/actions';
+import {
+  getAgendaDiaRequest,
+  getAtrasadosEtapaRequest,
+} from '../../store/ducks/etapaProjeto/actions';
+import FiltroAgenda from './filtros/tableAgenda';
+import FiltroEtapaAtrasada from './filtros/tableEtapaAtrasada';
+import FiltroDesempenhoEtapa from './filtros/graficoDesempenho';
+import format from 'date-fns/format';
+import { getDesempenhoEtapaRequest } from '../../store/ducks/desempenhos/actions';
+import FiltroProjetos from './filtros/graficoProjetos';
+import FiltroAtrasados from './filtros/tableAtrasados';
 
 ChartJS.register(
   ArcElement,
@@ -41,61 +52,115 @@ export const options = {
   aspectRatio: 3,
   plugins: {
     legend: {
-      position: 'top' as const,
+      display: false,
     },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Rosa',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 206, 86)',
-    },
-    {
-      label: 'Azul 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: '#0077b6',
-    },
-  ],
-};
+interface IntervaloData {
+  dataFinal: number | Date;
+  dataInicial: number | Date;
+}
 
-export const data2 = {
-  labels: ['Blue', 'Yellow'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [28, 19],
-      backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
-      borderWidth: 6,
-    },
-  ],
-};
+interface SelectData {
+  data: number | Date;
+}
 
 const Dashboard: React.FC = () => {
+  const [filterDesempenho, setFilterDesempenho] = useState<IntervaloData>({
+    dataFinal: new Date(),
+    dataInicial: new Date(),
+  });
+  const [filterAtrasados, setFilterAtrasados] = useState<SelectData>({
+    data: new Date(),
+  });
+  const [filterAgenda, setFilterAgenda] = useState<SelectData>({
+    data: new Date(),
+  });
+  const [filterProjetos, setFilterProjetos] = useState<IntervaloData>({
+    dataFinal: new Date(),
+    dataInicial: new Date(),
+  });
+  const [filterEtapaAtrasada, setFilterEtapaAtrasada] = useState<SelectData>({
+    data: new Date(),
+  });
+
   const dispatch = useDispatch();
 
-  const { funcionarios, funcionarioById, isLoading } = useSelector(
-    (state: RootState) => state.funcionarios
+  const { prazoVsAtrasos, projetosAtrasados } = useSelector(
+    (state: RootState) => state.projeto
+  );
+  const { desempenhoEtapa } = useSelector(
+    (state: RootState) => state.desempenhos
+  );
+  const { agendaDia, atrasadosEtapa } = useSelector(
+    (state: RootState) => state.etapaProjeto
   );
 
-  useEffect(() => {
-    dispatch(getFuncionariosRequest());
-    // console.log('ola');
-  }, [getFuncionariosRequest]);
+  const formatDesempenho = {
+    dataFinal: format(filterDesempenho.dataFinal, 'dd/MM/yyyy'),
+    dataInicial: format(filterDesempenho.dataInicial, 'dd/MM/yyyy'),
+  };
+
+  const formatProjetos = {
+    dataFinal: format(filterProjetos.dataFinal, 'dd/MM/yyyy'),
+    dataInicial: format(filterProjetos.dataInicial, 'dd/MM/yyyy'),
+  };
+
+  const formatAtrasados = {
+    data: format(filterAtrasados.data, 'dd/MM/yyyy'),
+  };
+
+  const formatAgenda = {
+    data: format(filterAgenda.data, 'dd/MM/yyyy'),
+  };
+
+  const formatEtapaAtrasada = {
+    data: format(filterEtapaAtrasada.data, 'dd/MM/yyyy'),
+  };
 
   useEffect(() => {
-    dispatch(getByIdFuncionariosRequest('14'));
-    // console.log('ola by id');
-  }, [getByIdFuncionariosRequest]);
+    dispatch(getDesempenhoEtapaRequest(formatDesempenho));
+    console.log(formatDesempenho);
+  }, [filterDesempenho]);
 
-  const handleTesteGet = async () => {
-    console.log('funcionarios: ', funcionarios);
-    console.log('funcionarios by id: ', funcionarioById);
-    console.log('isloading: ', isLoading);
+  useEffect(() => {
+    dispatch(getGraficoPrazoAtrasadoRequest(formatProjetos));
+  }, [filterProjetos]);
+
+  useEffect(() => {
+    dispatch(getProjetosAtrasadosRequest(formatAtrasados));
+  }, [filterAtrasados]);
+
+  useEffect(() => {
+    dispatch(getAgendaDiaRequest(formatAgenda));
+  }, [filterAgenda]);
+
+  useEffect(() => {
+    dispatch(getAtrasadosEtapaRequest(formatEtapaAtrasada));
+  }, [filterEtapaAtrasada]);
+
+  const dataDonut = {
+    labels: ['Dentro prazo', 'Atrasados'],
+    datasets: [
+      {
+        label: '# projetos',
+        data: [prazoVsAtrasos.noPrazo * 100, prazoVsAtrasos.foraDoPrazo * 100],
+        backgroundColor: ['#0077b6', 'rgba(255, 206, 86)'],
+        borderWidth: 6,
+      },
+    ],
+  };
+
+  const labels = desempenhoEtapa.map((desempenho) => desempenho.nomeEtapa);
+  const dataBarVertical = {
+    labels,
+    datasets: [
+      {
+        data: desempenhoEtapa.map((desempenho) => desempenho.desempenhoMedio),
+        backgroundColor: 'rgba(255, 206, 86)',
+      },
+    ],
   };
 
   return (
@@ -111,11 +176,12 @@ const Dashboard: React.FC = () => {
         spacing={2}
       >
         <Grid item md={5} xs={12}>
+          <FiltroAgenda setFilterAgenda={(e) => setFilterAgenda(e)} />
           <DivGrid>
             <TableDashboard
-              height="65vh"
-              titulo="Grafico 01"
-              headers={['header1', 'header2', 'header3']}
+              height="70vh"
+              headers={['Id', 'Nome', 'Itens']}
+              data1={agendaDia}
             />
           </DivGrid>
         </Grid>
@@ -130,16 +196,22 @@ const Dashboard: React.FC = () => {
           }}
         >
           <Grid item>
+            <FiltroDesempenhoEtapa
+              setFilterDesempenho={(e) => setFilterDesempenho(e)}
+            />
             <DivGrid style={{ padding: 8 }}>
-              <Bar options={options} data={data} />
+              <Bar options={options} data={dataBarVertical} />
             </DivGrid>
           </Grid>
           <Grid item mt={2}>
+            <FiltroAtrasados
+              setFilterAtrasados={(e) => setFilterAtrasados(e)}
+            />
             <DivGrid>
               <TableDashboard
-                height="30vh"
-                titulo="Grafico 02"
-                headers={['header4', 'header5', 'header6']}
+                height="35vh"
+                headers={['Id', 'Projeto atrasado', 'Data prevista']}
+                data2={projetosAtrasados}
               />
             </DivGrid>
           </Grid>
@@ -147,21 +219,24 @@ const Dashboard: React.FC = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item md={3.5} xs={12}>
+          <FiltroProjetos setFilterProjetos={(e) => setFilterProjetos(e)} />
           <DivGrid>
-            <Doughnut data={data2} />
+            <Doughnut data={dataDonut} />
           </DivGrid>
         </Grid>
         <Grid item md={8.5} xs={12}>
+          <FiltroEtapaAtrasada
+            setFilterEtapaAtrasada={(e) => setFilterEtapaAtrasada(e)}
+          />
           <DivGrid>
             <TableDashboard
               height="48vh"
-              titulo="Grafico 03"
-              headers={['header7', 'header8', 'header9']}
+              headers={['Id', 'Nome', 'Itens']}
+              data1={atrasadosEtapa}
             />
           </DivGrid>
         </Grid>
       </Grid>
-      <Button onClick={handleTesteGet}> ME CLICK</Button>
     </Container>
   );
 };

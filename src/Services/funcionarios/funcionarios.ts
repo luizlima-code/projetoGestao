@@ -1,9 +1,19 @@
-import { Funcionarios } from '../../store/ducks/funcionarios/types';
+import {
+  FuncionarioCustomSearch,
+  Funcionarios,
+} from '../../store/ducks/funcionarios/types';
 import { apiDefault } from '../api';
 
 export const FuncionarioService = {
-  getFuncionarios: (): Promise<Funcionarios[]> =>
-    apiDefault.get(`/planner/funcionario`),
+  getFuncionarios: (
+    filters: FuncionarioCustomSearch
+  ): Promise<Funcionarios[]> =>
+    apiDefault.get(`/planner/funcionario`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   getByIdFuncionarios: (id: Funcionarios): Promise<Funcionarios> =>
     apiDefault.get(`/planner/funcionario/${id}`),
   postFuncionarios: (data: Funcionarios): Promise<Funcionarios> =>

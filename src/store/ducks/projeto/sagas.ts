@@ -11,8 +11,14 @@ import {
   postItemProjetoSuccess,
   postProjetosSuccess,
   putProjetosSuccess,
+  getGraficoPrazoAtrasadoSuccess,
 } from './actions';
-import { PrazoVsAtrasos, Projetos, ProjetosTypes } from './types';
+import {
+  PrazoVsAtrasos,
+  ProjetoCustomSearch,
+  Projetos,
+  ProjetosTypes,
+} from './types';
 
 interface ProjetosType {
   type: ProjetosTypes;
@@ -40,18 +46,25 @@ interface ItemProjetoData {
 
 interface PrazoAtrasadoData {
   type: ProjetosTypes;
-  data: PrazoVsAtrasos | any;
+  data: PrazoVsAtrasos;
 }
 
-export function* getProjetos(): Generator<
+interface FilterProjeto {
+  type: ProjetosTypes;
+  payload: ProjetoCustomSearch;
+}
+
+export function* getProjetos({
+  payload,
+}: FilterProjeto): Generator<
   CallEffect<Projetos[]> | PutEffect<AnyAction>,
   void,
   ProjetosData
 > {
   try {
-    const response = yield call(ProjetosService.getProjetos);
+    const response = yield call(ProjetosService.getProjetos, payload);
 
-    yield put(getProjetosSuccess(response.data.content));
+    yield put(getProjetosSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar projetos');
@@ -75,13 +88,15 @@ export function* getProjetosById({
   }
 }
 
-export function* getProjetosAtrasados(): Generator<
+export function* getProjetosAtrasados({
+  payload,
+}: any): Generator<
   CallEffect<Projetos[]> | PutEffect<AnyAction>,
   void,
   ProjetosData
 > {
   try {
-    const response = yield call(ProjetosService.getProjetosAtrasados);
+    const response = yield call(ProjetosService.getProjetosAtrasados, payload);
 
     yield put(getProjetosAtrasadosSuccess(response.data.content));
   } catch (error) {
@@ -149,15 +164,20 @@ export function* deleteProjetos({
   }
 }
 
-export function* getGraficoPrazoAtrasado(): Generator<
+export function* getGraficoPrazoAtrasado({
+  payload,
+}: any): Generator<
   CallEffect<PrazoVsAtrasos> | PutEffect<AnyAction>,
   void,
   PrazoAtrasadoData
 > {
   try {
-    const response = yield call(ProjetosService.getGraficoPrazoAtrasos);
+    const response = yield call(
+      ProjetosService.getGraficoPrazoAtrasos,
+      payload
+    );
 
-    yield put(getProjetosSuccess(response.data));
+    yield put(getGraficoPrazoAtrasadoSuccess(response.data));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar projetos com prazos atrasados');

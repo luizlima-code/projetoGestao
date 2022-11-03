@@ -13,6 +13,10 @@ export const Container = styled.div`
   p {
     align-self: center;
   }
+
+  @media only screen and (max-width: 959px) {
+    padding-bottom: 1vh;
+  }
 `;
 
 export const IconButtonResponsive = styled(IconButton)`

@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { EtapasTypes, Etapas } from './types';
+import { EtapasTypes, Etapas, EtapaCustomSearch } from './types';
 
 interface PayloadForms {
   type: EtapasTypes;
@@ -10,8 +10,8 @@ interface ActionType {
   type: EtapasTypes;
 }
 
-export const getEtapasRequest = (): ActionType =>
-  action(EtapasTypes.GETETAPASREQUEST);
+export const getEtapasRequest = (req: EtapaCustomSearch): ActionType =>
+  action(EtapasTypes.GETETAPASREQUEST, req);
 
 export const getEtapasSuccess = (res: Etapas[]): PayloadForms =>
   action(EtapasTypes.GETETAPASSUCCESS, res);

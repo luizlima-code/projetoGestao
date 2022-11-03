@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
-import { EtapasTypes, EtapasState } from './types';
+import { EtapasTypes, EtapasState, EtapasResponse } from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
-  etapas: [],
+  etapas: <EtapasResponse>{},
   etapasById: {
     nome: '',
     descricao: '',

@@ -1,3 +1,4 @@
+import { AnyCnameRecord } from 'dns';
 import {
   AgendaDiaEAtrasados,
   EtapaProjeto,
@@ -5,7 +6,7 @@ import {
 import { apiDefault } from '../api';
 
 export const EtapaProjetoService = {
-  getEtapaProjeto: (): Promise<EtapaProjeto[]> =>
+  getAllEtapaProjeto: (): Promise<EtapaProjeto[]> =>
     apiDefault.get(`/planner/etapaProjeto`),
   getByIdEtapaProjeto: (id: EtapaProjeto): Promise<EtapaProjeto> =>
     apiDefault.get(`/planner/etapaProjeto/${id}`),
@@ -13,10 +14,20 @@ export const EtapaProjetoService = {
     apiDefault.put(`/planner/etapaProjeto/${id}`, form),
   deleteEtapaProjeto: (id: EtapaProjeto): Promise<EtapaProjeto> =>
     apiDefault.delete(`/planner/etapaProjeto/${id}`),
-  getAgendaDia: (): Promise<AgendaDiaEAtrasados[]> =>
-    apiDefault.get(`/planner/etapaProjeto/agendaDia`),
-  getAtrasadosEtapa: (): Promise<AgendaDiaEAtrasados[]> =>
-    apiDefault.get(`/planner/etapaProjeto/atrasadosEtapa`),
+  getAgendaDia: (filters: any): Promise<AgendaDiaEAtrasados[]> =>
+    apiDefault.get(`/planner/etapaProjeto/agendaDia`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
+  getAtrasadosEtapa: (filters: any): Promise<AgendaDiaEAtrasados[]> =>
+    apiDefault.get(`/planner/etapaProjeto/atrasadosEtapa`, {
+      params: {
+        ...filters,
+      },
+      responseType: 'json',
+    }),
   getEtapaProjetoDia: (): Promise<EtapaProjeto[]> =>
     apiDefault.get(`/planner/etapaProjeto/etapaProjetoDia`),
 };
