@@ -22,9 +22,13 @@ import { TextField } from 'formik-material-ui';
 import { getClientesFilterRequest, postClientesRequest } from '../../store/ducks/clientes/actions';
 import { postEtapasRequest } from '../../store/ducks/etapas/actions';
 import { Clientes } from '../../store/ducks/clientes/types';
-import { postProjetosRequest } from '../../store/ducks/projeto/actions';
 import SelectForms from '../SelectForms';
 import { format } from 'date-fns';
+import {
+  postItemProjetoRequest,
+  postProjetosRequest,
+} from '../../store/ducks/projeto/actions';
+import { Projetos } from '../../store/ducks/projeto/types';
 
 interface FuncTypes {
   nome: string;
@@ -32,6 +36,12 @@ interface FuncTypes {
   email: string;
   telefone: string;
   senha?: string;
+}
+interface ItemTypes {
+  codigo: string;
+  id?: string;
+  nome: string;
+  projeto: { id: String };
 }
 
 interface EtapaTypes {
@@ -77,9 +87,22 @@ const ModalOptions = ({
     senha: '',
   };
 
+  const initial_values_cliente = {
+    nome: '',
+    cpf: '',
+    email: '',
+    telefone: '',
+  };
+
   const initial_values_etapa = {
     nome: '',
     descricao: '',
+  };
+
+  const initial_values_item = {
+    codigo: '',
+    nome: '',
+    projeto: { id: '4' },
   };
 
   const initial_values_projeto = {
@@ -120,6 +143,12 @@ const ModalOptions = ({
 
   const handlePostEtapa = (values: EtapaTypes, setSubmitting: any) => {
     dispatch(postEtapasRequest(values));
+    setSubmitting();
+    setOpenModal(false);
+  };
+
+  const handlePostItem = (values: ItemTypes, setSubmitting: any) => {
+    // dispatch(postItemProjetoRequest(values));
     setSubmitting();
     setOpenModal(false);
   };
@@ -214,7 +243,7 @@ const ModalOptions = ({
         {headerModal}
         <Formik
           enableReinitialize={false}
-          initialValues={initial_values_func}
+          initialValues={initial_values_cliente}
           onSubmit={(values: FuncTypes, { setSubmitting }) => {
             handlePostCliente(values, setSubmitting);
           }}
@@ -395,9 +424,9 @@ const ModalOptions = ({
         {headerModal}
         <Formik
           enableReinitialize={false}
-          initialValues={initial_values_func}
-          onSubmit={(values: FuncTypes, { setSubmitting }) => {
-            handlePostFunc(values, setSubmitting);
+          initialValues={initial_values_item}
+          onSubmit={(values: ItemTypes, { setSubmitting }) => {
+            handlePostItem(values, setSubmitting);
           }}
         >
           <Form>

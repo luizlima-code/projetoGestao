@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { Buttons, Container } from './styles';
 import {
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { Formik, Form, useFormik } from 'formik';
+import { useFormik } from 'formik';
 
 interface IFilters {
   handleFilter: (filter: any) => void;
@@ -24,19 +24,20 @@ const FilterData = ({
   setTipoFiltro,
 }: IFilters): React.ReactElement => {
   const [modulo, setModulo] = React.useState('Cliente');
-  const formikRef = useRef(null) as any;
 
   const defaultFilter = {
     nome: '',
     email: '',
     cpf: '',
     nomeCliente: '',
+    ativos: true,
     pageNumber: 0,
     pageSize: 10,
   };
 
   const handleChange = (event: SelectChangeEvent) => {
     setModulo(event.target.value as string);
+    handleReset();
   };
 
   const formik = useFormik({
@@ -46,6 +47,10 @@ const FilterData = ({
 
   const handleReset = () => {
     formik.resetForm();
+    handleFilter({
+      pageNumber: 0,
+      pageSize: 10,
+    });
   };
 
   const FilterCliente = (
@@ -70,6 +75,9 @@ const FilterData = ({
           size="small"
           value={formik.values.cpf}
           onChange={formik.handleChange}
+          // InputProps={{
+          //   inputComponent: TextMask,
+          // }}
         />
       </Grid>
       <Grid item md={4} xs={12}>
@@ -153,32 +161,12 @@ const FilterData = ({
           onChange={formik.handleChange}
         />
       </Grid>
-      {/* <Grid item md={4} xs={12}>
-        <TextField
-          name="codigo"
-          id="codigo"
-          label="Codigo"
-          fullWidth
-          size="small"
-          value={formik.values.codigo}
-          onChange={formik.handleChange}
-        />
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <TextField
-          name="projeto"
-          id="projeto"
-          label="Projeto"
-          fullWidth
-          size="small"
-        />
-      </Grid> */}
     </Grid>
   );
 
   const FilterProjeto = (
     <Grid container spacing={1}>
-      <Grid item md={6} xs={12}>
+      <Grid item md={5} xs={12}>
         <TextField
           name="nome"
           id="nome"
@@ -189,7 +177,7 @@ const FilterData = ({
           onChange={formik.handleChange}
         />
       </Grid>
-      <Grid item md={6} xs={12}>
+      <Grid item md={5} xs={12}>
         <TextField
           name="nomeCliente"
           id="nomeCliente"
@@ -200,15 +188,20 @@ const FilterData = ({
           onChange={formik.handleChange}
         />
       </Grid>
-      {/* <Grid item md={4} xs={12}>
-        <TextField
-          name="dataVenda"
-          id="dataVenda"
-          label="Data Venda"
-          fullWidth
+      <Grid item md={2} xs={12}>
+        <Select
           size="small"
-        />
-      </Grid> */}
+          fullWidth
+          displayEmpty
+          name="ativos"
+          id="ativos"
+          value={formik.values.ativos}
+          onChange={formik.handleChange}
+        >
+          <MenuItem value={true as any}>Ativos</MenuItem>
+          <MenuItem value={false as any}>Inativos</MenuItem>
+        </Select>
+      </Grid>
     </Grid>
   );
 

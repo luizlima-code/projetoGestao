@@ -1,5 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material';
 import {
+  CircularProgress,
   IconButton,
   Paper,
   Table,
@@ -124,7 +125,7 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getClientesRequest(customSearch));
-  }, [getClientesRequest]);
+  }, [filter]);
 
   const rows = clientes.content?.map((row: ClienteTypes) => ({
     ...row,
@@ -138,69 +139,86 @@ const TableCliente = (props: Props): React.ReactElement => {
   return (
     <>
       <Container>
-        <TableContainer
-          component={Paper}
-          sx={{
-            borderRadius: 4,
-            maxHeight: heightTable,
-          }}
-        >
-          <Table stickyHeader size="small">
-            <TableHead>
-              <TableRow>
-                {headers.map((header) => (
-                  <TableCell
-                    align="center"
-                    sx={{
-                      backgroundColor: '#00b4d8',
-                      color: 'white',
-                      fontSize: 20,
-                      border: 'none',
-                    }}
-                  >
-                    {header}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: any) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
-                    }}
-                  >
-                    {Object.values(row).map((object: any) => (
+        {isLoading && (
+          <CircularProgress
+            sx={{
+              position: 'absolute',
+              top: '70%',
+              left: '60%',
+              margin: '-20px 0 0 -20px',
+            }}
+          />
+        )}
+        {!isLoading && (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                borderRadius: 4,
+                maxHeight: heightTable,
+              }}
+            >
+              <Table stickyHeader size="small">
+                <TableHead>
+                  <TableRow>
+                    {headers.map((header) => (
                       <TableCell
                         align="center"
                         sx={{
-                          fontSize: 16,
+                          backgroundColor: '#00b4d8',
+                          color: 'white',
+                          fontSize: 20,
+                          border: 'none',
                         }}
                       >
-                        {object}
+                        {header}
                       </TableCell>
                     ))}
                   </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          labelRowsPerPage="Quantidade:"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`
-          }
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows ? rows.length : 0}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+                </TableHead>
+                <TableBody>
+                  {rows
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((row: any) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        {Object.values(row).map((object: any) => (
+                          <TableCell
+                            align="center"
+                            sx={{
+                              fontSize: 16,
+                            }}
+                          >
+                            {object}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              labelRowsPerPage="Quantidade:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`
+              }
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={rows ? rows.length : 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
       </Container>
       <ModalOptions
         title="Cliente"
