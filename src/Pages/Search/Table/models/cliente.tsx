@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { conformToMask } from 'react-text-mask';
 import ModalOptions from '../../../../Components/ModalOptions';
 import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
+import { maskFormateTelefone } from '../../../../config/masks/telefone_mask';
 import { getClientesRequest } from '../../../../store/ducks/clientes/actions';
 import {
   ClienteCustomSearch,
@@ -62,6 +63,10 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
+  };
+
+  const formatTelefone = (cpfCnpj: string) => {
+    return conformToMask(cpfCnpj, maskFormateTelefone, {}).conformedValue;
   };
 
   const handleOpenModalOptions = (title: string, id: string) => {
@@ -132,7 +137,7 @@ const TableCliente = (props: Props): React.ReactElement => {
     nome: row.nome,
     cpf: formatCpfCnpj(row.cpf),
     email: row.email,
-    telefone: row.telefone,
+    telefone: formatTelefone(row.telefone),
     actions: action(row.id),
   }));
 
