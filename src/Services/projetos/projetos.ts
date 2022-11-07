@@ -14,6 +14,7 @@ export const ProjetosService = {
       },
       responseType: 'json',
     }),
+  getAllProjetos: (): Promise<Projetos[]> => apiDefault.get(`/planner/projeto`),
   getByIdProjetos: (id: Projetos): Promise<Projetos> =>
     apiDefault.get(`/planner/projeto/${id}`),
   getProjetosAtrasados: (filters: any): Promise<Projetos[]> =>

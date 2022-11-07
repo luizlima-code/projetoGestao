@@ -22,6 +22,12 @@ export const getProjetosRequest = (req: ProjetoCustomSearch): ActionType =>
 export const getProjetosSuccess = (res: Projetos[]): PayloadForms =>
   action(ProjetosTypes.GETPROJETOSSUCCESS, res);
 
+export const getAllProjetosRequest = (): ActionType =>
+  action(ProjetosTypes.GETALLPROJETOSREQUEST);
+
+export const getAllProjetosSuccess = (res: Projetos[]): PayloadForms =>
+  action(ProjetosTypes.GETALLPROJETOSSUCCESS, res);
+
 export const getByIdProjetosRequest = (request: any): ActionType =>
   action(ProjetosTypes.GETBYIDPROJETOSREQUEST, request);
 

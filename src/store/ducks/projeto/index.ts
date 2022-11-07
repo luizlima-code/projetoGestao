@@ -11,6 +11,7 @@ const Clientes = {
 const INITIAL_STATE = {
   isLoading: false,
   projetos: <ProjetoResponse>{},
+  allProjetos: [],
   projetosById: {
     cliente: Clientes,
     dataEntrega: new Date().toISOString(),
@@ -52,6 +53,17 @@ const reducer: Reducer<ProjetosState> = (
         ...state,
         isLoading: false,
         projetos: action.payload,
+      };
+    case ProjetosTypes.GETALLPROJETOSREQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ProjetosTypes.GETALLPROJETOSSUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        allProjetos: action.payload,
       };
     case ProjetosTypes.GETBYIDPROJETOSREQUEST:
       return {

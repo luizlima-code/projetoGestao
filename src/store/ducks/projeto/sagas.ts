@@ -12,6 +12,7 @@ import {
   postProjetosSuccess,
   putProjetosSuccess,
   getGraficoPrazoAtrasadoSuccess,
+  getAllProjetosSuccess,
 } from './actions';
 import {
   PrazoVsAtrasos,
@@ -65,6 +66,21 @@ export function* getProjetos({
     const response = yield call(ProjetosService.getProjetos, payload);
 
     yield put(getProjetosSuccess(response.data));
+  } catch (error) {
+    console.error(error);
+    toast.error('Erro ao pesquisar projetos');
+  }
+}
+
+export function* getAllProjetos(): Generator<
+  CallEffect<Projetos[]> | PutEffect<AnyAction>,
+  void,
+  ProjetosData
+> {
+  try {
+    const response = yield call(ProjetosService.getAllProjetos);
+
+    yield put(getAllProjetosSuccess(response.data.content));
   } catch (error) {
     console.error(error);
     toast.error('Erro ao pesquisar projetos');
@@ -209,7 +225,7 @@ export function* postItemProjetos({
   ItemProjeto
 > {
   try {
-    yield call(ProjetosService.postItemProjetos, payload.projeto, payload);
+    yield call(ProjetosService.postItemProjetos, payload.projeto.id, payload);
 
     yield put(postItemProjetoSuccess());
     toast.success('Item do projeto cadastrado com sucesso');

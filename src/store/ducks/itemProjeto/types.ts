@@ -22,7 +22,7 @@ export interface ItemProjeto {
   codigo: string;
   id?: string;
   nome: string;
-  projeto: Projetos;
+  projeto: Projetos | any;
 }
 
 export interface ItemCustomSearch {

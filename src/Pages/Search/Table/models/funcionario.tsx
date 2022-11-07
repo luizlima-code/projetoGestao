@@ -26,6 +26,7 @@ import {
   FuncionarioCustomSearch,
   FuncionariosResponse,
 } from '../../../../store/ducks/funcionarios/types';
+import { maskFormateTelefone } from '../../../../config/masks/telefone_mask';
 
 interface FuncionarioTypes {
   id?: string;
@@ -62,6 +63,10 @@ const TableFuncionario = (props: Props): React.ReactElement => {
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
+  };
+
+  const formatTelefone = (cpfCnpj: string) => {
+    return conformToMask(cpfCnpj, maskFormateTelefone, {}).conformedValue;
   };
 
   const handleOpenModalOptions = (title: string, id: string) => {
@@ -132,7 +137,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
     nome: row.nome,
     email: row.email,
     cpf: formatCpfCnpj(row.cpf),
-    telefone: row.telefone,
+    telefone: formatTelefone(row.telefone),
     actions: action(row.id),
   }));
 

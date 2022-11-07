@@ -27,7 +27,6 @@ interface ProjetoTypes {
   cliente: Clientes;
   dataEntrega: string;
   dataPrevisao: string;
-  dataInicial?: string;
   dataVenda: string;
   descricao: string;
   id?: string;

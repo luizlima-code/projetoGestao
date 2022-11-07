@@ -1,6 +1,7 @@
+import { CircularProgress } from '@mui/material';
 import { display } from '@mui/system';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import apiLoginDefault from '../../Services/apiLogin';
@@ -26,6 +27,7 @@ interface LoginSuccessTypes {
 }
 
 const Login: React.FC = () => {
+  const [loanding, setLoanding] = useState(false);
   const navigate = useNavigate();
 
   async function loginUser(credentials: LoginTypes) {
@@ -34,11 +36,12 @@ const Login: React.FC = () => {
       let res = await apiLoginDefault.post('planner/auth/login', body);
       let data = res.data.token;
       localStorage.setItem('@Token', data);
-      navigate("/home");
+      setLoanding(false);
+      navigate('/home');
     } catch {
       toast.error('Usuário ou senha inválida!');
+      setLoanding(false);
     }
-
   }
 
   const initial_values = {
@@ -47,9 +50,13 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = async (values: LoginTypes, setSubmitting: Function) => {
+    setLoanding(true);
+
     const response = await loginUser(values);
     setSubmitting();
-  }
+  };
+
+  const load = <CircularProgress />;
 
   return (
     <Container>
@@ -63,7 +70,7 @@ const Login: React.FC = () => {
               handleLogin(values, setSubmitting);
             }}
           >
-            <Form className='formsEdit'>
+            <Form className="formsEdit">
               <Input placeholder="email" id="email" name="email" />
               <Input
                 placeholder="senha"
@@ -71,7 +78,9 @@ const Login: React.FC = () => {
                 name="senha"
                 type="password"
               />
-              <ButtonLogin type="submit">Login</ButtonLogin>
+              <ButtonLogin type="submit">
+                {loanding ? load : 'Login'}
+              </ButtonLogin>
             </Form>
           </Formik>
         </MainContent>

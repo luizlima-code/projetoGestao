@@ -53,6 +53,7 @@ import {
 import { ItemProjetoTypes } from './itemProjeto/types';
 import {
   deleteProjetos,
+  getAllProjetos,
   getGraficoPrazoAtrasado,
   getItemProjeto,
   getProjetos,
@@ -90,6 +91,7 @@ export function* rootSaga(): Generator {
     takeLatest(EtapasTypes.DELETEETAPASREQUEST, deleteEtapas),
     // projetos
     takeLatest(ProjetosTypes.GETPROJETOSREQUEST, getProjetos),
+    takeLatest(ProjetosTypes.GETALLPROJETOSREQUEST, getAllProjetos),
     takeLatest(ProjetosTypes.GETBYIDPROJETOSREQUEST, getProjetosById),
     takeLatest(ProjetosTypes.POSTPROJETOSREQUEST, postProjetos),
     takeLatest(ProjetosTypes.PUTPROJETOSREQUEST, putProjetos),

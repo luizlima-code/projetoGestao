@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-  KeyboardDatePicker,
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
@@ -19,16 +18,20 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { postFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
 import FieldsForms from '../FieldsForms';
 import { TextField } from 'formik-material-ui';
-import { getClientesFilterRequest, postClientesRequest } from '../../store/ducks/clientes/actions';
+import {
+  getClientesFilterRequest,
+  postClientesRequest,
+} from '../../store/ducks/clientes/actions';
 import { postEtapasRequest } from '../../store/ducks/etapas/actions';
-import { Clientes } from '../../store/ducks/clientes/types';
 import SelectForms from '../SelectForms';
 import { format } from 'date-fns';
 import {
+  getAllProjetosRequest,
   postItemProjetoRequest,
   postProjetosRequest,
 } from '../../store/ducks/projeto/actions';
-import { Projetos } from '../../store/ducks/projeto/types';
+import { TextMask } from '../../config/masks/TextMask';
+import { maskFormateCpfCnpj } from '../../config/masks/cpf_cnpj_mask';
 
 interface FuncTypes {
   nome: string;
@@ -41,7 +44,7 @@ interface ItemTypes {
   codigo: string;
   id?: string;
   nome: string;
-  projeto: { id: String };
+  projeto: { id: any };
 }
 
 interface EtapaTypes {
@@ -54,7 +57,6 @@ interface ProjetoTypes {
   nome: string;
   dataVenda: string | any;
   dataPrevisao: string | any;
-  // dataInicial: string | any;
   dataEntrega: string | any;
   descricao: string;
 }
@@ -102,7 +104,7 @@ const ModalOptions = ({
   const initial_values_item = {
     codigo: '',
     nome: '',
-    projeto: { id: '4' },
+    projeto: { id: '0' },
   };
 
   const initial_values_projeto = {
@@ -111,9 +113,8 @@ const ModalOptions = ({
       id: '0',
     },
     dataVenda: new Date(),
-    // dataInicial: new Date(),
     dataPrevisao: new Date(),
-    dataEntrega: new Date(),
+    dataEntrega: null,
     descricao: '',
   };
 
@@ -123,20 +124,59 @@ const ModalOptions = ({
     dispatch(getClientesFilterRequest());
   }, [getClientesFilterRequest]);
 
+  useEffect(() => {
+    dispatch(getAllProjetosRequest());
+    console.log(allProjetos);
+  }, [getAllProjetosRequest]);
+
   // aqui será exemplo fim
 
-  const { clientesFilter } = useSelector(
-    (state: RootState) => state.clientes
-  );
+  const { clientesFilter } = useSelector((state: RootState) => state.clientes);
+  const { allProjetos } = useSelector((state: RootState) => state.projeto);
 
   const handlePostFunc = (values: FuncTypes, setSubmitting: any) => {
-    dispatch(postFuncionariosRequest(values));
+    const cpf = values.cpf
+      .replaceAll('.', '')
+      .replaceAll('-', '')
+      .replaceAll('/', '');
+    const telefone = values.telefone
+      .replaceAll('(', '')
+      .replaceAll(')', '')
+      .replaceAll('-', '')
+      .replaceAll(' ', '');
+
+    const payload = {
+      nome: values.nome,
+      cpf: cpf,
+      email: values.email,
+      telefone: telefone,
+      senha: values.senha,
+    };
+
+    dispatch(postFuncionariosRequest(payload));
     setSubmitting();
     setOpenModal(false);
   };
 
   const handlePostCliente = (values: FuncTypes, setSubmitting: any) => {
-    dispatch(postClientesRequest(values));
+    const cpf = values.cpf
+      .replaceAll('.', '')
+      .replaceAll('-', '')
+      .replaceAll('/', '');
+    const telefone = values.telefone
+      .replaceAll('(', '')
+      .replaceAll(')', '')
+      .replaceAll('-', '')
+      .replaceAll(' ', '');
+
+    const payload = {
+      nome: values.nome,
+      cpf: cpf,
+      email: values.email,
+      telefone: telefone,
+    };
+
+    dispatch(postClientesRequest(payload));
     setSubmitting();
     setOpenModal(false);
   };
@@ -148,27 +188,33 @@ const ModalOptions = ({
   };
 
   const handlePostItem = (values: ItemTypes, setSubmitting: any) => {
-    // dispatch(postItemProjetoRequest(values));
+    const payload = {
+      codigo: values.codigo,
+      nome: values.nome,
+      projeto: { id: values.projeto.id },
+    };
+
+    dispatch(postItemProjetoRequest(payload));
     setSubmitting();
     setOpenModal(false);
   };
 
   const handlePostProjeto = (values: ProjetoTypes, setSubmitting: any) => {
-    const dataEntrega = format(values.dataEntrega, 'dd/MM/yyyy hh:mm')
-    // const dataInicial = format(values.dataInicial, 'dd/MM/yyyy hh:mm')
-    const dataPrevisao = format(values.dataPrevisao, 'dd/MM/yyyy hh:mm')
-    const dataVenda = format(values.dataVenda, 'dd/MM/yyyy hh:mm')
+    const dataEntrega =
+      values.dataEntrega != null
+        ? format(values.dataEntrega, 'dd/MM/yyyy hh:mm')
+        : null;
+    const dataPrevisao = format(values.dataPrevisao, 'dd/MM/yyyy hh:mm');
+    const dataVenda = format(values.dataVenda, 'dd/MM/yyyy hh:mm');
 
     const payload = {
       cliente: { id: values.cliente?.id },
       nome: values.nome,
       dataVenda: dataVenda,
-      // dataInicial: dataInicial,
       dataPrevisao: dataPrevisao,
       dataEntrega: dataEntrega,
       descricao: values.descricao,
-    }
-
+    };
 
     dispatch(postProjetosRequest(payload));
     setSubmitting();
@@ -256,6 +302,7 @@ const ModalOptions = ({
                   name="nome"
                   id="nome"
                   label="Nome"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -267,6 +314,7 @@ const ModalOptions = ({
                   name="telefone"
                   id="telefone"
                   label="Telefone"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -276,6 +324,11 @@ const ModalOptions = ({
                   name="cpf"
                   id="cpf"
                   label="CPF"
+                  InputProps={{
+                    inputComponent: TextMask,
+                    inputProps: { mask: maskFormateCpfCnpj },
+                  }}
+                  required
                   fullWidth
                 />
               </Grid>
@@ -285,6 +338,8 @@ const ModalOptions = ({
                   name="email"
                   id="email"
                   label="Email"
+                  type="email"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -320,6 +375,7 @@ const ModalOptions = ({
                   name="nome"
                   id="nome"
                   label="Nome"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -329,6 +385,7 @@ const ModalOptions = ({
                   name="descricao"
                   id="descricao"
                   label="Descrição"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -364,6 +421,7 @@ const ModalOptions = ({
                   name="nome"
                   id="nome"
                   label="Nome"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -373,6 +431,8 @@ const ModalOptions = ({
                   name="senha"
                   id="senha"
                   label="Senha"
+                  type="password"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -383,7 +443,12 @@ const ModalOptions = ({
                   name="cpf"
                   component={TextField}
                   id="cpf"
-                  label="Cpf"
+                  label="CPF"
+                  InputProps={{
+                    inputComponent: TextMask,
+                    inputProps: { mask: maskFormateCpfCnpj },
+                  }}
+                  required
                   fullWidth
                 />
               </Grid>
@@ -393,6 +458,8 @@ const ModalOptions = ({
                   component={TextField}
                   id="email"
                   label="Email"
+                  type="email"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -402,6 +469,7 @@ const ModalOptions = ({
                   component={TextField}
                   id="telefone"
                   label="Telefone"
+                  required
                   fullWidth
                 />
               </Grid>
@@ -434,29 +502,38 @@ const ModalOptions = ({
               <Grid item md={4} xs={12}>
                 <FieldsForms
                   component={TextField}
-                  name="itemNome"
-                  id="itemNome"
+                  name="nome"
+                  id="nome"
                   label="Nome"
+                  required
                   fullWidth
                 />
               </Grid>
               <Grid item md={4} xs={12}>
                 <FieldsForms
                   component={TextField}
-                  name="itemCodigo"
-                  id="itemCodigo"
+                  name="codigo"
+                  id="codigo"
                   label="Codigo"
+                  required
                   fullWidth
                 />
               </Grid>
               <Grid item md={4} xs={12}>
                 <FieldsForms
-                  component={TextField}
-                  name="itemProjeto"
-                  id="itemProjeto"
+                  component={SelectForms}
+                  name="projeto"
+                  id="projeto"
                   label="Projeto"
                   fullWidth
-                />
+                  required
+                >
+                  {allProjetos.map((res: any) => (
+                    <MenuItem key={res.id} value={res}>
+                      {res.nome}
+                    </MenuItem>
+                  ))}
+                </FieldsForms>
               </Grid>
             </Grid>
             {botoesModal}
@@ -486,7 +563,7 @@ const ModalOptions = ({
             <Form>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container spacing={1.2}>
-                  <Grid item md={4} xs={12}>
+                  <Grid item md={6} xs={12}>
                     <FieldsForms
                       component={TextField}
                       name="nome"
@@ -495,7 +572,7 @@ const ModalOptions = ({
                       fullWidth
                     />
                   </Grid>
-                  <Grid item md={4} xs={12}>
+                  <Grid item md={6} xs={12}>
                     <FieldsForms
                       component={SelectForms}
                       name="cliente"
@@ -511,17 +588,6 @@ const ModalOptions = ({
                       ))}
                     </FieldsForms>
                   </Grid>
-                  {/* <Grid item md={4} xs={12}>
-                    <KeyboardDateTimePicker
-                      format="dd/MM/yyyy hh:mm"
-                      name="dataInicial"
-                      id="dataInicial"
-                      label="Data Inicial"
-                      value={values.dataInicial}
-                      onChange={(event) => setFieldValue('dataInicial', event)}
-                      fullWidth
-                    />
-                  </Grid> */}
                 </Grid>
                 <Grid container spacing={1.2} pt={2}>
                   <Grid item md={4} xs={12}>
@@ -554,6 +620,9 @@ const ModalOptions = ({
                       label="Data Entrega"
                       value={values.dataEntrega}
                       onChange={(event) => setFieldValue('dataEntrega', event)}
+                      minDate={values.dataVenda}
+                      minDateMessage={'Data entrega menor que data da venda'}
+                      disabled={true}
                       fullWidth
                     />
                   </Grid>
