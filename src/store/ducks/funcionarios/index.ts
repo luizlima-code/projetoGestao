@@ -73,7 +73,6 @@ const reducer: Reducer<FuncionariosState> = (
     case FuncionariosTypes.DELETEFUNCIONARIOSREQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case FuncionariosTypes.DELETEFUNCIONARIOSSUCCESS:
       return {

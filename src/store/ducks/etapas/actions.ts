@@ -34,8 +34,8 @@ export const putEtapasRequest = (req: Etapas): PayloadForms =>
 export const putEtapasSuccess = (res: Etapas): PayloadForms =>
   action(EtapasTypes.PUTETAPASSUCCESS, res);
 
-export const deleteProjetosRequest = (req: Etapas): PayloadForms =>
+export const deleteEtapasRequest = (req: any): PayloadForms =>
   action(EtapasTypes.DELETEETAPASREQUEST, req);
 
-export const deleteProjetosSuccess = (): ActionType =>
+export const deleteEtapasSuccess = (): ActionType =>
   action(EtapasTypes.DELETEETAPASSUCCESS);

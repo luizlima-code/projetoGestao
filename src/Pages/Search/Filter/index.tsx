@@ -271,20 +271,28 @@ const FilterData = ({
         <Buttons>
           <Button
             variant="contained"
-            sx={{ mt: 2, mr: 2 }}
+            // sx={{ mt: 2, mr: 2 }}
             size="small"
             color="inherit"
-            style={{ backgroundColor: '#dedede', fontWeight: 300 }}
+            style={{
+              backgroundColor: '#dedede',
+              fontWeight: 300,
+              marginRight: 12,
+            }}
             onClick={handleReset}
           >
             Limpar
           </Button>
           <Button
             variant="contained"
-            sx={{ mt: 2 }}
+            // sx={{ mt: 2 }}
             size="small"
             type="submit"
-            style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
+            style={{
+              backgroundColor: '#00b4d8',
+              fontWeight: 'bold',
+              marginTop: 12,
+            }}
             endIcon={<SearchIcon />}
           >
             Buscar

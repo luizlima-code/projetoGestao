@@ -59,7 +59,7 @@ export const getGraficoPrazoAtrasadoSuccess = (
   res: PrazoVsAtrasos
 ): PayloadForms => action(ProjetosTypes.GETPRAZOVSATRASADOSSUCCESS, res);
 
-export const deleteProjetosRequest = (req: Projetos): PayloadForms =>
+export const deleteProjetosRequest = (req: any): PayloadForms =>
   action(ProjetosTypes.DELETEPROJETOSREQUEST, req);
 
 export const deleteProjetosSuccess = (): ActionType =>

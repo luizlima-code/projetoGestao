@@ -14,7 +14,6 @@ import { BoxStyle, Buttons } from './styles';
 import { Grid, IconButton, useMediaQuery, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { postFuncionariosRequest } from '../../store/ducks/funcionarios/actions';
 import FieldsForms from '../FieldsForms';
 import { TextField } from 'formik-material-ui';
@@ -522,6 +521,8 @@ const ModalOptions = ({
               <Grid item md={4} xs={12}>
                 <FieldsForms
                   component={SelectForms}
+                  variant="standard"
+                  size="small"
                   name="projeto"
                   id="projeto"
                   label="Projeto"
@@ -575,6 +576,8 @@ const ModalOptions = ({
                   <Grid item md={6} xs={12}>
                     <FieldsForms
                       component={SelectForms}
+                      variant="standard"
+                      size="small"
                       name="cliente"
                       id="cliente"
                       label="Cliente"
@@ -664,9 +667,7 @@ const ModalOptions = ({
     }
   };
 
-  const actualModal = renderModal();
-
-  return actualModal as ReactJSXElement;
+  return renderModal() as React.ReactElement;
 };
 
 export default ModalOptions;

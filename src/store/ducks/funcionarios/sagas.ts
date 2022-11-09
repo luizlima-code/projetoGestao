@@ -107,7 +107,6 @@ export function* putFuncionarios({
     toast.success('Funcionario editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar funcionario');
   }
 }
@@ -124,7 +123,6 @@ export function* deleteFuncionarios({
     toast.success('Funcionario excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir funcionario');
   }
 }

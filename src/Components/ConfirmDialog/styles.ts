@@ -9,7 +9,7 @@ export const BoxStyle = styled(Box)`
   background-color: #eee;
   border-radius: 16px;
   box-shadow: 24px;
-  padding: 20px;
+  padding: 10px;
 
   overflow-y: scroll;
 
@@ -20,11 +20,4 @@ export const BoxStyle = styled(Box)`
   @media only screen and (max-width: 959px) {
     width: 90%;
   }
-`;
-
-export const Buttons = styled.div`
-  margin: 5px 0;
-
-  display: flex;
-  justify-content: flex-end;
 `;

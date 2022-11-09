@@ -21,5 +21,5 @@ export const FuncionarioService = {
   putFuncionarios: (id: string, form: Funcionarios): Promise<Funcionarios> =>
     apiDefault.put(`/planner/funcionario/${id}`, form),
   deleteFuncionarios: (id: Funcionarios): Promise<Funcionarios> =>
-    apiDefault.delete(`/planner/funcionarios/${id}`),
+    apiDefault.delete(`/planner/funcionario/${id}`),
 };

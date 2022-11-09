@@ -62,7 +62,6 @@ const reducer: Reducer<EtapasState> = (state = INITIAL_STATE, action: any) => {
     case EtapasTypes.DELETEETAPASREQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case EtapasTypes.DELETEETAPASSUCCESS:
       return {

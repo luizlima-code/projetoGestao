@@ -2,16 +2,14 @@ import * as React from 'react';
 
 import { getIn, FieldProps } from 'formik';
 
-import MuiSelect, {
-  SelectProps as MuiSelectProps,
-} from '@material-ui/core/Select';
-import MuiFormHelperText from '@material-ui/core/FormHelperText';
-import MuiFormControl from '@material-ui/core/FormControl';
-import MuiInputLabel from '@material-ui/core/InputLabel';
+import MuiSelect, { SelectProps as MuiSelectProps } from '@mui/material/Select';
+import MuiFormHelperText from '@mui/material/FormHelperText';
+import MuiFormControl from '@mui/material/FormControl';
+import MuiInputLabel from '@mui/material/InputLabel';
 
 export interface SelectProps
   extends FieldProps,
-  Omit<MuiSelectProps, 'name' | 'value'> { }
+    Omit<MuiSelectProps, 'name' | 'value'> {}
 
 export function fieldToSelect({
   disabled,

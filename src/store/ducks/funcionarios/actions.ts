@@ -39,7 +39,7 @@ export const putFuncionariosRequest = (req: Funcionarios): PayloadForms =>
 export const putFuncionariosSuccess = (res: Funcionarios): PayloadForms =>
   action(FuncionariosTypes.PUTFUNCIONARIOSSUCCESS, res);
 
-export const deleteFuncionariosRequest = (req: Funcionarios): PayloadForms =>
+export const deleteFuncionariosRequest = (req: any): PayloadForms =>
   action(FuncionariosTypes.DELETEFUNCIONARIOSREQUEST, req);
 
 export const deleteFuncionariosSuccess = (): ActionType =>

@@ -114,7 +114,6 @@ export function* deleteEtapas({
     toast.success('Etapa excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir etapa');
   }
 }
