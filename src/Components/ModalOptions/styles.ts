@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import styled from 'styled-components';
 
 export const BoxStyle = styled(Box)`
@@ -28,3 +28,5 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+export const TextData = styled(TextField)``;

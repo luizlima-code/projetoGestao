@@ -3,14 +3,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  KeyboardDateTimePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+// import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { RootState } from '../../store/ducks/rootReducer';
 import Modal from '@mui/material/Modal';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import { BoxStyle, Buttons } from './styles';
+import { BoxStyle, Buttons, TextData } from './styles';
 import { Grid, IconButton, useMediaQuery, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
@@ -522,10 +522,10 @@ const ModalOptions = ({
                 <FieldsForms
                   component={SelectForms}
                   variant="standard"
-                  size="small"
                   name="projeto"
                   id="projeto"
                   label="Projeto"
+                  size="small"
                   fullWidth
                   required
                 >
@@ -562,7 +562,7 @@ const ModalOptions = ({
         >
           {({ values, setFieldValue }) => (
             <Form>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid container spacing={1.2}>
                   <Grid item md={6} xs={12}>
                     <FieldsForms
@@ -576,11 +576,10 @@ const ModalOptions = ({
                   <Grid item md={6} xs={12}>
                     <FieldsForms
                       component={SelectForms}
-                      variant="standard"
-                      size="small"
                       name="cliente"
                       id="cliente"
                       label="Cliente"
+                      variant="standard"
                       fullWidth
                       required
                     >
@@ -594,43 +593,64 @@ const ModalOptions = ({
                 </Grid>
                 <Grid container spacing={1.2} pt={2}>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDateTimePicker
-                      format="dd/MM/yyyy hh:mm"
-                      name="dataVenda"
-                      id="dataVenda"
+                    <DateTimePicker
+                      ampm={false}
+                      renderInput={(props) => (
+                        <TextData
+                          {...props}
+                          id="dataVenda"
+                          name="dataVenda"
+                          size="small"
+                          variant="standard"
+                          fullWidth
+                        />
+                      )}
                       label="Data Venda"
                       value={values.dataVenda}
                       onChange={(event) => setFieldValue('dataVenda', event)}
-                      fullWidth
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDateTimePicker
-                      format="dd/MM/yyyy hh:mm"
-                      name="dataPrevisao"
-                      id="dataPrevisao"
+                    <DateTimePicker
+                      ampm={false}
+                      renderInput={(props) => (
+                        <TextData
+                          {...props}
+                          name="dataPrevisao"
+                          id="dataPrevisao"
+                          size="small"
+                          variant="standard"
+                          fullWidth
+                        />
+                      )}
                       label="Data Prevista"
                       value={values.dataPrevisao}
                       onChange={(event) => setFieldValue('dataPrevisao', event)}
-                      fullWidth
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
-                    <KeyboardDateTimePicker
-                      format="dd/MM/yyyy hh:mm"
-                      name="dataEntrega"
-                      id="dataEntrega"
+                    <DateTimePicker
+                      inputFormat="dd/MM/yyyy hh:mm"
+                      ampm={false}
+                      renderInput={(props) => (
+                        <TextData
+                          {...props}
+                          name="dataEntrega"
+                          id="dataEntrega"
+                          size="small"
+                          variant="standard"
+                          fullWidth
+                        />
+                      )}
                       label="Data Entrega"
                       value={values.dataEntrega}
                       onChange={(event) => setFieldValue('dataEntrega', event)}
-                      minDate={values.dataVenda}
-                      minDateMessage={'Data entrega menor que data da venda'}
-                      disabled={true}
-                      fullWidth
+                      minDateTime={values.dataVenda}
+                      disabled
                     />
                   </Grid>
                 </Grid>
-              </MuiPickersUtilsProvider>
+              </LocalizationProvider>
               <Grid container spacing={1.2} pt={2}>
                 <Grid item md={12} xs={12}>
                   <FieldsForms

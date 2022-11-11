@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import dateFnsUtils from '@date-io/date-fns';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 
 interface IFilter {
   setFilterProjetos: (filterProjetos: any) => void;
@@ -39,7 +36,7 @@ const FiltroProjetos = ({ setFilterProjetos }: IFilter): React.ReactElement => {
         mr={0.5}
         spacing={1}
       >
-        <Grid item md={4} xs={12}>
+        <Grid item md={3.5} xs={12}>
           <Typography
             id="table-title"
             variant="h6"
@@ -49,50 +46,58 @@ const FiltroProjetos = ({ setFilterProjetos }: IFilter): React.ReactElement => {
             Projetos
           </Typography>
         </Grid>
-        <MuiPickersUtilsProvider utils={dateFnsUtils}>
-          <Grid item md={4} xs={12}>
-            <KeyboardDatePicker
-              size="small"
-              id="dataInicial"
-              name="dataInicial"
-              // label="Data inicial"
-              format="dd/MM/yyyy"
-              InputProps={{
-                disableUnderline: true,
-                readOnly: true,
-              }}
-              KeyboardButtonProps={{
-                style: { padding: 4, color: '#00b4d8' },
-              }}
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Grid item md={4.25} xs={12}>
+            <DatePicker
+              inputFormat="dd/MM/yyyy"
               value={formik.values.dataInicial}
-              // value={formik.values.dataInicial}
               maxDate={formik.values.dataFinal}
-              maxDateMessage={'Data inicial maior que final'}
               onChange={(event) => formik.setFieldValue('dataInicial', event)}
-            />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <KeyboardDatePicker
-              size="small"
-              id="dataFinal"
-              name="dataFinal"
-              // label="Data final"
-              format="dd/MM/yyyy"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="dataInicial"
+                  name="dataInicial"
+                  size="small"
+                  variant="standard"
+                  disabled
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
+                />
+              )}
               InputProps={{
                 disableUnderline: true,
-                readOnly: true,
+                style: { padding: 2 },
               }}
-              KeyboardButtonProps={{
-                style: { padding: 4, color: '#00b4d8' },
-              }}
-              value={formik.values.dataFinal}
-              // value={formik.values.dataFinal}
-              onChange={(event) => formik.setFieldValue('dataFinal', event)}
-              minDate={formik.values.dataInicial}
-              minDateMessage={'Data final menor que inicial'}
             />
           </Grid>
-        </MuiPickersUtilsProvider>
+          <Grid item md={4.25} xs={12}>
+            <DatePicker
+              inputFormat="dd/MM/yyyy"
+              value={formik.values.dataFinal}
+              maxDate={formik.values.dataInicial}
+              onChange={(event) => formik.setFieldValue('dataFinal', event)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="dataFinal"
+                  name="dataFinal"
+                  size="small"
+                  variant="standard"
+                  disabled
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
+                />
+              )}
+              InputProps={{
+                disableUnderline: true,
+                style: { padding: 2 },
+              }}
+            />
+          </Grid>
+        </LocalizationProvider>
       </Grid>
     </form>
   );

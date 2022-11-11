@@ -30,7 +30,7 @@ const FilterData = ({
     email: '',
     cpf: '',
     nomeCliente: '',
-    ativos: true,
+    ativos: false,
     pageNumber: 0,
     pageSize: 10,
   };

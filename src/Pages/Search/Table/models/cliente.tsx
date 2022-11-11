@@ -172,11 +172,10 @@ const TableCliente = (props: Props): React.ReactElement => {
           <>
             <TableContainer
               component={Paper}
-              // sx={{
-              //   borderRadius: 4,
-              //   maxHeight: heightTable,
-              // }}
-              style={{ borderRadius: 4, maxHeight: heightTable }}
+              sx={{
+                borderRadius: 4,
+                maxHeight: heightTable,
+              }}
             >
               <Table stickyHeader size="small">
                 <TableHead>
@@ -184,12 +183,6 @@ const TableCliente = (props: Props): React.ReactElement => {
                     {headers.map((header) => (
                       <TableCell
                         align="center"
-                        // sx={{
-                        //   backgroundColor: '#00b4d8',
-                        //   color: 'white',
-                        //   fontSize: 20,
-                        //   border: 'none',
-                        // }}
                         style={{
                           backgroundColor: '#00b4d8',
                           color: 'white',
