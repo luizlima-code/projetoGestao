@@ -146,7 +146,7 @@ const TableProjeto = (props: Props): React.ReactElement => {
     dispatch(getProjetosRequest(customSearch));
   }, [filter, listProjeto]);
 
-  const rows = listProjeto.map((row: ProjetoTypes) => ({
+  const rows = listProjeto?.map((row: ProjetoTypes) => ({
     id: row.id,
     nome: row.nome,
     dataVenda: row.dataVenda,

@@ -135,7 +135,7 @@ const TableEtapa = (props: Props): React.ReactElement => {
     dispatch(getEtapasRequest(customSearch));
   }, [filter, listEtapas]);
 
-  const rows = listEtapas.map((row: EtapaTypes) => ({
+  const rows = listEtapas?.map((row: EtapaTypes) => ({
     ...row,
     id: row.id,
     nome: row.nome,

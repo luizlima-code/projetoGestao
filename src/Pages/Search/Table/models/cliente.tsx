@@ -153,7 +153,7 @@ const TableCliente = (props: Props): React.ReactElement => {
     dispatch(getClientesRequest(customSearch));
   }, [filter, listClientes]);
 
-  const rows = listClientes.map((row: ClienteTypes) => ({
+  const rows = listClientes?.map((row: ClienteTypes) => ({
     ...row,
     nome: row.nome,
     cpf: formatCpfCnpj(row.cpf),

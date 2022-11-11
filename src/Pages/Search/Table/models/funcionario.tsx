@@ -153,7 +153,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
     dispatch(getFuncionariosRequest(customSearch));
   }, [filter, listFunc]);
 
-  const rows = listFunc.map((row: FuncionarioTypes) => ({
+  const rows = listFunc?.map((row: FuncionarioTypes) => ({
     id: row.id,
     nome: row.nome,
     email: row.email,
