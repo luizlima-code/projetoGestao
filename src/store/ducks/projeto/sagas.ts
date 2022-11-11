@@ -135,7 +135,6 @@ export function* postProjetos({
     toast.success('Projeto cadastrado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao cadastrar projeto');
   }
 }
@@ -158,7 +157,6 @@ export function* putProjetos({
     toast.success('Projeto editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar projeto');
   }
 }
@@ -175,7 +173,6 @@ export function* deleteProjetos({
     toast.success('Projeto excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir projeto');
   }
 }
@@ -231,7 +228,6 @@ export function* postItemProjetos({
     toast.success('Item do projeto cadastrado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao cadastrar item do projeto');
   }
 }

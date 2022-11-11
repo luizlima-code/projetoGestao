@@ -24,10 +24,7 @@ import {
   deleteClienteRequest,
   getClientesRequest,
 } from '../../../../store/ducks/clientes/actions';
-import {
-  ClienteCustomSearch,
-  ClientesResponse,
-} from '../../../../store/ducks/clientes/types';
+import { ClienteCustomSearch } from '../../../../store/ducks/clientes/types';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 
@@ -65,6 +62,7 @@ const TableCliente = (props: Props): React.ReactElement => {
   const { isLoading, clientes } = useSelector(
     (state: RootState) => state.clientes
   );
+  const [listClientes, setListClientes] = useState(clientes.content);
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
@@ -94,6 +92,15 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteClienteRequest(configId));
+
+    const clienteDeletado = listClientes.find((obj) => obj.id === configId);
+    if (clienteDeletado != null) {
+      const newList = listClientes.filter(
+        (item) => item.id != clienteDeletado.id
+      );
+      setListClientes(newList);
+    }
+
     handleCloseDelete();
   };
 
@@ -144,9 +151,9 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getClientesRequest(customSearch));
-  }, [filter]);
+  }, [filter, listClientes]);
 
-  const rows = clientes.content?.map((row: ClienteTypes) => ({
+  const rows = listClientes.map((row: ClienteTypes) => ({
     ...row,
     nome: row.nome,
     cpf: formatCpfCnpj(row.cpf),

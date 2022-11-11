@@ -51,7 +51,6 @@ export function* getAllItemProjetos({
   try {
     const response = yield call(ItemProjetoService.getAllItemProjeto, payload);
 
-    console.log('sagas:', response.data);
     yield put(getAllItemProjetoSuccess(response.data));
   } catch (error) {
     console.error(error);
@@ -94,7 +93,6 @@ export function* putItemProjeto({
     toast.success('Item do projeto editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar item do projeto');
   }
 }
@@ -111,7 +109,6 @@ export function* deleteItemProjeto({
     toast.success('Item do projeto excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir item do projeto');
   }
 }
@@ -134,7 +131,6 @@ export function* postEtapa({
     toast.success('Etapa do projeto cadastrado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao cadastrar etapa do projeto');
   }
 }

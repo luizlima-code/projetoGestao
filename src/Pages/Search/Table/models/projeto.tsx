@@ -63,6 +63,7 @@ const TableProjeto = (props: Props): React.ReactElement => {
   const { isLoading, projetos } = useSelector(
     (state: RootState) => state.projeto
   );
+  const [listProjeto, setListProjeto] = useState(projetos.content);
 
   const handleOpenModalOptions = (title: string, id: string) => {
     setOpenModal(true);
@@ -84,6 +85,15 @@ const TableProjeto = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteProjetosRequest(configId));
+
+    const projetoDeletado = listProjeto.find((obj) => obj.id === configId);
+    if (projetoDeletado != null) {
+      const newList = listProjeto.filter(
+        (item) => item.id != projetoDeletado.id
+      );
+      setListProjeto(newList);
+    }
+
     handleCloseDelete();
   };
 
@@ -133,11 +143,10 @@ const TableProjeto = (props: Props): React.ReactElement => {
   };
 
   useEffect(() => {
-    console.log(customSearch);
     dispatch(getProjetosRequest(customSearch));
-  }, [filter]);
+  }, [filter, listProjeto]);
 
-  const rows = projetos?.content?.map((row: ProjetoTypes) => ({
+  const rows = listProjeto.map((row: ProjetoTypes) => ({
     id: row.id,
     nome: row.nome,
     dataVenda: row.dataVenda,

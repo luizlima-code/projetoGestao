@@ -77,7 +77,6 @@ export function* postDesempenho({
     toast.success('Desempenho cadastrado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao cadastrar desempenho');
   }
 }
@@ -100,7 +99,6 @@ export function* putDesempenho({
     toast.success('Desempenho editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar desempenho');
   }
 }
@@ -117,7 +115,6 @@ export function* deleteDesempenho({
     toast.success('Desempenho excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir desempenho');
   }
 }

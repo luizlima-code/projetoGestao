@@ -121,7 +121,6 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     dispatch(getDesempenhoEtapaRequest(formatDesempenho));
-    console.log(formatDesempenho);
   }, [filterDesempenho]);
 
   useEffect(() => {

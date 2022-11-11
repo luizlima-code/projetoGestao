@@ -64,6 +64,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
   const { isLoading, funcionarios } = useSelector(
     (state: RootState) => state.funcionarios
   );
+  const [listFunc, setListFunc] = useState(funcionarios.content);
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
@@ -93,6 +94,13 @@ const TableFuncionario = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteFuncionariosRequest(configId));
+
+    const funcDeletado = listFunc.find((obj) => obj.id === configId);
+    if (funcDeletado != null) {
+      const newList = listFunc.filter((item) => item.id != funcDeletado.id);
+      setListFunc(newList);
+    }
+
     handleCloseDelete();
   };
 
@@ -143,9 +151,9 @@ const TableFuncionario = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getFuncionariosRequest(customSearch));
-  }, [filter]);
+  }, [filter, listFunc]);
 
-  const rows = funcionarios?.content?.map((row: FuncionarioTypes) => ({
+  const rows = listFunc.map((row: FuncionarioTypes) => ({
     id: row.id,
     nome: row.nome,
     email: row.email,

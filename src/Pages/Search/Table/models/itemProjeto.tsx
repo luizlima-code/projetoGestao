@@ -60,6 +60,7 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
   const { isLoading, itemProjetos } = useSelector(
     (state: RootState) => state.itemProjeto
   );
+  const [listItemProjeto, setListItemProjeto] = useState(itemProjetos.content);
 
   const handleOpenModalOptions = (title: string, id: string) => {
     setOpenModal(true);
@@ -81,6 +82,15 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteItemProjetoRequest(configId));
+
+    const itemDeletado = listItemProjeto.find((obj) => obj.id === configId);
+    if (itemDeletado != null) {
+      const newList = listItemProjeto.filter(
+        (item) => item.id != itemDeletado.id
+      );
+      setListItemProjeto(newList);
+    }
+
     handleCloseDelete();
   };
 
@@ -129,9 +139,9 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getAllItemProjetoRequest(customSearch));
-  }, [filter]);
+  }, [filter, listItemProjeto]);
 
-  const rows = itemProjetos?.content?.map((row: ItemProjetoTypes) => ({
+  const rows = listItemProjeto.map((row: ItemProjetoTypes) => ({
     id: row.id,
     nome: row.nome,
     codigo: row.codigo,

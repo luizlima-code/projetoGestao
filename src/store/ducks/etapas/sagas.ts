@@ -76,7 +76,6 @@ export function* postEtapas({
 
     yield put(postEtapasSuccess());
     toast.success('Etapa cadastrada com sucesso!');
-    console.log('sagas etapa: ', payload);
   } catch (error) {
     console.error(error);
     toast.error('Erro ao cadastrar etapa');
@@ -97,7 +96,6 @@ export function* putEtapas({
     toast.success('Etapa editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar etapa');
   }
 }

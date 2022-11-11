@@ -42,7 +42,7 @@ const FilterData = ({
 
   const formik = useFormik({
     initialValues: defaultFilter,
-    onSubmit: (values) => (handleFilter(values), console.log(values)),
+    onSubmit: (values) => handleFilter(values),
   });
 
   const handleReset = () => {
@@ -271,7 +271,6 @@ const FilterData = ({
         <Buttons>
           <Button
             variant="contained"
-            // sx={{ mt: 2, mr: 2 }}
             size="small"
             color="inherit"
             style={{
@@ -285,7 +284,6 @@ const FilterData = ({
           </Button>
           <Button
             variant="contained"
-            // sx={{ mt: 2 }}
             size="small"
             type="submit"
             style={{

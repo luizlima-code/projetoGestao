@@ -125,7 +125,6 @@ const ModalOptions = ({
 
   useEffect(() => {
     dispatch(getAllProjetosRequest());
-    console.log(allProjetos);
   }, [getAllProjetosRequest]);
 
   // aqui será exemplo fim
