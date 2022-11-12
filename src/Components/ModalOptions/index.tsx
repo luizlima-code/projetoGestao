@@ -21,7 +21,7 @@ import {
   getClientesFilterRequest,
   postClientesRequest,
 } from '../../store/ducks/clientes/actions';
-import { postEtapasRequest } from '../../store/ducks/etapas/actions';
+import { getByIdEtapasRequest, postEtapasRequest } from '../../store/ducks/etapas/actions';
 import SelectForms from '../SelectForms';
 import { format } from 'date-fns';
 import {
@@ -75,10 +75,7 @@ const ModalOptions = ({
 }: PropsTypes): React.ReactElement => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-
-  useEffect(() => {
-    setName(title);
-  }, [title]);
+  const [etapasByIdEstado, setEtapasByIdEstado] = useState<any>();
 
   const initial_values_func = {
     nome: '',
@@ -117,7 +114,18 @@ const ModalOptions = ({
     descricao: '',
   };
 
-  // aqui será exemplo inicio
+  const { etapasById } = useSelector((state: RootState) => state.etapas);
+
+  useEffect(() => {
+    setName(title);
+  }, [title, openModal]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getByIdEtapasRequest(id));
+      setEtapasByIdEstado(etapasById);
+    }
+  }, [id, getByIdEtapasRequest]);
 
   useEffect(() => {
     dispatch(getClientesFilterRequest());
@@ -126,8 +134,6 @@ const ModalOptions = ({
   useEffect(() => {
     dispatch(getAllProjetosRequest());
   }, [getAllProjetosRequest]);
-
-  // aqui será exemplo fim
 
   const { clientesFilter } = useSelector((state: RootState) => state.clientes);
   const { allProjetos } = useSelector((state: RootState) => state.projeto);
@@ -360,7 +366,7 @@ const ModalOptions = ({
         {headerModal}
         <Formik
           enableReinitialize={false}
-          initialValues={initial_values_etapa}
+          initialValues={id ? etapasByIdEstado : initial_values_etapa}
           onSubmit={(values: EtapaTypes, { setSubmitting }) => {
             handlePostEtapa(values, setSubmitting);
           }}

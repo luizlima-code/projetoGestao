@@ -28,11 +28,13 @@ const reducer: Reducer<EtapasState> = (state = INITIAL_STATE, action: any) => {
         etapas: action.payload,
       };
     case EtapasTypes.GETBYIDETAPASREQUEST:
+      console.log('request: ', action.payload);
       return {
         ...state,
         isLoading: true,
       };
     case EtapasTypes.GETBYIDETAPASSUCCESS:
+      console.log('sucess: ', action.payload);
       return {
         ...state,
         isLoading: false,
