@@ -56,6 +56,7 @@ export function* getEtapasById({
 > {
   try {
     const response = yield call(EtapasService.getByIdEtapas, payload);
+    console.log('sagas: ', response)
 
     yield put(getByIdEtapasSuccess(response.data));
   } catch (error) {
