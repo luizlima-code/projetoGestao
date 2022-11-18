@@ -38,7 +38,7 @@ interface ClienteTypes {
 }
 
 interface OwnProps {
-  filter: any;
+  filter?: any;
 }
 
 type Props = OwnProps;
@@ -62,7 +62,7 @@ const TableCliente = (props: Props): React.ReactElement => {
   const { isLoading, clientes } = useSelector(
     (state: RootState) => state.clientes
   );
-  const [listClientes, setListClientes] = useState(clientes.content);
+  const [listClientes, setListClientes] = useState(clientes);
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
@@ -92,14 +92,6 @@ const TableCliente = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteClienteRequest(configId));
-
-    const clienteDeletado = listClientes.find((obj) => obj.id === configId);
-    if (clienteDeletado != null) {
-      const newList = listClientes.filter(
-        (item) => item.id != clienteDeletado.id
-      );
-      setListClientes(newList);
-    }
 
     handleCloseDelete();
   };
@@ -142,18 +134,22 @@ const TableCliente = (props: Props): React.ReactElement => {
   };
 
   const customSearch: ClienteCustomSearch = {
-    nome: filter.nome,
-    cpf: filter.cpf,
-    email: filter.email,
+    nome: filter.nome || null,
+    cpf: filter.cpf || null,
+    email: filter.email || null,
     pageNumber: page,
     pageSize: rowsPerPage,
   };
 
   useEffect(() => {
     dispatch(getClientesRequest(customSearch));
-  }, [filter, listClientes]);
+  }, [filter]);
 
-  const rows = listClientes?.map((row: ClienteTypes) => ({
+  useEffect(() => {
+    setListClientes(clientes);
+  }, [clientes]);
+
+  const rows = listClientes.content?.map((row: ClienteTypes) => ({
     ...row,
     nome: row.nome,
     cpf: formatCpfCnpj(row.cpf),

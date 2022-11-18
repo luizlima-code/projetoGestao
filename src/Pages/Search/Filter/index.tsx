@@ -33,6 +33,7 @@ const FilterData = ({
     ativos: false,
     pageNumber: 0,
     pageSize: 10,
+    reload: false,
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -42,7 +43,19 @@ const FilterData = ({
 
   const formik = useFormik({
     initialValues: defaultFilter,
-    onSubmit: (values) => handleFilter(values),
+    onSubmit: (values) => {
+      const filter = {
+        nome: values.nome,
+        email: values.email,
+        cpf: values.cpf,
+        nomeCliente: values.nomeCliente,
+        ativos: values.ativos,
+        pageNumber: values.pageNumber,
+        pageSize: values.pageSize,
+        reload: !values.reload,
+      };
+      handleFilter(filter);
+    },
   });
 
   const handleReset = () => {

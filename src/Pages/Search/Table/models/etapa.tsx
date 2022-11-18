@@ -56,7 +56,7 @@ const TableEtapa = (props: Props): React.ReactElement => {
   const heightTable = isMobile ? 950 : '60vh';
 
   const { isLoading, etapas } = useSelector((state: RootState) => state.etapas);
-  const [listEtapas, setListEtapas] = useState(etapas.content);
+  const [listEtapas, setListEtapas] = useState(etapas);
 
   const handleOpenModalOptions = (title: string, id: string) => {
     setOpenModal(true);
@@ -78,12 +78,6 @@ const TableEtapa = (props: Props): React.ReactElement => {
 
   const handleOpenConfirmDelete = (configId: string) => {
     dispatch(deleteEtapasRequest(configId));
-
-    const etapaDeletado = listEtapas.find((obj) => obj.id === configId);
-    if (etapaDeletado != null) {
-      const newList = listEtapas.filter((item) => item.id != etapaDeletado.id);
-      setListEtapas(newList);
-    }
 
     handleCloseDelete();
   };
@@ -133,9 +127,13 @@ const TableEtapa = (props: Props): React.ReactElement => {
 
   useEffect(() => {
     dispatch(getEtapasRequest(customSearch));
-  }, [filter, listEtapas]);
+  }, [filter]);
 
-  const rows = listEtapas?.map((row: EtapaTypes) => ({
+  useEffect(() => {
+    setListEtapas(etapas);
+  }, [etapas]);
+
+  const rows = listEtapas.content?.map((row: EtapaTypes) => ({
     ...row,
     id: row.id,
     nome: row.nome,
