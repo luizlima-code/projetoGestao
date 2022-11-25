@@ -85,7 +85,6 @@ export function* putEtapaProjeto({
     toast.success('Etapa do projeto editada com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar etapa do projeto');
   }
 }
@@ -102,7 +101,6 @@ export function* deleteEtapaProjeto({
     toast.success('Etapa do projeto excluida com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir etapa do projeto');
   }
 }

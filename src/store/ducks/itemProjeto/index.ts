@@ -79,7 +79,6 @@ const reducer: Reducer<ItemProjetoState> = (
     case ItemProjetoTypes.DELETEITEMPROJETOREQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case ItemProjetoTypes.DELETEITEMPROJETOSUCCESS:
       return {

@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
+
 import {
+  Hidden,
   ListItemIcon,
   ListItemText,
   Collapse,
   List,
   useMediaQuery,
   Drawer,
-} from '@material-ui/core';
-
-import ListItemButton from '@mui/material/ListItemButton';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import Home from '@mui/icons-material/Home';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-import SearchIcon from '@mui/icons-material/Search';
+  ListItemButton,
+} from '@mui/material';
 import { Container, IconButtonResponsive } from './styles';
 import ModalOptions from '../ModalOptions';
 import { Link } from 'react-router-dom';
-import { Hidden } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import {
+  AssignmentInd,
+  EventAvailable,
+  Search,
+  Home,
+  Menu,
+  StarBorder,
+  ExpandMore,
+  ExpandLess,
+} from '@mui/icons-material';
 
-export default function Sidebar() {
+const Sidebar = (): React.ReactElement => {
   const [open, setOpen] = React.useState(true);
   const [openModal, setOpenModal] = React.useState(false);
   const [title, setTitle] = React.useState('');
@@ -66,7 +68,7 @@ export default function Sidebar() {
           </Link>
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
-              <AssignmentIndIcon style={{ color: 'black ' }} />
+              <AssignmentInd style={{ color: 'black ' }} />
             </ListItemIcon>
             <ListItemText primary="Cadastros" />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -126,17 +128,17 @@ export default function Sidebar() {
           >
             <ListItemButton>
               <ListItemIcon>
-                <SearchIcon style={{ color: 'black ' }} />
+                <Search style={{ color: 'black ' }} />
               </ListItemIcon>
               <ListItemText primary="Pesquisar" />
             </ListItemButton>
           </Link>
-          <ListItemButton>
+          {/* <ListItemButton>
             <ListItemIcon>
-              <EventAvailableIcon style={{ color: 'black ' }} />
+              <EventAvailable style={{ color: 'black ' }} />
             </ListItemIcon>
             <ListItemText primary="Agendamentos" />
-          </ListItemButton>
+          </ListItemButton> */}
         </List>
         <p>© 2022</p>
       </Container>
@@ -172,4 +174,6 @@ export default function Sidebar() {
       />
     </>
   );
-}
+};
+
+export default Sidebar;

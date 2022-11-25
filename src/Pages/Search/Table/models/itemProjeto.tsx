@@ -19,9 +19,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ModalOptions from '../../../../Components/ModalOptions';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
-import { getAllItemProjetoRequest } from '../../../../store/ducks/itemProjeto/actions';
+import {
+  deleteItemProjetoRequest,
+  getAllItemProjetoRequest,
+} from '../../../../store/ducks/itemProjeto/actions';
 import { Projetos } from '../../../../store/ducks/projeto/types';
 import { ItemCustomSearch } from '../../../../store/ducks/itemProjeto/types';
+import ConfirmDialog from '../../../../Components/ConfirmDialog/ConfirmDialog';
 
 interface ItemProjetoTypes {
   codigo: string;
@@ -44,10 +48,11 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
   const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = useState('');
+
   const [openModal, setOpenModal] = React.useState(false);
   const [idDoModal, setIdDoModal] = React.useState('');
-  const handleOpen = () => setOpenModal(true);
 
   const headers = ['Id', 'Nome', 'Código', 'Projeto', 'Ações'];
   const heightTable = isMobile ? 950 : '60vh';
@@ -55,9 +60,10 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
   const { isLoading, itemProjetos } = useSelector(
     (state: RootState) => state.itemProjeto
   );
+  const [listItemProjeto, setListItemProjeto] = useState(itemProjetos);
 
   const handleOpenModalOptions = (title: string, id: string) => {
-    handleOpen();
+    setOpenModal(true);
     setIdDoModal(id);
   };
 
@@ -65,9 +71,19 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
     handleOpenModalOptions('ItemProjeto', configId);
   };
 
-  const handleOpenConfirmDelete = (configId: string) => {
+  const handleOpenDelete = (configId: string) => {
     setOpen(true);
-    // setIdDelete(configId);
+    setId(configId);
+  };
+
+  const handleCloseDelete = () => {
+    setOpen(false);
+  };
+
+  const handleOpenConfirmDelete = (configId: string) => {
+    dispatch(deleteItemProjetoRequest(configId));
+
+    handleCloseDelete();
   };
 
   const handleChangePage = (
@@ -98,7 +114,7 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
         <Tooltip title="Deletar" aria-label="delete">
           <IconButton
             color="primary"
-            onClick={() => handleOpenConfirmDelete(configId)}
+            onClick={() => handleOpenDelete(configId)}
           >
             <Delete />
           </IconButton>
@@ -117,7 +133,11 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
     dispatch(getAllItemProjetoRequest(customSearch));
   }, [filter]);
 
-  const rows = itemProjetos?.content?.map((row: ItemProjetoTypes) => ({
+  useEffect(() => {
+    setListItemProjeto(itemProjetos);
+  }, [itemProjetos]);
+
+  const rows = listItemProjeto.content?.map((row: ItemProjetoTypes) => ({
     id: row.id,
     nome: row.nome,
     codigo: row.codigo,
@@ -214,6 +234,14 @@ const TableItemProjeto = (props: Props): React.ReactElement => {
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}
+      />
+      <ConfirmDialog
+        open={open}
+        title="Apagar item?"
+        description="Deseja mesmo deletar os dados do item?"
+        onOK={() => handleOpenConfirmDelete(id)}
+        onCancel={handleCloseDelete}
+        onClose={handleCloseDelete}
       />
     </>
   );

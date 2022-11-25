@@ -40,8 +40,8 @@ export const putClientesRequest = (req: Clientes): PayloadForms =>
 export const putClientesSuccess = (res: Clientes): PayloadForms =>
   action(ClientesTypes.PUTCLIENTESSUCCESS, res);
 
-export const deleteEtapaProjetoRequest = (req: Clientes): ActionType =>
+export const deleteClienteRequest = (req: any): ActionType =>
   action(ClientesTypes.DELETECLIENTESREQUEST, req);
 
-export const deleteEtapaProjetoSuccess = (): ActionType =>
+export const deleteClienteSuccess = (): ActionType =>
   action(ClientesTypes.DELETECLIENTESSUCCESS);

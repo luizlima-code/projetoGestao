@@ -29,7 +29,7 @@ export const putItemProjetoRequest = (req: ItemProjeto): PayloadForms =>
 export const putItemProjetoSuccess = (res: ItemProjeto): PayloadForms =>
   action(ItemProjetoTypes.PUTITEMPROJETOSUCCESS, res);
 
-export const deleteItemProjetoRequest = (req: ItemProjeto): PayloadForms =>
+export const deleteItemProjetoRequest = (req: any): PayloadForms =>
   action(ItemProjetoTypes.DELETEITEMPROJETOREQUEST, req);
 
 export const deleteItemProjetoSuccess = (): ActionType =>

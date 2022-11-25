@@ -30,9 +30,10 @@ const FilterData = ({
     email: '',
     cpf: '',
     nomeCliente: '',
-    ativos: true,
+    ativos: false,
     pageNumber: 0,
     pageSize: 10,
+    reload: false,
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -42,7 +43,19 @@ const FilterData = ({
 
   const formik = useFormik({
     initialValues: defaultFilter,
-    onSubmit: (values) => (handleFilter(values), console.log(values)),
+    onSubmit: (values) => {
+      const filter = {
+        nome: values.nome,
+        email: values.email,
+        cpf: values.cpf,
+        nomeCliente: values.nomeCliente,
+        ativos: values.ativos,
+        pageNumber: values.pageNumber,
+        pageSize: values.pageSize,
+        reload: !values.reload,
+      };
+      handleFilter(filter);
+    },
   });
 
   const handleReset = () => {
@@ -271,20 +284,26 @@ const FilterData = ({
         <Buttons>
           <Button
             variant="contained"
-            sx={{ mt: 2, mr: 2 }}
             size="small"
             color="inherit"
-            style={{ backgroundColor: '#dedede', fontWeight: 300 }}
+            style={{
+              backgroundColor: '#dedede',
+              fontWeight: 300,
+              marginRight: 12,
+            }}
             onClick={handleReset}
           >
             Limpar
           </Button>
           <Button
             variant="contained"
-            sx={{ mt: 2 }}
             size="small"
             type="submit"
-            style={{ backgroundColor: '#00b4d8', fontWeight: 'bold' }}
+            style={{
+              backgroundColor: '#00b4d8',
+              fontWeight: 'bold',
+              marginTop: 12,
+            }}
             endIcon={<SearchIcon />}
           >
             Buscar

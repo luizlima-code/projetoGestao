@@ -100,7 +100,6 @@ const reducer: Reducer<ProjetosState> = (
     case ProjetosTypes.DELETEPROJETOSREQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case ProjetosTypes.DELETEPROJETOSSUCCESS:
       return {

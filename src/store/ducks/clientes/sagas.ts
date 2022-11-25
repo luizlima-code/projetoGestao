@@ -116,7 +116,6 @@ export function* putClientes({
     toast.success('Cliente editado com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao editar cliente');
   }
 }
@@ -133,7 +132,6 @@ export function* deleteClientes({
     toast.success('Cliente excluido com sucesso');
   } catch (error) {
     console.error(error);
-    console.log(payload);
     toast.error('Erro ao excluir cliente');
   }
 }

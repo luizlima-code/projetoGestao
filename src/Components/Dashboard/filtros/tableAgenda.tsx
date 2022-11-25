@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import dateFnsUtils from '@date-io/date-fns';
+import { Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 
 interface IFilter {
   setFilterAgenda: (filterAgenda: any) => void;
@@ -48,26 +45,32 @@ const FiltroAgenda = ({ setFilterAgenda }: IFilter): React.ReactElement => {
             Agendamentos
           </Typography>
         </Grid>
-        <MuiPickersUtilsProvider utils={dateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Grid item md={3.5} xs={12}>
-            <KeyboardDatePicker
-              format="dd/MM/yyyy"
-              name="data"
-              id="data"
-              // label="Data"
-              InputProps={{
-                disableUnderline: true,
-                readOnly: true,
-              }}
-              KeyboardButtonProps={{
-                style: { padding: 4, color: '#00b4d8' },
-              }}
+            <DatePicker
+              inputFormat="dd/MM/yyyy"
               value={formik.values.data}
               onChange={(event) => formik.setFieldValue('data', event)}
-              fullWidth
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="data"
+                  name="data"
+                  size="small"
+                  variant="standard"
+                  disabled
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
+                />
+              )}
+              InputProps={{
+                disableUnderline: true,
+                style: { padding: 2 },
+              }}
             />
           </Grid>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </Grid>
     </form>
   );

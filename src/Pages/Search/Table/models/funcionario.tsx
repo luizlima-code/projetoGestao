@@ -21,12 +21,16 @@ import ModalOptions from '../../../../Components/ModalOptions';
 import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
-import { getFuncionariosRequest } from '../../../../store/ducks/funcionarios/actions';
+import {
+  deleteFuncionariosRequest,
+  getFuncionariosRequest,
+} from '../../../../store/ducks/funcionarios/actions';
 import {
   FuncionarioCustomSearch,
   FuncionariosResponse,
 } from '../../../../store/ducks/funcionarios/types';
 import { maskFormateTelefone } from '../../../../config/masks/telefone_mask';
+import ConfirmDialog from '../../../../Components/ConfirmDialog/ConfirmDialog';
 
 interface FuncionarioTypes {
   id?: string;
@@ -49,10 +53,10 @@ const TableFuncionario = (props: Props): React.ReactElement => {
   const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = useState('');
   const [openModal, setOpenModal] = React.useState(false);
   const [idDoModal, setIdDoModal] = React.useState('');
-  const handleOpen = () => setOpenModal(true);
 
   const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
   const heightTable = isMobile ? 950 : '60vh';
@@ -60,6 +64,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
   const { isLoading, funcionarios } = useSelector(
     (state: RootState) => state.funcionarios
   );
+  const [listFunc, setListFunc] = useState(funcionarios);
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
@@ -70,7 +75,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
   };
 
   const handleOpenModalOptions = (title: string, id: string) => {
-    handleOpen();
+    setOpenModal(true);
     setIdDoModal(id);
   };
 
@@ -78,9 +83,19 @@ const TableFuncionario = (props: Props): React.ReactElement => {
     handleOpenModalOptions('Funcionario', configId);
   };
 
-  const handleOpenConfirmDelete = (configId: string) => {
+  const handleOpenDelete = (configId: string) => {
     setOpen(true);
-    // setIdDelete(configId);
+    setId(configId);
+  };
+
+  const handleCloseDelete = () => {
+    setOpen(false);
+  };
+
+  const handleOpenConfirmDelete = (configId: string) => {
+    dispatch(deleteFuncionariosRequest(configId));
+
+    handleCloseDelete();
   };
 
   const handleChangePage = (
@@ -111,7 +126,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
         <Tooltip title="Deletar" aria-label="delete">
           <IconButton
             color="primary"
-            onClick={() => handleOpenConfirmDelete(configId)}
+            onClick={() => handleOpenDelete(configId)}
           >
             <Delete />
           </IconButton>
@@ -132,7 +147,11 @@ const TableFuncionario = (props: Props): React.ReactElement => {
     dispatch(getFuncionariosRequest(customSearch));
   }, [filter]);
 
-  const rows = funcionarios?.content?.map((row: FuncionarioTypes) => ({
+  useEffect(() => {
+    setListFunc(funcionarios);
+  }, [funcionarios]);
+
+  const rows = listFunc.content?.map((row: FuncionarioTypes) => ({
     id: row.id,
     nome: row.nome,
     email: row.email,
@@ -226,10 +245,18 @@ const TableFuncionario = (props: Props): React.ReactElement => {
         )}
       </Container>
       <ModalOptions
-        title="Funcionario"
+        title="Funcionário"
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}
+      />
+      <ConfirmDialog
+        open={open}
+        title="Apagar funcionario"
+        description="Deseja mesmo deletar os dados do funcionario?"
+        onOK={() => handleOpenConfirmDelete(id)}
+        onCancel={handleCloseDelete}
+        onClose={handleCloseDelete}
       />
     </>
   );

@@ -1,6 +1,11 @@
 import { Reducer } from 'redux';
 import { changePropertiesNullToEmptyString } from '../../../Services/utils';
-import { ClientesTypes, ClientesState, ClientesResponse, Clientes } from './types';
+import {
+  ClientesTypes,
+  ClientesState,
+  ClientesResponse,
+  Clientes,
+} from './types';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -11,8 +16,8 @@ const INITIAL_STATE = {
       nome: '',
       email: '',
       cpf: '',
-      telefone: ''
-    }
+      telefone: '',
+    },
   ],
   clientesById: {
     nome: '',
@@ -50,12 +55,10 @@ const reducer: Reducer<ClientesState> = (
         isLoading: true,
       };
     case ClientesTypes.GETCLIENTESFILTERSUCCESS:
-      console.log('aqui: ', action.payload);
       return {
         ...state,
         isLoading: false,
         clientesFilter: action.payload,
-        // clientesFilter: changePropertiesNullToEmptyString(action.payload),
       };
     case ClientesTypes.GETBYIDCLIENTESREQUEST:
       return {
@@ -92,7 +95,6 @@ const reducer: Reducer<ClientesState> = (
     case ClientesTypes.DELETECLIENTESREQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case ClientesTypes.DELETECLIENTESSUCCESS:
       return {

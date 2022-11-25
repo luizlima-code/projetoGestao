@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import styled from 'styled-components';
 
 export const BoxStyle = styled(Box)`
@@ -9,7 +9,7 @@ export const BoxStyle = styled(Box)`
   background-color: #eee;
   border-radius: 16px;
   box-shadow: 24px;
-  padding: 20px;
+  padding: 10px;
 
   overflow-y: scroll;
 
@@ -21,12 +21,3 @@ export const BoxStyle = styled(Box)`
     width: 90%;
   }
 `;
-
-export const Buttons = styled.div`
-  margin: 5px 0;
-
-  display: flex;
-  justify-content: flex-end;
-`;
-
-export const TextData = styled(TextField)``;

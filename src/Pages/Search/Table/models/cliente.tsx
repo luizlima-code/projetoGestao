@@ -16,14 +16,15 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { conformToMask } from 'react-text-mask';
+import ConfirmDialog from '../../../../Components/ConfirmDialog/ConfirmDialog';
 import ModalOptions from '../../../../Components/ModalOptions';
 import { maskFormateCpfCnpj } from '../../../../config/masks/cpf_cnpj_mask';
 import { maskFormateTelefone } from '../../../../config/masks/telefone_mask';
-import { getClientesRequest } from '../../../../store/ducks/clientes/actions';
 import {
-  ClienteCustomSearch,
-  ClientesResponse,
-} from '../../../../store/ducks/clientes/types';
+  deleteClienteRequest,
+  getClientesRequest,
+} from '../../../../store/ducks/clientes/actions';
+import { ClienteCustomSearch } from '../../../../store/ducks/clientes/types';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
 
@@ -37,7 +38,7 @@ interface ClienteTypes {
 }
 
 interface OwnProps {
-  filter: any;
+  filter?: any;
 }
 
 type Props = OwnProps;
@@ -49,10 +50,11 @@ const TableCliente = (props: Props): React.ReactElement => {
   const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = useState('');
+
   const [openModal, setOpenModal] = React.useState(false);
   const [idDoModal, setIdDoModal] = React.useState('');
-  const handleOpen = () => setOpenModal(true);
 
   const headers = ['Id', 'Nome', 'Email', 'CPF/CNPJ', 'Telefone', 'Ações'];
   const heightTable = isMobile ? 950 : '60vh';
@@ -60,6 +62,7 @@ const TableCliente = (props: Props): React.ReactElement => {
   const { isLoading, clientes } = useSelector(
     (state: RootState) => state.clientes
   );
+  const [listClientes, setListClientes] = useState(clientes);
 
   const formatCpfCnpj = (cpfCnpj: string) => {
     return conformToMask(cpfCnpj, maskFormateCpfCnpj, {}).conformedValue;
@@ -70,7 +73,7 @@ const TableCliente = (props: Props): React.ReactElement => {
   };
 
   const handleOpenModalOptions = (title: string, id: string) => {
-    handleOpen();
+    setOpenModal(true);
     setIdDoModal(id);
   };
 
@@ -78,9 +81,19 @@ const TableCliente = (props: Props): React.ReactElement => {
     handleOpenModalOptions('Cliente', configId);
   };
 
-  const handleOpenConfirmDelete = (configId: string) => {
+  const handleOpenDelete = (configId: string) => {
     setOpen(true);
-    // setIdDelete(configId);
+    setId(configId);
+  };
+
+  const handleCloseDelete = () => {
+    setOpen(false);
+  };
+
+  const handleOpenConfirmDelete = (configId: string) => {
+    dispatch(deleteClienteRequest(configId));
+
+    handleCloseDelete();
   };
 
   const handleChangePage = (
@@ -102,7 +115,7 @@ const TableCliente = (props: Props): React.ReactElement => {
       <>
         <Tooltip title="Editar" aria-label="edit">
           <IconButton
-            color="primary"
+            style={{ color: '#00b4d8' }}
             onClick={() => handleEditConfig(configId)}
           >
             <Edit />
@@ -110,8 +123,8 @@ const TableCliente = (props: Props): React.ReactElement => {
         </Tooltip>
         <Tooltip title="Deletar" aria-label="delete">
           <IconButton
-            color="primary"
-            onClick={() => handleOpenConfirmDelete(configId)}
+            style={{ color: '#00b4d8' }}
+            onClick={() => handleOpenDelete(configId)}
           >
             <Delete />
           </IconButton>
@@ -121,9 +134,9 @@ const TableCliente = (props: Props): React.ReactElement => {
   };
 
   const customSearch: ClienteCustomSearch = {
-    nome: filter.nome,
-    cpf: filter.cpf,
-    email: filter.email,
+    nome: filter.nome || null,
+    cpf: filter.cpf || null,
+    email: filter.email || null,
     pageNumber: page,
     pageSize: rowsPerPage,
   };
@@ -132,7 +145,11 @@ const TableCliente = (props: Props): React.ReactElement => {
     dispatch(getClientesRequest(customSearch));
   }, [filter]);
 
-  const rows = clientes.content?.map((row: ClienteTypes) => ({
+  useEffect(() => {
+    setListClientes(clientes);
+  }, [clientes]);
+
+  const rows = listClientes.content?.map((row: ClienteTypes) => ({
     ...row,
     nome: row.nome,
     cpf: formatCpfCnpj(row.cpf),
@@ -169,7 +186,7 @@ const TableCliente = (props: Props): React.ReactElement => {
                     {headers.map((header) => (
                       <TableCell
                         align="center"
-                        sx={{
+                        style={{
                           backgroundColor: '#00b4d8',
                           color: 'white',
                           fontSize: 20,
@@ -193,14 +210,10 @@ const TableCliente = (props: Props): React.ReactElement => {
                         sx={{
                           '&:last-child td, &:last-child th': { border: 0 },
                         }}
+                        style={{ padding: '6px 16px' }}
                       >
                         {Object.values(row).map((object: any) => (
-                          <TableCell
-                            align="center"
-                            sx={{
-                              fontSize: 16,
-                            }}
-                          >
+                          <TableCell align="center" style={{ fontSize: 16 }}>
                             {object}
                           </TableCell>
                         ))}
@@ -230,6 +243,14 @@ const TableCliente = (props: Props): React.ReactElement => {
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}
+      />
+      <ConfirmDialog
+        open={open}
+        title="Apagar cliente"
+        description="Deseja mesmo deletar os dados do cliente?"
+        onOK={() => handleOpenConfirmDelete(id)}
+        onCancel={handleCloseDelete}
+        onClose={handleCloseDelete}
       />
     </>
   );

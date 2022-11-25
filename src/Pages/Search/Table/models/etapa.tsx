@@ -19,8 +19,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import ModalOptions from '../../../../Components/ModalOptions';
 import { RootState } from '../../../../store/ducks/rootReducer';
 import { Container } from '../styles';
-import { getEtapasRequest } from '../../../../store/ducks/etapas/actions';
+import {
+  deleteEtapasRequest,
+  getEtapasRequest,
+} from '../../../../store/ducks/etapas/actions';
 import { EtapaCustomSearch } from '../../../../store/ducks/etapas/types';
+import ConfirmDialog from '../../../../Components/ConfirmDialog/ConfirmDialog';
 
 interface EtapaTypes {
   id?: string;
@@ -42,18 +46,20 @@ const TableEtapa = (props: Props): React.ReactElement => {
   const [page, setPage] = useState(filter?.pageNumber || 0);
   const isMobile = useMediaQuery('(max-width:959px)');
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = useState('');
+
   const [openModal, setOpenModal] = React.useState(false);
   const [idDoModal, setIdDoModal] = React.useState('');
-  const handleOpen = () => setOpenModal(true);
 
   const headers = ['Id', 'Nome', 'Descrição', 'Ações'];
   const heightTable = isMobile ? 950 : '60vh';
 
   const { isLoading, etapas } = useSelector((state: RootState) => state.etapas);
+  const [listEtapas, setListEtapas] = useState(etapas);
 
   const handleOpenModalOptions = (title: string, id: string) => {
-    handleOpen();
+    setOpenModal(true);
     setIdDoModal(id);
   };
 
@@ -61,9 +67,19 @@ const TableEtapa = (props: Props): React.ReactElement => {
     handleOpenModalOptions('Etapa', configId);
   };
 
-  const handleOpenConfirmDelete = (configId: string) => {
+  const handleOpenDelete = (configId: string) => {
     setOpen(true);
-    // setIdDelete(configId);
+    setId(configId);
+  };
+
+  const handleCloseDelete = () => {
+    setOpen(false);
+  };
+
+  const handleOpenConfirmDelete = (configId: string) => {
+    dispatch(deleteEtapasRequest(configId));
+
+    handleCloseDelete();
   };
 
   const handleChangePage = (
@@ -94,7 +110,7 @@ const TableEtapa = (props: Props): React.ReactElement => {
         <Tooltip title="Deletar" aria-label="delete">
           <IconButton
             color="primary"
-            onClick={() => handleOpenConfirmDelete(configId)}
+            onClick={() => handleOpenDelete(configId)}
           >
             <Delete />
           </IconButton>
@@ -113,7 +129,11 @@ const TableEtapa = (props: Props): React.ReactElement => {
     dispatch(getEtapasRequest(customSearch));
   }, [filter]);
 
-  const rows = etapas?.content?.map((row: EtapaTypes) => ({
+  useEffect(() => {
+    setListEtapas(etapas);
+  }, [etapas]);
+
+  const rows = listEtapas.content?.map((row: EtapaTypes) => ({
     ...row,
     id: row.id,
     nome: row.nome,
@@ -210,6 +230,14 @@ const TableEtapa = (props: Props): React.ReactElement => {
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}
+      />
+      <ConfirmDialog
+        open={open}
+        title="Apagar etapa"
+        description="Deseja mesmo deletar os dados da etapa?"
+        onOK={() => handleOpenConfirmDelete(id)}
+        onCancel={handleCloseDelete}
+        onClose={handleCloseDelete}
       />
     </>
   );
