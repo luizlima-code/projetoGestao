@@ -245,7 +245,7 @@ const TableFuncionario = (props: Props): React.ReactElement => {
         )}
       </Container>
       <ModalOptions
-        title="Funcionario"
+        title="Funcionário"
         id={idDoModal}
         openModal={openModal}
         setOpenModal={(e: boolean) => setOpenModal(e)}

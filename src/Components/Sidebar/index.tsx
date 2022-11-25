@@ -133,12 +133,12 @@ const Sidebar = (): React.ReactElement => {
               <ListItemText primary="Pesquisar" />
             </ListItemButton>
           </Link>
-          <ListItemButton>
+          {/* <ListItemButton>
             <ListItemIcon>
               <EventAvailable style={{ color: 'black ' }} />
             </ListItemIcon>
             <ListItemText primary="Agendamentos" />
-          </ListItemButton>
+          </ListItemButton> */}
         </List>
         <p>© 2022</p>
       </Container>

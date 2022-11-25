@@ -7,14 +7,13 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { BoxStyle, Buttons } from '../styles';
 import { Form, Formik } from 'formik';
 import FieldsForms from '../../FieldsForms';
 import { TextField } from 'formik-material-ui';
-import { postEtapasRequest } from '../../../store/ducks/etapas/actions';
 import { TextMask } from '../../../config/masks/TextMask';
 import { maskFormateCpfCnpj } from '../../../config/masks/cpf_cnpj_mask';
 import { postFuncionariosRequest } from '../../../store/ducks/funcionarios/actions';
